@@ -1,0 +1,38 @@
+.handbook-blocks {
+  text-align: center;
+  display: flex !important;
+  align-items: center;
+
+  .handbook-content-text {
+    font-weight: 500;
+    flex: 1;
+  }
+
+  .handbook-pics {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+
+    box-shadow: 1px 1px 5px grey;
+    height: 160px;
+    width: 282px;
+    margin: 10px auto;
+    flex: 1;
+  }
+
+  .handbook-pic1 {
+    background-image: url('../../../assets/images/handbook/081852-review-nha-khoa-360-dental-co-tot-khong.png');
+  }
+
+  .handbook-pic2 {
+    background-image: url('../../../assets/images/handbook/222445-kham-ho-hap-o-dau-tot-tphcm.png');
+  }
+
+  .handbook-pic3 {
+    background-image: url('../../../assets/images/handbook/212144-phong-kham-chan-thuong-chinh-hinh-tot-tphcm.png');
+  }
+
+  .handbook-pic4 {
+    background-image: url('../../../assets/images/handbook/141711-bac-si-da-lieu-gioi-tphcm.png');
+  }
+}

@@ -1,0 +1,150 @@
+.specialty-content {
+  padding: 20px 0 30px;
+
+  .specialty-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 8px 5px;
+
+    .specialty-title-text {
+      margin: 0;
+    }
+
+    .specialty-seeMore {
+      font-size: 14px;
+      padding: 10px 15px;
+      background-color: #ebebeb;
+      text-transform: uppercase;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #ddcacaa4;
+      }
+    }
+  }
+
+  .specialty-body {
+    margin: 28px 0 4px;
+  }
+
+  .slick-arrow {
+    width: 48px;
+    height: 46px;
+    background-color: #d7dcda;
+    border: 1px solid rgba(128, 128, 128, 0.234);
+    opacity: 0.5;
+    border-radius: 23px;
+    top: 0;
+  }
+
+  .slick-prev {
+    transform: translate(-50%, 125%);
+  }
+
+  .slick-next {
+    transform: translate(50%, 125%);
+  }
+
+  .slick-prev:hover {
+    background-color: #c6cac9;
+  }
+  .slick-next:hover {
+    background-color: #c6cac9;
+  }
+
+  .slick-prev:before,
+  .slick-next:before {
+    font-size: 24px;
+    line-height: 46px;
+  }
+
+  .specialty-blocks {
+    width: 96% !important;
+    margin: 0px 6px;
+    cursor: pointer;
+
+    &:hover > .specialty-content-text {
+      color: #45c3d2;
+    }
+
+    .specialty-content-pics {
+      padding-top: 53%;
+    }
+
+    .specialty-content-text {
+      font-size: 16px;
+      padding-top: 4px;
+    }
+
+    .specialty-content-pic1 {
+      background: url('../../../assets/images/specialty/120331-co-xuong-khop.jpg')
+        center center no-repeat;
+    }
+
+    .specialty-content-pic2 {
+      background: url('../../../assets/images/specialty/120741-tim-mach.jpg')
+        center center no-repeat;
+    }
+
+    .specialty-content-pic3 {
+      background: url('../../../assets/images/specialty/120933-tieu-hoa.jpg')
+        center center no-repeat;
+    }
+
+    .specialty-content-pic4 {
+      background: url('../../../assets/images/specialty/121042-than-kinh.jpg')
+        center center no-repeat;
+    }
+
+    .specialty-content-pic5 {
+      background: url('../../../assets/images/specialty/121146-tai-mui-hong.jpg')
+        center center no-repeat;
+    }
+
+    .specialty-content-pic6 {
+      background: url('../../../assets/images/specialty/121215-cot-song.jpg')
+        center center no-repeat;
+    }
+
+    .specialty-content-pic7 {
+      background: url('../../../assets/images/specialty/121232-y-hoc-co-truyen.jpg')
+        center center no-repeat;
+    }
+
+    .specialty-content-pic8 {
+      background: url('../../../assets/images/specialty/121305-cham-cuu.jpg')
+        center center no-repeat;
+    }
+
+    .specialty-content-pic9 {
+      background: url('../../../assets/images/specialty/175620-nhi-khoa.jpg')
+        center center no-repeat;
+    }
+
+    .specialty-content-pic10 {
+      background: url('../../../assets/images/specialty/175809-da-lieu.jpg')
+        center center no-repeat;
+    }
+
+    .specialty-content-pic11 {
+      background: url('../../../assets/images/specialty/181619-sieu-am-thai.jpg')
+        center center no-repeat;
+    }
+
+    .specialty-content-pic12 {
+      background: url('../../../assets/images/specialty/181822-san-phu-khoa.jpg')
+        center center no-repeat;
+    }
+
+    .specialty-content-pic13 {
+      background: url('../../../assets/images/specialty/182233-viem-gan.jpg')
+        center center no-repeat;
+    }
+
+    .specialty-content-pic14 {
+      background: url('../../../assets/images/specialty/182940-roi-loan-giac-ngu.jpg')
+        center center no-repeat;
+    }
+  }
+}

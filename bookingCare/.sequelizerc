@@ -1,0 +1,9 @@
+//v27, 7ms03ss
+import { resolve } from 'path';
+
+export default {
+  'config': resolve('./src', 'config.json'),
+  'migrations-path': resolve('./src', 'migrations'),
+  'models-path': resolve('./src', 'models'),
+  'seeders-path': resolve('./src', 'seeders'),
+};

@@ -1,0 +1,106 @@
+{
+    "home-header": {
+        "speciality": "Chuyên khoa",
+        "findingDoctor": "Tìm bác sỹ theo chuyên khoa",
+        "healthFacilities": "Cơ sở y tế",
+        "selectHospitalClinic": "Lựa chọn bệnh viện/phòng khám",
+        "doctor": "Bác sỹ",
+        "chooseAGoodDoctor": "Chọn bác sĩ tốt",
+        "checkupPackage": "Gói khám",
+        "generalHealthCheck": "Gói khám tổng thể",
+        "support": "Hỗ trợ",
+        "welcome": "Xin chào, "
+    },
+    "bannerTitle": {
+        "title1_1": "NỀN TẢNG Y TẾ",
+        "title1_2": "CHĂM SÓC SỨC KHỎE TOÀN DIỆN",
+        "title2": "Tìm kiếm",
+        "title3_1": "Khám",
+        "title3_2": "Chuyên khoa",
+        "title4_1": "Khám",
+        "title4_2": "từ xa",
+        "title5_1": "Khám",
+        "title5_2": "tổng quát",
+        "title6_1": "Xét nghiệm",
+        "title6_2": "y học",
+        "title7_1": "Sức khỏe",
+        "title7_2": "tinh thần",
+        "title8_1": "Khám",
+        "title8_2": "nha khoa",
+        "title9_1": "Gói",
+        "title9_2": "phẫu thuật",
+        "title10_1": "Sản phẩm",
+        "title10_2": "y tế",
+        "title11_1": "Sức khỏe",
+        "title11_2": "doanh nghiệp"
+    },
+    "menu": {
+        "system": {
+            "header": "Hệ thống",
+            "system-administrator": {
+                "header": "Quản trị hệ thống",
+                "user-manage": "Quản lý người sử dụng",
+                "user-redux": "Quản lý user redux"
+            },
+            "system-parameter": {
+                "header": "Tham số hệ thống"
+            }
+        },
+        "admin": {
+            "user-manager": "Người dùng",
+            "doctor-manager": "Quản lý bác sĩ",
+            "admin-manager": "Quản lý admin",
+            "crud": "CRUD user",
+            "crud-redux": "CRUD redux user",
+            "clinic": "Phòng khám",
+            "clinic-manager": "Quản lý phòng khám",
+            "speciality": "Chuyên khoa",
+            "speciality-manager": "Quản lý chuyên khoa",
+            "handbook": "Cẩm nang ",
+            "handbook-manager": "Quản lý cẩm nang"
+        }
+    },
+    "system": {
+        "user-manage": {
+            "fail-to-load-fouser": "Không thể tải về danh sách người dùng",
+            "user-id": "Mã người sử dụng",
+            "usertype": "Loại người dùng",
+            "userManager": "Quản lý người dùng",
+            "addAnUser": "THÊM NGƯỚI DÙNG",
+            "stt": "Số TT",
+            "email": "Thư điện tử",
+            "avatar": "Ảnh đại diện",
+            "loadImg": " Tải ảnh",
+            "firstname": "Tên",
+            "lastname": "Họ & Đệm",
+            "password": "Mật khẩu",
+            "passwordConfirmed": "Xác nhận mật khẩu",
+            "address": "Địa chỉ",
+            "mobile": "Số ĐT",
+            "gender": "Giới tính",
+            "position": "Chức danh",
+            "role": "Vai trò",
+            "create": "Tạo mới",
+            "save": "Lưu dữ liệu",
+            "cancel": "Hủy bỏ",
+            "select": "Lựa chọn",
+            "status": "Trạng thái",
+            "create-newUser": "TẠO MỚI NGƯỜI DÙNG",
+            "add-user": "Thêm người dùng",
+            "edit-user": "Sửa thông tin người dùng",
+            "retype-password": "Nhập lại mật khẩu",
+            "add-user-success": "Thêm người dùng thành công",
+            "edit-user-success": "Thay đổi thông tin người dùng thành công",
+            "add-user-fail": "Thêm người dùng thất bại",
+            "edit-user-fail": "Thay đổi thông tin người dùng thất bại",
+            "del-user-success": "Xóa người dùng thành công",
+            "del-user-fail": "Xóa người dùng thất bại",
+            "invalid-input": {
+                "username": "Quý khách vui lòng nhập tên người dùng",
+                "fullname": "Quý khách vui lòng nhập tên đầy đủ",
+                "password": "Quý khách vui lòng nhập mật khẩu"
+            },
+            "sure-delete-user": "Bạn có chắc chắn muốn xóa người dùng này?"
+        }
+    }
+}

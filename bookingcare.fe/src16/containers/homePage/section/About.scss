@@ -1,0 +1,71 @@
+.about-content {
+  display: flex;
+  align-items: center;
+
+  .about-left {
+    flex: 1;
+  }
+
+  .about-right {
+    .about-link {
+      display: inline-block;
+      height: 50px;
+      margin: 4px;
+
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    .about-pic1 {
+      width: 162px;
+      background-size: 142px 30px;
+      background-image: url('../../../assets/images/logosMedia/suckhoedoisong.png');
+    }
+
+    .about-pic2 {
+      width: 106px;
+      background-size: 86px 30px;
+      background-image: url('../../../assets/images/logosMedia/vtv1.png');
+    }
+
+    .about-pic3 {
+      width: 127px;
+      background-size: 107px 30px;
+      background-image: url('../../../assets/images/logosMedia/ictnews.png');
+    }
+
+    .about-pic4 {
+      width: 183px;
+      background-size: 163px 30px;
+      background-image: url('../../../assets/images/logosMedia/vnexpress.png');
+    }
+
+    .about-pic5 {
+      width: 127px;
+      background-size: 107px 40px;
+      background-image: url('../../../assets/images/logosMedia/cuc-cong-nghe-thong-tin-bo-y-te-2.png');
+    }
+
+    .about-pic6 {
+      width: 129px;
+      background-size: 109px 30px;
+      background-image: url('../../../assets/images/logosMedia/infonet.png');
+    }
+
+    .about-pic7 {
+      width: 96px;
+      background-size: 76px 25px;
+      background-image: url('../../../assets/images/logosMedia/vtcgo.png');
+      background-color: #16325c;
+      border-radius: 5px;
+    }
+
+    .about-pic8 {
+      width: 151px;
+      background-size: 131px 30px;
+      background-color: #a3171e;
+      background-image: url('../../../assets/images/logosMedia/vtcnews.png');
+      border-radius: 5px;
+    }
+  }
+}
