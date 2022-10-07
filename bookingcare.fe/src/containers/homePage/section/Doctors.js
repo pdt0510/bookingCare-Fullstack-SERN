@@ -18,7 +18,7 @@ class Doctors extends Component {
               </span>
               <span className='section-moreBtn'>Tìm kiếm</span>
             </div>
-            <div className='section-body'>
+            <div className='section-body doctor-section-body'>
               <Slider {...this.props.settings}>
                 <div href='##' className='section-blocks doctor-block'>
                   <div className='doctor-pics doctor-pic1'></div>

@@ -5,18 +5,16 @@ import { FormattedMessage } from 'react-intl';
 import { textLangs } from '../../../connectSupplyFE/otherSupplies';
 import * as actions from '../../../store/actions';
 
-//src17, 4ms19ss
 class TableManagerUser extends Component {
   componentDidMount = () => {
     const { userListRedux, fetchUserList } = this.props;
     if (userListRedux.length === 0) {
       setTimeout(async () => {
-        await fetchUserList(); // 14ms24ss
+        await fetchUserList();
       }, 2000);
     }
   };
 
-  // 58ms08ss
   deleleUserRedux = async (userId) => {
     const isDel = window.confirm('you want to delete ?');
 
@@ -43,7 +41,7 @@ class TableManagerUser extends Component {
               href='##'
               role='button'
               className='btn-user-list btn-edit'
-              onClick={() => this.props.editUserHandle(item)} //v70xx2
+              onClick={() => this.props.editUserHandle(item)}
             >
               <i className='fas fa-pencil-alt'></i>
             </a>
@@ -88,9 +86,7 @@ class TableManagerUser extends Component {
               <th scope='col'></th>
             </tr>
           </thead>
-          {
-            userListRedux.length > 0 && this.renderUserList(userListRedux) //14ms24ss
-          }
+          {userListRedux.length > 0 && this.renderUserList(userListRedux)}
         </table>
       </div>
     );
@@ -98,7 +94,7 @@ class TableManagerUser extends Component {
 }
 const mapStateToProps = (state) => {
   return {
-    userListRedux: state.admin.userList, //14ms24ss
+    userListRedux: state.admin.userList,
   };
 };
 
@@ -107,7 +103,7 @@ const mapDispatchToProps = (dispatch) => {
     updateUserListRedux: (userinfo) =>
       dispatch(actions.updateUserListRedux(userinfo)),
     delAnUser: (id) => dispatch(actions.delAnUser(id)),
-    fetchUserList: (userinfo) => dispatch(actions.fetchUserList(userinfo)), //14ms24ss
+    fetchUserList: (userinfo) => dispatch(actions.fetchUserList(userinfo)),
   };
 };
 

@@ -1,10 +1,8 @@
-//src17,
 import actionTypes from './actionTypes';
 import { userService } from '../../services';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-// v70xx2
 export const updateAnUser = (newData) => {
   return async (dispatch) => {
     try {
@@ -14,7 +12,7 @@ export const updateAnUser = (newData) => {
         toast.success('Successfully updated');
       } else {
         dispatch(updateAnUserFailed());
-        toast.error(data.message, { autoClose: 5000 }); //57ms07ss
+        toast.error(data.message, { autoClose: 5000 });
       }
       return data;
     } catch (error) {
@@ -23,7 +21,6 @@ export const updateAnUser = (newData) => {
   };
 };
 
-// 58ms08ss
 export const delAnUser = (id) => {
   return async (dispatch) => {
     try {
@@ -33,7 +30,7 @@ export const delAnUser = (id) => {
         toast.success('Successfully deleted');
       } else {
         dispatch(fetchUserListfailed());
-        toast.error(data.message, { autoClose: 5000 }); //57ms07ss
+        toast.error(data.message, { autoClose: 5000 });
       }
       return data;
     } catch (error) {
@@ -42,7 +39,6 @@ export const delAnUser = (id) => {
   };
 };
 
-// 14ms24ss
 export const fetchUserList = () => {
   return async (dispatch) => {
     try {
@@ -63,15 +59,14 @@ export const createUserInfo = (newUser) => {
       const data = await userService.createNewUser(newUser);
       if (data.errCode === 0) {
         dispatch(createUserSuccess());
-        toast.success('Successfully created'); //50ms51ss
+        toast.success('Successfully created');
       } else {
-        toast.error(data.message, { autoClose: 5000 }); //57ms07ss
+        toast.error(data.message, { autoClose: 5000 });
         dispatch(createUserFailed());
       }
       return data;
     } catch (error) {
-      // toast.error('Failed created'); //50ms51ss
-      toast.error('Failed created', { autoClose: 5000 }); //57ms07ss
+      toast.error('Failed created', { autoClose: 5000 });
       console.log('createUserInfo error - ', error);
     }
   };
@@ -136,7 +131,6 @@ export const fetchUserListfailed = () => ({
   type: actionTypes.FETCH_USER_LIST_FAILED,
 });
 
-// 32ms12ss
 export const updateUserListRedux = (newList) => ({
   type: actionTypes.UPDATE_USER_LIST_REDUX,
   newList,

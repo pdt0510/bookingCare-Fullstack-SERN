@@ -11,7 +11,7 @@ const initialState = {
   started: true,
   language: 'vi',
   systemMenuPath: '/system/user-manage',
-  previewImgUrl: '',
+  imgUrl: '',
   contentOfConfirmModal: {
     ...initContentOfConfirmModal,
   },
@@ -40,11 +40,11 @@ const appReducer = (state = initialState, action) => {
         language: action.lang,
       };
 
-    case actionTypes.SAVING_PREVIEW_URL:
-      return { ...state, previewImgUrl: action.previewUrl };
+    case actionTypes.SAVING_IMG_URL:
+      return { ...state, imgUrl: action.imgUrl };
 
-    case actionTypes.REMOVING_PREVIEW_URL:
-      return { ...state, previewImgUrl: '' };
+    case actionTypes.REMOVING_IMG_URL:
+      return { ...state, imgUrl: '' };
 
     default:
       return state;

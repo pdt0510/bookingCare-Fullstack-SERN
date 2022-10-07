@@ -61,10 +61,9 @@ class App extends Component {
               </CustomScrollbars>
             </div>
 
-            {/*src17, 50ms51ss */}
             <ToastContainer
               position='top-right'
-              autoClose={2000} //57ms07ss
+              autoClose={2000}
               hideProgressBar={false}
               newestOnTop={false}
               closeOnClick

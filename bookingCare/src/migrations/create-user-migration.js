@@ -17,8 +17,7 @@ const tableInfo = {
     `gender-${types.STRING}`,
     `address-${types.STRING}`,
     `phoneNumber-${types.STRING}`,
-    `avatar-${types.STRING}`, //v70xx1
-    // `image-${types.STRING}`,
+    `avatar-${types.STRING}`,
     `roleId-${types.STRING}`,
     `position-${types.STRING}`,
   ],

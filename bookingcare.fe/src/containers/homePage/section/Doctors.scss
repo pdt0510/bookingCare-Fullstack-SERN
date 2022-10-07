@@ -1,56 +1,66 @@
-.doctor-block {
-  height: 245px;
-  text-align: center;
-  border: 1px solid #eee;
-
-  .doctor-pics {
-    width: 120px;
-    height: 120px;
-    border-radius: 60px;
-    margin: 10px auto;
-
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: contain;
+.doctor-section-body {
+  .slick-prev {
+    transform: translate(-15%, 200%) !important;
   }
 
-  .doctor-pic1 {
-    background-image: url('../../../assets/images/doctors/084302-pgs-nguyen-trong-hung.jpg');
+  .slick-next {
+    transform: translate(15%, 200%) !important;
   }
 
-  .doctor-pic2 {
-    background-image: url('../../../assets/images/doctors/160049-bs-hoai-huong.jpg');
-  }
+  .doctor-block {
+    height: 245px;
+    text-align: center;
+    border: 1px solid #eee;
 
-  .doctor-pic3 {
-    background-image: url('../../../assets/images/doctors/105401-bsckii-tran-minh-khuyen.jpg');
-  }
+    .doctor-pics {
+      width: 120px;
+      height: 120px;
+      border-radius: 60px;
+      margin: 10px auto;
 
-  .doctor-pic4 {
-    background-image: url('../../../assets/images/doctors/103848anh-dai-dien-bs.jpg');
-  }
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: contain;
+    }
 
-  .doctor-pic5 {
-    background-image: url('../../../assets/images/doctors/090559-pgs-nguyen-thi-hoai-an.jpg');
-  }
+    .doctor-pic1 {
+      background-image: url('../../../assets/images/doctors/084302-pgs-nguyen-trong-hung.jpg');
+    }
 
-  .doctor-pic6 {
-    background-image: url('../../../assets/images/doctors//142313-bs-tran-huu-binh.jpg');
-  }
+    .doctor-pic2 {
+      background-image: url('../../../assets/images/doctors/160049-bs-hoai-huong.jpg');
+    }
 
-  .doctor-pic7 {
-    background-image: url('../../../assets/images/doctors/142251-165836-1-bs-tuyet-xuong.jpg');
-  }
+    .doctor-pic3 {
+      background-image: url('../../../assets/images/doctors/105401-bsckii-tran-minh-khuyen.jpg');
+    }
 
-  .doctor-pic8 {
-    background-image: url('../../../assets/images/doctors/083702tien-si-do-phuong-vinh.jpg');
-  }
+    .doctor-pic4 {
+      background-image: url('../../../assets/images/doctors/103848anh-dai-dien-bs.jpg');
+    }
 
-  .doctor-pic9 {
-    background-image: url('../../../assets/images/doctors/084302-pgs-nguyen-trong-hung.jpg');
-  }
+    .doctor-pic5 {
+      background-image: url('../../../assets/images/doctors/090559-pgs-nguyen-thi-hoai-an.jpg');
+    }
 
-  .doctor-pic10 {
-    background-image: url('../../../assets/images/doctors/104940-bs-vi.jpg');
+    .doctor-pic6 {
+      background-image: url('../../../assets/images/doctors//142313-bs-tran-huu-binh.jpg');
+    }
+
+    .doctor-pic7 {
+      background-image: url('../../../assets/images/doctors/142251-165836-1-bs-tuyet-xuong.jpg');
+    }
+
+    .doctor-pic8 {
+      background-image: url('../../../assets/images/doctors/083702tien-si-do-phuong-vinh.jpg');
+    }
+
+    .doctor-pic9 {
+      background-image: url('../../../assets/images/doctors/084302-pgs-nguyen-trong-hung.jpg');
+    }
+
+    .doctor-pic10 {
+      background-image: url('../../../assets/images/doctors/104940-bs-vi.jpg');
+    }
   }
 }

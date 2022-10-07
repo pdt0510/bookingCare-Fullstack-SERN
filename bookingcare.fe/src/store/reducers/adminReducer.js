@@ -8,7 +8,6 @@ const initialState = {
   isLoading: false,
 };
 
-//src17,
 const adminReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.FETCHING_API:
@@ -33,37 +32,37 @@ const adminReducer = (state = initialState, action) => {
         isLoading: false,
       };
 
-    case actionTypes.FETCH_USER_LIST_SUCCESS: // 14ms24ss
+    case actionTypes.FETCH_USER_LIST_SUCCESS:
       return {
         ...state,
-        // userList: action.userList,
-        userList: action.userList.reverse(), //48ms27ss
+
+        userList: action.userList.reverse(),
         isLoading: false,
       };
 
-    case actionTypes.FETCH_USER_LIST_FAILED: // 14ms24ss
+    case actionTypes.FETCH_USER_LIST_FAILED:
       return {
         ...state,
         userList: [],
         isLoading: false,
       };
 
-    case actionTypes.UPDATE_USER_LIST_REDUX: //32ms12ss
+    case actionTypes.UPDATE_USER_LIST_REDUX:
       return {
         ...state,
         userList: action.newList,
         isLoading: false,
       };
 
-    case actionTypes.DEL_USER_SUCCESS: //58ms08ss
-      const { id } = action; //v70xx3
+    case actionTypes.DEL_USER_SUCCESS:
+      const { id } = action;
       return {
         ...state,
         userList: state.userList.filter((item) => item.id !== id),
       };
 
-    case actionTypes.UPDATE_USER_SUCCESS: //v70xx2
-      const { id: idNewData } = action.newData; //v70xx3
+    case actionTypes.UPDATE_USER_SUCCESS:
+      const { id: idNewData } = action.newData;
 
       const newList = state.userList.map((item) => {
         if (item.id === idNewData) {

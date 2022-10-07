@@ -17,7 +17,7 @@ class Handbook extends Component {
                 <span className='section-title-text'>Cẩm nang</span>
                 <span className='section-moreBtn'>Tất cả bài viết</span>
               </div>
-              <div className='section-body'>
+              <div className='section-body handbook-section-body'>
                 <Slider {...this.props.settings}>
                   <div href='##' className='section-blocks handbook-blocks'>
                     <div className='handbook-pics handbook-pic1'></div>

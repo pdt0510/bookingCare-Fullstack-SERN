@@ -27,5 +27,5 @@ export const textLangs = {
   createL: 'system.user-manage.create',
   saveL: 'system.user-manage.save',
   cancelL: 'system.user-manage.cancel',
-  loadImg: 'system.user-manage.loadImg',
+  loadImgL: 'system.user-manage.loadImg',
 };

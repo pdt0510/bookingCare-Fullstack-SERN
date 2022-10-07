@@ -15,13 +15,13 @@ import {
   Col,
 } from 'reactstrap';
 import { textLangs } from '../../../connectSupplyFE/otherSupplies';
-import { LANGUAGES } from '../../../utils/constant';
+import { LANGUAGES, CommonUtils } from '../../../utils';
 import * as actions from '../../../store/actions';
 import FullPreviewImg from '../FullPreviewImg';
 import TableManagerUser from './TableManagerUser';
 import 'react-toastify/dist/ReactToastify.css';
 
-//src17, UserRedux1.js
+// src18
 class UserRedux extends Component {
   state = {
     email: '',
@@ -73,26 +73,36 @@ class UserRedux extends Component {
       reduxGenders.length > 0 &&
       reduxPositions.length > 0 &&
       reduxRoles.length > 0 &&
-      this.state.password !== '***' //v70xx5
+      this.state.password !== '***'
     ) {
       this.defaultValues();
     }
   };
 
-  // v70xx2
   editUserHandle = (item) => {
-    const { createdAt, updatedAt, ...userEdited } = item;
+    const { createdAt, updatedAt, avatar, ...userEdited } = item;
+    let convertTobase64Str = '';
+
+    if (typeof avatar === 'string') {
+      //base64 is available in reudx
+      this.props.savingImgUrl(avatar);
+    } else {
+      //from real db, converting Buffer to base64 of avatar , 45ms05ss
+      convertTobase64Str = new Buffer.from(avatar).toString('binary');
+      this.props.savingImgUrl(convertTobase64Str);
+    }
+
     this.setState({
       ...userEdited,
-      password: '***', // editing
+      password: '***',
       passwordConfirmed: '***',
+      avatar: convertTobase64Str ? convertTobase64Str : avatar,
     });
   };
 
   defaultValues = () => {
     const { reduxGenders, reduxPositions, reduxRoles, language } = this.props;
 
-    // 14ms14ss,
     this.setState({
       gender:
         reduxGenders.length > 0 && language === LANGUAGES.EN
@@ -109,18 +119,17 @@ class UserRedux extends Component {
     });
   };
 
-  handleAvatarUploaded = (e) => {
-    const { savingPreviewUrl } = this.props;
-    let { files } = e.target;
+  handleAvatarUploaded = async (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      let fileToBase64 = await CommonUtils.getBase64(file); //23ms47ss
+      const fileToImgUrl = URL.createObjectURL(file);
 
-    if (files.length > 0) {
-      let file = files[0];
-      const prevImgUrl = URL.createObjectURL(file);
-
-      if (prevImgUrl) {
-        savingPreviewUrl(prevImgUrl);
+      if (fileToImgUrl) {
+        this.props.savingImgUrl(fileToImgUrl);
         this.setState({
-          avatar: file,
+          avatar: fileToBase64, //28ms14ss
+          // avatar: file,
         });
       }
 
@@ -148,6 +157,8 @@ class UserRedux extends Component {
         password = state[key];
       } else if (key === 'passwordConfirmed') {
         passwordConfirm = state[key];
+      } else if (key === 'id') {
+        continue; //v71xx2
       }
 
       if (!state[key]) {
@@ -184,18 +195,16 @@ class UserRedux extends Component {
         updateAnUser,
       } = this.props;
 
-      const { password, passwordConfirmed, avatar, ...userUpdated } =
-        userInfoChecked; //v70xx4
+      const { password, passwordConfirmed, ...userUpdated } = userInfoChecked; //28ms14ss
 
-      // v70xx2
       if (password === '***' && passwordConfirmed === '***') {
-        data = await updateAnUser(userUpdated); //v70xx4
+        data = await updateAnUser(userUpdated);
         if (data.errCode === 0) {
           this.resettingForm();
         }
       } else {
-        const { avatar, ...userCreated } = userInfoChecked; //v70xx4
-        data = await createUserInfo(userCreated); //v70xx4
+        const { id, ...userCreated } = userInfoChecked; //28ms14ss, v71xx2
+        data = await createUserInfo(userCreated);
         if (data.errCode === 0) {
           const newList = [data.user, ...userListRedux];
           updateUserListRedux(newList);
@@ -206,8 +215,7 @@ class UserRedux extends Component {
   };
 
   resettingForm = () => {
-    const { removingPreviewUrl } = this.props;
-    removingPreviewUrl();
+    this.props.removingImgUrl();
 
     const { isFullPreview, ...restState } = this.state;
     for (const key in restState) {
@@ -242,15 +250,23 @@ class UserRedux extends Component {
     }
   };
 
+  renderImgUrl = (imgUrl) => {
+    return (
+      <span
+        className='preview-image'
+        style={{ backgroundImage: `url(${imgUrl})` }}
+        onClick={this.previewClick}
+      ></span>
+    );
+  };
+
+  renderPreviewImg = (imgUrl) => {
+    return <FullPreviewImg imgUrl={imgUrl} previewClick={this.previewClick} />;
+  };
+
   render() {
-    const {
-      userEdit,
-      reduxGenders,
-      reduxRoles,
-      reduxPositions,
-      isLoading,
-      previewImgUrl,
-    } = this.props;
+    const { reduxGenders, reduxRoles, reduxPositions, isLoading, imgUrl } =
+      this.props;
 
     const {
       email,
@@ -282,7 +298,7 @@ class UserRedux extends Component {
       createL,
       saveL,
       cancelL,
-      loadImg,
+      loadImgL,
     } = textLangs;
 
     return (
@@ -302,7 +318,6 @@ class UserRedux extends Component {
                   <Input
                     type='email'
                     name='email'
-                    //v70xx2
                     disabled={password === '***' ? true : false}
                     value={email}
                     id='EmailFor'
@@ -394,7 +409,7 @@ class UserRedux extends Component {
                   <Input
                     type='select'
                     name='gender'
-                    value={gender} //14ms14ss, default of <select
+                    value={gender}
                     id='exampleSelect'
                     onChange={this.onchangeHandle}
                   >
@@ -463,22 +478,13 @@ class UserRedux extends Component {
                   />
                   <Label className='userRedux-label-upload' for='avatarFor'>
                     <i className='fas fa-upload'></i>
-                    <FormattedMessage id={loadImg} />
+                    <FormattedMessage id={loadImgL} />
                   </Label>
-                  {previewImgUrl && (
-                    <span
-                      className='preview-image'
-                      style={{ backgroundImage: `url(${previewImgUrl})` }}
-                      onClick={this.previewClick}
-                    ></span>
-                  )}
+                  {
+                    imgUrl && this.renderImgUrl(imgUrl) // 45ms05ss
+                  }
 
-                  {isFullPreview && (
-                    <FullPreviewImg
-                      imgUrl={previewImgUrl}
-                      previewClick={this.previewClick}
-                    />
-                  )}
+                  {isFullPreview && imgUrl && this.renderPreviewImg(imgUrl)}
                 </FormGroup>
               </Col>
             </Row>
@@ -513,7 +519,7 @@ class UserRedux extends Component {
 const mapStateToProps = (state) => {
   return {
     userListRedux: state.admin.userList,
-    previewImgUrl: state.app.previewImgUrl,
+    imgUrl: state.app.imgUrl,
     isLoading: state.admin.isLoading,
     reduxGenders: state.admin.genderList,
     reduxRoles: state.admin.roleList,
@@ -528,9 +534,8 @@ const mapDispatchToProps = (dispatch) => {
     updateUserListRedux: (userinfo) =>
       dispatch(actions.updateUserListRedux(userinfo)),
     createUserInfo: (userinfo) => dispatch(actions.createUserInfo(userinfo)),
-    savingPreviewUrl: (previewUrl) =>
-      dispatch(actions.savingPreviewUrl(previewUrl)),
-    removingPreviewUrl: () => dispatch(actions.removingPreviewUrl()),
+    savingImgUrl: (imgUrl) => dispatch(actions.savingImgUrl(imgUrl)),
+    removingImgUrl: () => dispatch(actions.removingImgUrl()),
     isFetching: () => dispatch(actions.isLoadingFromFetch()),
     loadingAllcodeAttrs: () => dispatch(actions.fetchAttrsOfAllcodeApi()),
   };

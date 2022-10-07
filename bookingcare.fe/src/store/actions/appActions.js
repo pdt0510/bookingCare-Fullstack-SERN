@@ -1,12 +1,12 @@
 import actionTypes from './actionTypes';
 
-export const savingPreviewUrl = (previewUrl) => ({
-  type: actionTypes.SAVING_PREVIEW_URL,
-  previewUrl,
+export const savingImgUrl = (imgUrl) => ({
+  type: actionTypes.SAVING_IMG_URL,
+  imgUrl,
 });
 
-export const removingPreviewUrl = () => ({
-  type: actionTypes.REMOVING_PREVIEW_URL,
+export const removingImgUrl = () => ({
+  type: actionTypes.REMOVING_IMG_URL,
 });
 
 export const appStartUpComplete = () => ({
