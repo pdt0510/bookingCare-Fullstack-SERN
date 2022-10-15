@@ -1,13 +1,13 @@
 import { routeLinks } from '../../connectSupplyFE/otherSupplies';
 
 const {
-  userManageLink,
+  userManagerLink,
   userReduxLink,
-  userDoctorLink,
+  doctorManagerLink,
   userAdminLink,
-  userClinicLink,
-  userSpecialityLink,
-  userHandbookLink,
+  clinicManagerLink,
+  specialityManagerLink,
+  handbookManagerLink,
 } = routeLinks;
 
 export const adminMenu = [
@@ -17,7 +17,7 @@ export const adminMenu = [
     menus: [
       {
         name: 'menu.admin.crud',
-        link: userManageLink,
+        link: userManagerLink,
       },
       {
         name: 'menu.admin.crud-redux',
@@ -25,7 +25,7 @@ export const adminMenu = [
       },
       {
         name: 'menu.admin.doctor-manager',
-        link: userDoctorLink,
+        link: doctorManagerLink,
       },
       {
         name: 'menu.admin.admin-manager',
@@ -40,7 +40,7 @@ export const adminMenu = [
     menus: [
       {
         name: 'menu.admin.clinic-manager',
-        link: userClinicLink,
+        link: clinicManagerLink,
       },
     ],
   },
@@ -51,7 +51,7 @@ export const adminMenu = [
     menus: [
       {
         name: 'menu.admin.speciality-manager',
-        link: userSpecialityLink,
+        link: specialityManagerLink,
       },
     ],
   },
@@ -62,7 +62,7 @@ export const adminMenu = [
     menus: [
       {
         name: 'menu.admin.handbook-manager',
-        link: userHandbookLink,
+        link: handbookManagerLink,
       },
     ],
   },

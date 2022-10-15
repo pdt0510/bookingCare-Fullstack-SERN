@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './HomePage.scss';
 import HomeHeader from './section/HomeHeader';
-import Speciality from './section/Specialty';
+import Speciality from './section/Speciality';
 import MedicalFacility from './section/MedicalFacility';
 import Doctors from './section/Doctors';
 import Handbook from './section/Handbook';

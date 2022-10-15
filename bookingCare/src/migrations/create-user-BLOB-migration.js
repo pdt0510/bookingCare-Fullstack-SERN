@@ -1,4 +1,3 @@
-//src18, 7ms57ss
 'use strict';
 const tableInfo = {
   tableName: 'users',

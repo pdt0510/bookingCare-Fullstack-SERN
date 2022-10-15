@@ -1,13 +1,16 @@
 import actionTypes from '../actions/actionTypes';
 
 const initialState = {
+  isLoading: false,
   genderList: [],
   roleList: [],
   posList: [],
   userList: [],
-  isLoading: false,
+  topDoctorList: [],
+  allDoctors: [],
 };
 
+//src20
 const adminReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.FETCHING_API:
@@ -74,6 +77,46 @@ const adminReducer = (state = initialState, action) => {
       return {
         ...state,
         userList: newList,
+        isLoading: false,
+      };
+
+    case actionTypes.TOP_DOCTOR_HOME_SUCCESS:
+      return {
+        ...state,
+        topDoctorList: action.topDoctorList,
+        isLoading: false,
+      };
+
+    case actionTypes.TOP_DOCTOR_HOME_FAILED:
+      return {
+        ...state,
+        // topDoctorList: [],
+        isLoading: false,
+      };
+
+    case actionTypes.GET_ALL_DOCTORS_SUCCESS: //13ms06ss
+      return {
+        ...state,
+        allDoctors: action.allDoctors,
+        isLoading: false,
+      };
+
+    case actionTypes.GET_ALL_DOCTORS_FAILED: //13ms06ss
+      return {
+        ...state,
+        allDoctors: [],
+        isLoading: false,
+      };
+
+    case actionTypes.UPDATE_DOCTOR_INFO_SUCCESS: //13ms06ss
+      return {
+        ...state,
+        isLoading: false,
+      };
+
+    case actionTypes.UPDATE_DOCTOR_INFO_FAILED: //13ms06ss
+      return {
+        ...state,
         isLoading: false,
       };
 

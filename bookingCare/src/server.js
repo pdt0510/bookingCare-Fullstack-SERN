@@ -8,20 +8,9 @@ import cors from 'cors';
 
 let app = express();
 
-// src18, 30ms07ss, 2 - my way
 app.use(cors({ credentials: true, origin: true }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json({ limit: '50mb' }));
-
-// 1 - searched web way
-// app.use(cors({ credentials: true, origin: true }));
-// app.use(bodyParser.json({ limit: '50mb' }));
-// app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
-
-/*origin*/
-// app.use(cors({ credentials: true, origin: true }));
-// app.use(bodyParser.urlencoded({ extended: true }));
-// app.use(bodyParser.json());
 
 configViewEngine(app);
 initWebRoutes(app);

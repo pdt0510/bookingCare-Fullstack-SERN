@@ -7,6 +7,10 @@ export const apiUrls = {
   userDeletedApi: '/user-deleted',
   userUpdatedApi: '/user-updated',
   allCodeApi: '/allcode',
+  topDoctorHomeApi: '/top-doctor-home',
+  getAllDoctorsApi: '/all-doctors',
+  updateDoctorInfoApi: '/update-doctor-info',
+  getDoctorInfoByIdApi: '/getting-doctor-info',
 };
 
 export const errStates = {
@@ -42,5 +46,10 @@ export const errStates = {
     errCode: 5,
     status: 501, //Not Implemented
     emailMes: 'Email is already existed',
+  },
+  serverError: {
+    errCode: -1,
+    status: 500, //OK
+    message: 'Internal Server Error',
   },
 };

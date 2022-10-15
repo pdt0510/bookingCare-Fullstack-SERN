@@ -1,5 +1,48 @@
+//src20
 import axios from '../axios';
 import * as apiSupplies from '../connectSupplyFE/apiSupplies';
+
+// 31ms55ss
+export const updateDoctorInfoServ = (updatedData) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const { apiUrl, updateDoctorInfoApi } = apiSupplies.apiUrls;
+      const data = await axios.post(apiUrl + updateDoctorInfoApi, updatedData);
+      resolve(data);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+//13ms06ss
+export const getAllDoctorsServ = () => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const { apiUrl, getAllDoctorsApi } = apiSupplies.apiUrls;
+      const data = await axios.get(apiUrl + getAllDoctorsApi);
+      resolve(data);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+export const topDoctorHomeServ = (limitNums) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const { apiUrl, topDoctorHomeApi } = apiSupplies.apiUrls;
+      const data = await axios.get(apiUrl + topDoctorHomeApi, {
+        params: {
+          limit: limitNums,
+        },
+      });
+      resolve(data);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
 
 export const allCodeUser = () => {
   return new Promise(async (resolve, reject) => {

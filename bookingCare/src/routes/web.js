@@ -1,12 +1,13 @@
 import express from 'express';
 import * as webSupplies from '../connectSupply/webSupplies';
-import * as homeController from '../controller/homeController';
+import * as homeCtrl from '../controller/homeController';
 import * as apiSupplies from '../connectSupply/apiSupplies';
-import * as apiController from '../controller/apiController';
+import * as apiCtrl from '../controller/apiController';
+import * as doctorCtrls from '../controller/doctorController';
 
 const appRouters = express.Router();
 const initWebRoutes = (app) => {
-  //web
+  // web server
   const {
     idParam,
     homeUrl,
@@ -26,7 +27,7 @@ const initWebRoutes = (app) => {
     editUser,
     updateUser,
     delUser,
-  } = homeController;
+  } = homeCtrl;
 
   appRouters.get(homeUrl, getHomePage);
   appRouters.get(userFormUrl, getCRUD);
@@ -45,6 +46,10 @@ const initWebRoutes = (app) => {
     userUpdatedApi,
     userDeletedApi,
     allCodeApi,
+    topDoctorHomeApi,
+    getAllDoctorsApi,
+    updateDoctorInfoApi,
+    getDoctorInfoByIdApi,
   } = apiSupplies.apiUrls;
 
   const {
@@ -54,7 +59,14 @@ const initWebRoutes = (app) => {
     userUpdatedFn,
     userDeletedFn,
     allcodeFn,
-  } = apiController;
+  } = apiCtrl;
+
+  const {
+    topDoctorHomeCtrl,
+    getAllDoctorsCtrl,
+    postDoctorInfoCtrl,
+    getDoctorInfoByIdCtrl,
+  } = doctorCtrls;
 
   appRouters.post(apiUrl + loginApi, loginFn);
   appRouters.get(apiUrl + userListedApi, userListFn);
@@ -62,6 +74,10 @@ const initWebRoutes = (app) => {
   appRouters.delete(apiUrl + userDeletedApi, userDeletedFn);
   appRouters.patch(apiUrl + userUpdatedApi, userUpdatedFn);
   appRouters.get(apiUrl + allCodeApi, allcodeFn);
+  appRouters.get(apiUrl + topDoctorHomeApi, topDoctorHomeCtrl);
+  appRouters.get(apiUrl + getAllDoctorsApi, getAllDoctorsCtrl); //3ms15ss
+  appRouters.post(apiUrl + updateDoctorInfoApi, postDoctorInfoCtrl); //31ms55ss
+  appRouters.get(apiUrl + getDoctorInfoByIdApi, getDoctorInfoByIdCtrl); //36ms18ss
   return app.use(homeUrl, appRouters);
 };
 

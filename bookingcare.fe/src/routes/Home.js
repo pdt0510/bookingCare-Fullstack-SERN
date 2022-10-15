@@ -5,8 +5,7 @@ import { connect } from 'react-redux';
 class Home extends Component {
   render() {
     const { isLoggedIn } = this.props;
-    let linkToRedirect = isLoggedIn ? '/system/user-manage' : '/home';
-
+    const linkToRedirect = isLoggedIn ? '/system/user-manage' : '/home';
     return <Redirect to={linkToRedirect} />;
   }
 }
@@ -17,6 +16,6 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = null;
+const mapDispatchToProps = (dispatch) => {};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

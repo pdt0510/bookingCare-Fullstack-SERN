@@ -1,7 +1,65 @@
+// src20
 import actionTypes from './actionTypes';
 import { userService } from '../../services';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+const toastMes = {
+  toastSuccess: () => toast.success('Successfully updated'),
+  toastError: (data) => toast.error(data.message, { autoClose: 5000 }),
+};
+
+//31ms55ss
+export const updateDoctorInfoFn = (updatedData) => {
+  return async (dispatch) => {
+    try {
+      const data = await userService.updateDoctorInfoServ(updatedData);
+      if (data.errCode === 0) {
+        dispatch(updateDoctorInfoSuccess());
+        toastMes.toastSuccess();
+      } else {
+        dispatch(updateDoctorInfoFailed());
+        toastMes.toastError(data);
+      }
+      return data;
+    } catch (error) {
+      console.log('getAllDoctorsFn error - ', error);
+    }
+  };
+};
+
+// 13ms06ss
+export const fetchAllDoctorsFn = () => {
+  return async (dispatch) => {
+    try {
+      const data = await userService.getAllDoctorsServ();
+      if (data.errCode === 0) {
+        dispatch(getAllDoctorsSuccess(data.users));
+      } else {
+        dispatch(getAllDoctorsfailed());
+      }
+      return data;
+    } catch (error) {
+      console.log('getAllDoctorsFn error - ', error);
+    }
+  };
+};
+
+export const fetchTopDoctorHomeFn = (limit) => {
+  return async (dispatch) => {
+    try {
+      const data = await userService.topDoctorHomeServ(limit);
+      if (data.errCode === 0) {
+        dispatch(topDoctorHomeSuccess(data.users));
+      } else {
+        dispatch(topDoctorHomefailed());
+      }
+      return data;
+    } catch (error) {
+      console.log('fetchTopDoctorHomeFn error - ', error);
+    }
+  };
+};
 
 export const updateAnUser = (newData) => {
   return async (dispatch) => {
@@ -9,10 +67,10 @@ export const updateAnUser = (newData) => {
       const data = await userService.updateUser(newData);
       if (data.errCode === 0) {
         dispatch(updateAnUserSuccess(newData));
-        toast.success('Successfully updated');
+        toastMes.toastSuccess();
       } else {
         dispatch(updateAnUserFailed());
-        toast.error(data.message, { autoClose: 5000 });
+        toastMes.toastError(data);
       }
       return data;
     } catch (error) {
@@ -27,10 +85,10 @@ export const delAnUser = (id) => {
       const data = await userService.deleteUser(id);
       if (data.errCode === 0) {
         dispatch(delAnUserSuccess(id));
-        toast.success('Successfully deleted');
+        toastMes.toastSuccess();
       } else {
         dispatch(fetchUserListfailed());
-        toast.error(data.message, { autoClose: 5000 });
+        toastMes.toastError(data);
       }
       return data;
     } catch (error) {
@@ -59,14 +117,13 @@ export const createUserInfo = (newUser) => {
       const data = await userService.createNewUser(newUser);
       if (data.errCode === 0) {
         dispatch(createUserSuccess());
-        toast.success('Successfully created');
+        toastMes.toastSuccess();
       } else {
-        toast.error(data.message, { autoClose: 5000 });
+        toastMes.toastError(data);
         dispatch(createUserFailed());
       }
       return data;
     } catch (error) {
-      toast.error('Failed created', { autoClose: 5000 });
       console.log('createUserInfo error - ', error);
     }
   };
@@ -152,4 +209,30 @@ export const updateAnUserSuccess = (newData) => ({
 
 export const updateAnUserFailed = () => ({
   type: actionTypes.UPDATE_USER_FAILED,
+});
+
+export const topDoctorHomeSuccess = (topDoctorList) => ({
+  type: actionTypes.TOP_DOCTOR_HOME_SUCCESS,
+  topDoctorList,
+});
+
+export const topDoctorHomefailed = () => ({
+  type: actionTypes.TOP_DOCTOR_HOME_FAILED,
+});
+
+export const getAllDoctorsSuccess = (allDoctors) => ({
+  type: actionTypes.GET_ALL_DOCTORS_SUCCESS,
+  allDoctors,
+});
+
+export const getAllDoctorsfailed = () => ({
+  type: actionTypes.GET_ALL_DOCTORS_FAILED,
+});
+
+export const updateDoctorInfoSuccess = () => ({
+  type: actionTypes.UPDATE_DOCTOR_INFO_SUCCESS,
+});
+
+export const updateDoctorInfoFailed = () => ({
+  type: actionTypes.UPDATE_DOCTOR_INFO_FAILED,
 });

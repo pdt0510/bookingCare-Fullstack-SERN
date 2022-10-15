@@ -1,14 +1,14 @@
 export const routeLinks = {
-  userManageLink: '/system/user-manage',
+  userManagerLink: '/system/user-manager',
   userReduxLink: '/system/user-redux',
-  userDoctorLink: '/system/doctor-user',
+  doctorManagerLink: '/system/doctor-manager',
   userAdminLink: '/system/admin-user',
-  userClinicLink: '/system/clinic-manager',
-  userSpecialityLink: '/system/speciality-manager',
-  userHandbookLink: '/system/handbook-manager',
+  clinicManagerLink: '/system/clinic-manager',
+  specialityManagerLink: '/system/speciality-manager',
+  handbookManagerLink: '/system/handbook-manager',
 };
 
-export const textLangs = {
+export const userManageLangs = {
   userManagerL: 'system.user-manage.userManager',
   addAnUserL: 'system.user-manage.addAnUser',
   sttL: 'system.user-manage.stt',
@@ -28,4 +28,15 @@ export const textLangs = {
   saveL: 'system.user-manage.save',
   cancelL: 'system.user-manage.cancel',
   loadImgL: 'system.user-manage.loadImg',
+};
+
+export const homepageLangs = {
+  commonSpecialities: 'homepage.commonSpecialities',
+  seeMore: 'homepage.seeMore',
+  outStandingMedicalFacilities: 'homepage.outStandingMedicalFacilities',
+  search: 'homepage.search',
+  outStandingDoctor: 'homepage.outStandingDoctor',
+  handbook: 'homepage.handbook',
+  allPosts: 'homepage.allPosts',
+  socialMedia: 'homepage.socialMedia',
 };

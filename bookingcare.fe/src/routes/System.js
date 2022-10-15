@@ -5,13 +5,14 @@ import UserManage from '../containers/System/UserManage';
 import UserRedux from '../containers/System/admin/UserRedux';
 import Header from '../containers/Header/Header';
 import AdminUser from '../containers/System/AdminUser';
-import DoctorUser from '../containers/System/DoctorUser';
+import DoctorManager from '../containers/System/admin/DoctorManager';
 import { routeLinks } from '../connectSupplyFE/otherSupplies';
 
+//src20
 class System extends Component {
   render() {
     const { systemMenuPath, isLoggedIn } = this.props;
-    const { userManageLink, userReduxLink, userDoctorLink, userAdminLink } =
+    const { userManagerLink, userReduxLink, doctorManagerLink, userAdminLink } =
       routeLinks;
     return (
       <>
@@ -20,10 +21,12 @@ class System extends Component {
         <div className='system-container'>
           <div className='system-list'>
             <Switch>
-              <Route path={userManageLink} component={UserManage} />
+              <Route path={userManagerLink} component={UserManage} />
               <Route path={userReduxLink} component={UserRedux} />
-              <Route path={userDoctorLink} component={DoctorUser} />
               <Route path={userAdminLink} component={AdminUser} />
+
+              {/* 2ms53ss */}
+              <Route path={doctorManagerLink} component={DoctorManager} />
 
               <Route
                 component={() => {

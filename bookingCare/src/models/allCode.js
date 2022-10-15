@@ -1,8 +1,6 @@
 'use strict';
-
 import * as allCodeMigration from '../migrations/create-allcode-migration';
 const { tableInfo, handleColTypes } = allCodeMigration;
-
 const { Model } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
@@ -12,7 +10,17 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate(models) {}
+
+    static associate(models) {
+      Allcode.hasMany(models.users, {
+        foreignKey: 'positionId',
+        as: 'positionData',
+      });
+      Allcode.hasMany(models.users, {
+        foreignKey: 'gender',
+        as: 'genderData',
+      });
+    }
   }
 
   const colsTypes = handleColTypes(DataTypes, false);

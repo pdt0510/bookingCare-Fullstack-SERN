@@ -4,16 +4,24 @@ import './Speciality.scss';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import { FormattedMessage } from 'react-intl';
+import { homepageLangs } from '../../../connectSupplyFE/otherSupplies';
 
 class Speciality extends Component {
   render() {
+    const { commonSpecialities, seeMore } = homepageLangs;
+
     return (
       <>
         <div className='container-section'>
           <div className='section-content'>
             <div className='section-title'>
-              <span className='section-title-text'>Chuyên khoa phổ biến</span>
-              <span className='section-moreBtn'>Xem thêm</span>
+              <span className='section-title-text'>
+                <FormattedMessage id={commonSpecialities} />
+              </span>
+              <span className='section-moreBtn'>
+                <FormattedMessage id={seeMore} />
+              </span>
             </div>
             <div className='section-body'>
               <Slider {...this.props.settings}>
@@ -26,7 +34,6 @@ class Speciality extends Component {
                   <div className='section-content-pics speciality-pic2'></div>
                   <div className='section-content-text'>Thần kinh</div>
                 </div>
-
                 <div href='##' className='section-blocks'>
                   <div className='section-content-pics speciality-pic3'></div>
                   <div className='section-content-text'>Tiêu hóa</div>

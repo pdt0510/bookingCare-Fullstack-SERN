@@ -14,14 +14,14 @@ import {
   Row,
   Col,
 } from 'reactstrap';
-import { textLangs } from '../../../connectSupplyFE/otherSupplies';
+import { userManageLangs } from '../../../connectSupplyFE/otherSupplies';
 import { LANGUAGES, CommonUtils } from '../../../utils';
 import * as actions from '../../../store/actions';
 import FullPreviewImg from '../FullPreviewImg';
 import TableManagerUser from './TableManagerUser';
 import 'react-toastify/dist/ReactToastify.css';
 
-// src18
+//src20
 class UserRedux extends Component {
   state = {
     email: '',
@@ -31,7 +31,7 @@ class UserRedux extends Component {
     password: '',
     passwordConfirmed: '',
     gender: '',
-    position: '',
+    positionId: '',
     roleId: '',
     phoneNumber: '',
     avatar: '',
@@ -39,43 +39,21 @@ class UserRedux extends Component {
   };
 
   componentDidMount = async () => {
-    const {
-      reduxGenders,
-      reduxRoles,
-      reduxPositions,
-      isFetching,
-      loadingAllcodeAttrs,
-    } = this.props;
-
-    if (
-      reduxGenders.length === 0 ||
-      reduxRoles.length === 0 ||
-      reduxPositions.length === 0
-    ) {
+    const { reduxGenders, isFetching, loadingAllcodeAttrs } = this.props;
+    if (reduxGenders.length === 0) {
       isFetching();
       setTimeout(async () => {
         await loadingAllcodeAttrs();
       }, 2000);
+    } else {
+      this.initialForm();
     }
   };
 
   componentDidUpdate = (prevProps, prevState) => {
-    const { reduxGenders, reduxPositions, reduxRoles, language } = this.props;
-
-    if (
-      prevProps.reduxGenders !== reduxGenders ||
-      prevProps.reduxPositions !== reduxPositions ||
-      prevProps.reduxRoles !== reduxRoles
-    ) {
-      this.defaultValues();
-    } else if (
-      prevProps.language !== language &&
-      reduxGenders.length > 0 &&
-      reduxPositions.length > 0 &&
-      reduxRoles.length > 0 &&
-      this.state.password !== '***'
-    ) {
-      this.defaultValues();
+    const { reduxGenders } = this.props;
+    if (prevProps.reduxGenders.length !== reduxGenders.length) {
+      this.initialForm();
     }
   };
 
@@ -87,7 +65,7 @@ class UserRedux extends Component {
       //base64 is available in reudx
       this.props.savingImgUrl(avatar);
     } else {
-      //from real db, converting Buffer to base64 of avatar , 45ms05ss
+      //from real db, converting Buffer to base64 of avatar
       convertTobase64Str = new Buffer.from(avatar).toString('binary');
       this.props.savingImgUrl(convertTobase64Str);
     }
@@ -108,7 +86,7 @@ class UserRedux extends Component {
         reduxGenders.length > 0 && language === LANGUAGES.EN
           ? reduxGenders[0].keymap
           : reduxGenders[0].keymap,
-      position:
+      positionId:
         reduxPositions.length > 0 && language === LANGUAGES.EN
           ? reduxPositions[0].keymap
           : reduxPositions[0].keymap,
@@ -122,14 +100,13 @@ class UserRedux extends Component {
   handleAvatarUploaded = async (e) => {
     const file = e.target.files[0];
     if (file) {
-      let fileToBase64 = await CommonUtils.getBase64(file); //23ms47ss
+      let fileToBase64 = await CommonUtils.getBase64(file);
       const fileToImgUrl = URL.createObjectURL(file);
 
       if (fileToImgUrl) {
         this.props.savingImgUrl(fileToImgUrl);
         this.setState({
-          avatar: fileToBase64, //28ms14ss
-          // avatar: file,
+          avatar: fileToBase64,
         });
       }
 
@@ -158,7 +135,7 @@ class UserRedux extends Component {
       } else if (key === 'passwordConfirmed') {
         passwordConfirm = state[key];
       } else if (key === 'id') {
-        continue; //v71xx2
+        continue;
       }
 
       if (!state[key]) {
@@ -185,8 +162,8 @@ class UserRedux extends Component {
   submitReduxForm = async () => {
     let data = null;
     const { isFullPreview, ...userInfoChecked } = this.state;
-
     const isValid = this.checkingInputValues(userInfoChecked);
+
     if (isValid) {
       const {
         createUserInfo,
@@ -195,26 +172,27 @@ class UserRedux extends Component {
         updateAnUser,
       } = this.props;
 
-      const { password, passwordConfirmed, ...userUpdated } = userInfoChecked; //28ms14ss
+      const { password, passwordConfirmed, ...userUpdated } = userInfoChecked;
 
       if (password === '***' && passwordConfirmed === '***') {
         data = await updateAnUser(userUpdated);
         if (data.errCode === 0) {
-          this.resettingForm();
+          this.initialForm();
         }
       } else {
-        const { id, ...userCreated } = userInfoChecked; //28ms14ss, v71xx2
+        const { id, ...userCreated } = userInfoChecked;
         data = await createUserInfo(userCreated);
+
         if (data.errCode === 0) {
           const newList = [data.user, ...userListRedux];
           updateUserListRedux(newList);
-          this.resettingForm();
+          this.initialForm();
         }
       }
     }
   };
 
-  resettingForm = () => {
+  initialForm = () => {
     this.props.removingImgUrl();
 
     const { isFullPreview, ...restState } = this.state;
@@ -277,7 +255,7 @@ class UserRedux extends Component {
       passwordConfirmed,
       gender,
       roleId,
-      position,
+      positionId,
       phoneNumber,
       isFullPreview,
     } = this.state;
@@ -299,7 +277,7 @@ class UserRedux extends Component {
       saveL,
       cancelL,
       loadImgL,
-    } = textLangs;
+    } = userManageLangs;
 
     return (
       <div className='container col-10'>
@@ -424,8 +402,8 @@ class UserRedux extends Component {
                   </Label>
                   <Input
                     type='select'
-                    name='position'
-                    value={position}
+                    name='positionId'
+                    value={positionId}
                     id='exampleSelect'
                     onChange={this.onchangeHandle}
                   >
@@ -480,9 +458,7 @@ class UserRedux extends Component {
                     <i className='fas fa-upload'></i>
                     <FormattedMessage id={loadImgL} />
                   </Label>
-                  {
-                    imgUrl && this.renderImgUrl(imgUrl) // 45ms05ss
-                  }
+                  {imgUrl && this.renderImgUrl(imgUrl)}
 
                   {isFullPreview && imgUrl && this.renderPreviewImg(imgUrl)}
                 </FormGroup>
@@ -493,7 +469,7 @@ class UserRedux extends Component {
         <ModalFooter className='userRedux-footer'>
           <Button
             color='danger'
-            onClick={this.resettingForm}
+            onClick={this.initialForm}
             className='userRedux-btn'
           >
             <FormattedMessage id={cancelL} />
@@ -511,6 +487,8 @@ class UserRedux extends Component {
           </Button>
         </ModalFooter>
         <TableManagerUser editUserHandle={this.editUserHandle} />
+        {/* 11ms29ss */}
+        {/* <MardownEditor /> */}
       </div>
     );
   }

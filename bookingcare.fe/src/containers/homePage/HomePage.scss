@@ -64,11 +64,10 @@
       height: 46px;
       opacity: 0.5;
       z-index: 1;
-      box-shadow: -1px 1px 10px #88888875;
     }
 
     .slick-prev {
-      transform: translate(-15%, 125%);
+      transform: translate(-20%, 125%);
     }
 
     .slick-next {
@@ -80,14 +79,15 @@
       font-size: 32px;
       color: #0000ff;
       font-weight: bold;
+      font-family: unset;
     }
 
-    .slick-prev::before {
-      content: '<';
+    .slick-prev:before {
+      content: '⮘';
     }
 
-    .slick-next::before {
-      content: '>';
+    .slick-next:before {
+      content: '⮚';
     }
 
     .slick-prev:hover,

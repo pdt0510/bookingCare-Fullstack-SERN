@@ -1,0 +1,30 @@
+//src20, 11ms52ss
+.doctor-manager {
+  padding: 0 8px;
+
+  .doctor-manager-title {
+    text-transform: uppercase;
+  }
+
+  .doctor-manager-info {
+    margin: 8px 0 4px;
+    text-align: left;
+
+    .doctor-info-select {
+      margin: 12px 0;
+      display: flex;
+      align-items: baseline;
+      gap: 8px; //33ms17ss
+
+      .doctor-info-label {
+        min-width: 90px;
+        text-align: end;
+      }
+    }
+  }
+
+  .doctor-manager-btns {
+    margin: 8px 0;
+    text-align: initial;
+  }
+}

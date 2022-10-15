@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './UserRedux.scss';
 import { FormattedMessage } from 'react-intl';
-import { textLangs } from '../../../connectSupplyFE/otherSupplies';
+import { userManageLangs } from '../../../connectSupplyFE/otherSupplies';
 import * as actions from '../../../store/actions';
+
 
 class TableManagerUser extends Component {
   componentDidMount = () => {
@@ -61,7 +62,7 @@ class TableManagerUser extends Component {
 
   render() {
     const { userListRedux } = this.props;
-    const { emailL, firstnameL, lastnameL, addressL, sttL } = textLangs;
+    const { emailL, firstnameL, lastnameL, addressL, sttL } = userManageLangs;
 
     return (
       <div className='text-center mt-3'>
