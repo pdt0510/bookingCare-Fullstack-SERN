@@ -50,6 +50,7 @@ const initWebRoutes = (app) => {
     getAllDoctorsApi,
     updateDoctorInfoApi,
     getDoctorInfoByIdApi,
+    editDoctorDetailsByIdApi,
   } = apiSupplies.apiUrls;
 
   const {
@@ -66,6 +67,7 @@ const initWebRoutes = (app) => {
     getAllDoctorsCtrl,
     postDoctorInfoCtrl,
     getDoctorInfoByIdCtrl,
+    editDoctorDetailCtrl,
   } = doctorCtrls;
 
   appRouters.post(apiUrl + loginApi, loginFn);
@@ -75,9 +77,11 @@ const initWebRoutes = (app) => {
   appRouters.patch(apiUrl + userUpdatedApi, userUpdatedFn);
   appRouters.get(apiUrl + allCodeApi, allcodeFn);
   appRouters.get(apiUrl + topDoctorHomeApi, topDoctorHomeCtrl);
-  appRouters.get(apiUrl + getAllDoctorsApi, getAllDoctorsCtrl); //3ms15ss
-  appRouters.post(apiUrl + updateDoctorInfoApi, postDoctorInfoCtrl); //31ms55ss
-  appRouters.get(apiUrl + getDoctorInfoByIdApi, getDoctorInfoByIdCtrl); //36ms18ss
+  appRouters.get(apiUrl + getAllDoctorsApi, getAllDoctorsCtrl);
+  appRouters.post(apiUrl + updateDoctorInfoApi, postDoctorInfoCtrl);
+  appRouters.get(apiUrl + getDoctorInfoByIdApi, getDoctorInfoByIdCtrl);
+  appRouters.get(apiUrl + editDoctorDetailsByIdApi, editDoctorDetailCtrl); //6ms25ss
+
   return app.use(homeUrl, appRouters);
 };
 

@@ -1,15 +1,67 @@
-// src20
 import actionTypes from './actionTypes';
 import { userService } from '../../services';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+//src21
 const toastMes = {
-  toastSuccess: () => toast.success('Successfully updated'),
-  toastError: (data) => toast.error(data.message, { autoClose: 5000 }),
+  toastSuccess: () => toast.success('Successfully requested'),
+  toastError: (message) => toast.error(message, { autoClose: 5000 }),
 };
 
-//31ms55ss
+// 6ms25ss
+export const editingDoctorDetailsFn = (doctorId) => {
+  return async (dispatch) => {
+    try {
+      const data = await userService.editingDoctorDetailsServ(doctorId);
+      if (data.errCode === 0) {
+        dispatch(editingDoctorDetailssSuccess(data.user));
+      } else {
+        dispatch(editingDoctorDetailsFailed());
+        toastMes.toastError(data.message);
+      }
+      return data;
+    } catch (error) {
+      console.log('editingDoctorDetailsFn error - ', error);
+    }
+  };
+};
+
+export const loadingDoctorInfoFn = (doctorId) => {
+  return async (dispatch) => {
+    try {
+      const data = await userService.getDoctorInfoByIdServ(doctorId);
+      if (data.errCode === 0) {
+        dispatch(fetchDoctorInfoByIdSuccess(data.user));
+      } else {
+        dispatch(fetchDoctorInfoByIdFailed());
+        toastMes.toastError(data.message);
+      }
+      return data;
+    } catch (error) {
+      console.log('loadingDoctorInfoFn error - ', error);
+    }
+  };
+};
+
+//42ms59ss
+export const fetchDoctorInfoByIdFn = (doctorId) => {
+  return async (dispatch) => {
+    try {
+      const data = await userService.getDoctorInfoByIdServ(doctorId);
+      if (data.errCode === 0) {
+        dispatch(fetchDoctorInfoByIdSuccess(data.user));
+      } else {
+        dispatch(fetchDoctorInfoByIdFailed());
+        toastMes.toastError(data.message);
+      }
+      return data;
+    } catch (error) {
+      console.log('getAllDoctorsFn error - ', error);
+    }
+  };
+};
+
 export const updateDoctorInfoFn = (updatedData) => {
   return async (dispatch) => {
     try {
@@ -19,7 +71,7 @@ export const updateDoctorInfoFn = (updatedData) => {
         toastMes.toastSuccess();
       } else {
         dispatch(updateDoctorInfoFailed());
-        toastMes.toastError(data);
+        toastMes.toastError(data.message);
       }
       return data;
     } catch (error) {
@@ -28,7 +80,6 @@ export const updateDoctorInfoFn = (updatedData) => {
   };
 };
 
-// 13ms06ss
 export const fetchAllDoctorsFn = () => {
   return async (dispatch) => {
     try {
@@ -70,7 +121,7 @@ export const updateAnUser = (newData) => {
         toastMes.toastSuccess();
       } else {
         dispatch(updateAnUserFailed());
-        toastMes.toastError(data);
+        toastMes.toastError(data.message);
       }
       return data;
     } catch (error) {
@@ -88,7 +139,7 @@ export const delAnUser = (id) => {
         toastMes.toastSuccess();
       } else {
         dispatch(fetchUserListfailed());
-        toastMes.toastError(data);
+        toastMes.toastError(data.message);
       }
       return data;
     } catch (error) {
@@ -119,7 +170,7 @@ export const createUserInfo = (newUser) => {
         dispatch(createUserSuccess());
         toastMes.toastSuccess();
       } else {
-        toastMes.toastError(data);
+        toastMes.toastError(data.message);
         dispatch(createUserFailed());
       }
       return data;
@@ -235,4 +286,21 @@ export const updateDoctorInfoSuccess = () => ({
 
 export const updateDoctorInfoFailed = () => ({
   type: actionTypes.UPDATE_DOCTOR_INFO_FAILED,
+});
+
+export const fetchDoctorInfoByIdSuccess = (doctorInfo) => ({
+  type: actionTypes.FETCH_DOCTOR_INFO_BY_ID_SUCCESS,
+  doctorInfo,
+});
+
+export const fetchDoctorInfoByIdFailed = () => ({
+  type: actionTypes.FETCH_DOCTOR_INFO_BY_ID_FAILED,
+});
+
+export const editingDoctorDetailssSuccess = () => ({
+  type: actionTypes.EDITING_DOCTOR_DETAIL_SSUCCESS,
+});
+
+export const editingDoctorDetailsFailed = () => ({
+  type: actionTypes.EDITING_DOCTOR_DETAIL_FAILED,
 });

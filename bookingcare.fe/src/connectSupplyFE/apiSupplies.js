@@ -10,6 +10,8 @@ export const apiUrls = {
   topDoctorHomeApi: '/top-doctor-home',
   getAllDoctorsApi: '/all-doctors',
   updateDoctorInfoApi: '/update-doctor-info',
+  getDoctorInfoByIdApi: '/getting-doctor-info',
+  editDoctorDetailsByIdApi: '/editing-doctor-details',
 };
 
 export const errStates = {

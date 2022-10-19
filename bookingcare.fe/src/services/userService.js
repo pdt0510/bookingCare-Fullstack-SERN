@@ -1,8 +1,37 @@
-//src20
+//src21
 import axios from '../axios';
 import * as apiSupplies from '../connectSupplyFE/apiSupplies';
 
-// 31ms55ss
+// 6ms25ss
+export const editingDoctorDetailsServ = (doctorId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const { apiUrl, editDoctorDetailsByIdApi } = apiSupplies.apiUrls;
+      const data = await axios.get(apiUrl + editDoctorDetailsByIdApi, {
+        params: { doctorId },
+      });
+      resolve(data);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+//42ms59ss
+export const getDoctorInfoByIdServ = (doctorId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const { apiUrl, getDoctorInfoByIdApi } = apiSupplies.apiUrls;
+      const data = await axios.get(apiUrl + getDoctorInfoByIdApi, {
+        params: { id: doctorId },
+      });
+      resolve(data);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
 export const updateDoctorInfoServ = (updatedData) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -15,7 +44,6 @@ export const updateDoctorInfoServ = (updatedData) => {
   });
 };
 
-//13ms06ss
 export const getAllDoctorsServ = () => {
   return new Promise(async (resolve, reject) => {
     try {

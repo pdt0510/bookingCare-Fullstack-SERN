@@ -1,8 +1,30 @@
-//src20
+//src21
 import * as doctorServ from '../services/doctorServices';
 import * as apiSupplies from '../connectSupply/apiSupplies';
 
-//36ms18ss
+// 6ms25ss
+export const editDoctorDetailCtrl = async (req, res) => {
+  const doctorId = +req.query.doctorId;
+  let data = null;
+
+  if (!doctorId || typeof doctorId !== 'number') {
+    const { missingParams } = apiSupplies.errStates;
+    data = {
+      errCode: 4,
+      status: 406,
+      message: missingParams.idMes,
+    };
+  } else {
+    try {
+      data = await doctorServ.editDoctorDetailServ(doctorId);
+    } catch (error) {
+      data = apiSupplies.errStates.serverError;
+      console.log('editDoctorDetailCtrl error ---', error);
+    }
+  }
+  return res.status(data.status).json(data);
+};
+
 export const getDoctorInfoByIdCtrl = async (req, res) => {
   const id = +req.query.id;
   let data = null;
@@ -25,7 +47,6 @@ export const getDoctorInfoByIdCtrl = async (req, res) => {
   return res.status(data.status).json(data);
 };
 
-//31ms55ss
 export const postDoctorInfoCtrl = async (req, res) => {
   const newData = req.body;
   let isEmpty = false;
@@ -51,7 +72,6 @@ export const postDoctorInfoCtrl = async (req, res) => {
   return res.status(data.status).json(data);
 };
 
-//3ms15ss
 export const getAllDoctorsCtrl = async (req, res) => {
   let data = null;
   try {

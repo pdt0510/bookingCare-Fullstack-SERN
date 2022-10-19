@@ -8,6 +8,7 @@ import Doctors from './section/Doctors';
 import Handbook from './section/Handbook';
 import About from './section/About';
 import HomeFooter from './section/HomeFooter';
+import HomeHeaderBanner from './section/HomeHeaderBanner';
 
 class HomePage extends Component {
   render() {
@@ -20,15 +21,17 @@ class HomePage extends Component {
 
     return (
       <>
+        {/* 29ms22ss */}
         <HomeHeader />
-        <Speciality settings={settings} />
-        <MedicalFacility settings={settings} />
+        <HomeHeaderBanner />
+        {/* <Speciality settings={settings} /> */}
+        {/* <MedicalFacility settings={settings} /> */}
         <Doctors settings={settings} />
-        <Handbook
+        {/* <Handbook
           settings={{ ...settings, slidesToShow: 2, slidesToScroll: 1 }}
         />
         <About />
-        <HomeFooter />
+        <HomeFooter /> */}
       </>
     );
   }

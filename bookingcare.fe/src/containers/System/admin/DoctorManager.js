@@ -10,24 +10,25 @@ import { userManageLangs } from '../../../connectSupplyFE/otherSupplies';
 import * as actions from '../../../store/actions';
 import { LANGUAGES } from '../../../utils';
 
-//DoctorManager2.js, src20
+//src21
 const mdParser = new MarkdownIt();
 class DoctorManager extends Component {
   state = {
     contentHTML: '',
     contentMarkdown: '',
     description: '',
-    doctorId: '',
+    doctorId: null,
+    selectedDoctor: null,
     doctorOptions: [],
-    selectedDoctor: '',
+    isEdited: false, //v79xx2
   };
 
   componentDidMount = async () => {
     const { fetchAllDoctorsFn, allDoctors } = this.props;
     if (allDoctors.length === 0) {
-      await fetchAllDoctorsFn(); //18ms04ss
+      await fetchAllDoctorsFn();
     } else if (allDoctors.length > 0) {
-      this.loadingDoctorOptions(); //20ms48ss
+      this.loadingDoctorOptions();
     }
   };
 
@@ -37,18 +38,17 @@ class DoctorManager extends Component {
       this.loadingDoctorOptions();
     } else if (allDoctors.length > 0) {
       if (prevProps.language !== language) {
-        this.loadingDoctorOptions(); //20ms48ss
+        this.loadingDoctorOptions();
       }
     }
   };
 
   doctorOptionsByLangs = (doctorArr, selectedDoctor) => {
     const { language } = this.props;
-    let doctorId = null;
     let doctorOptions = [];
+    let doctorId = null;
     let selectedDoctorLangs = null;
 
-    // v76xx2,
     if (selectedDoctor) {
       doctorId = selectedDoctor.doctorId;
     }
@@ -97,7 +97,6 @@ class DoctorManager extends Component {
     };
   };
 
-  // 20ms48ss
   loadingDoctorOptions = () => {
     const { allDoctors } = this.props;
     const { selectedDoctor } = this.state;
@@ -114,16 +113,7 @@ class DoctorManager extends Component {
     });
   };
 
-  handleSelectedDoctor = (selectedDoctor) => {
-    this.setState({
-      selectedDoctor,
-      doctorId: selectedDoctor.doctorId,
-    });
-  };
-
-  //v76xx1
   customSelectByHOC = ({ props }) => {
-    // bổ sung 'customStyles' prop trước khi return -> it's HOC
     const customStyles = {
       control: (base, state) => ({
         ...base,
@@ -137,6 +127,41 @@ class DoctorManager extends Component {
     return <Select {...props} styles={customStyles} />;
   };
 
+  // v79xx2
+  editingAlert = async () => {
+    if (this.state.isEdited) {
+      const isSave = window.confirm(
+        'something is edited, do you want to save ?',
+      );
+      if (isSave) {
+        await this.savingInfo();
+      } else {
+        this.setState({ isEdited: false });
+      }
+    }
+  };
+
+  handleSelectedDoctor = async (selectedDoctor) => {
+    await this.editingAlert(); //v79xx2
+
+    //6ms25ss
+    if (selectedDoctor.doctorId) {
+      const id = selectedDoctor.doctorId;
+      const data = await this.props.editingDoctorDetailsFn(id);
+      const { contentHTML, contentMarkdown, description } = data.user;
+
+      this.setState({
+        contentHTML: contentHTML ? contentHTML : 'No content', //v79xx1
+        contentMarkdown: contentMarkdown ? contentMarkdown : 'No content',
+        description: description ? description : 'No description',
+        selectedDoctor,
+        doctorId: selectedDoctor.doctorId,
+      });
+    } else {
+      return null;
+    }
+  };
+
   renderSelections = () => {
     const { doctorOptions, selectedDoctor } = this.state;
     const mySelect = (
@@ -146,22 +171,24 @@ class DoctorManager extends Component {
         onChange={this.handleSelectedDoctor}
       />
     );
-    return this.customSelectByHOC(mySelect); //v76xx1
-    // return mySelect;
+    return this.customSelectByHOC(mySelect);
   };
 
   savingInfo = async () => {
-    const { selectedDoctor, doctorOptions, ...stateSubmited } = this.state;
     const { updateDoctorInfoFn } = this.props;
+    const { selectedDoctor, doctorOptions, ...stateSubmited } = this.state;
+
     console.log('stateSubmited ---', stateSubmited);
-    const data = await updateDoctorInfoFn(stateSubmited); //31ms55ss
+    const data = await updateDoctorInfoFn(stateSubmited);
     if (data.errCode === 0) {
-      // this.clearForm();
+      this.clearForm();
     }
   };
 
   cancel = () => {
-    const isDel = window.confirm('you want to delete info ?');
+    const isDel = window.confirm(
+      `you want to clear form's info ? - data will be not lost`,
+    );
     if (isDel) {
       this.clearForm();
     }
@@ -172,16 +199,36 @@ class DoctorManager extends Component {
       contentHTML: '',
       contentMarkdown: '',
       description: '',
-      selectedDoctor: '',
-      doctorId: '',
+      selectedDoctor: null,
+      doctorId: null,
+      isEdited: false, //v79xx2
     });
   };
 
   handleEditorChange = ({ text, html }) => {
+    // console.log(' text --- ', text);  //v79xx1
+    // console.log(' html ---', html);
+
     this.setState({
+      isEdited: true, //v79xx2
       contentHTML: html,
       contentMarkdown: text,
     });
+  };
+
+  renderMdEditor = () => {
+    return (
+      <MdEditor
+        style={{ height: '590px' }}
+        value={this.state.contentMarkdown} //v79xx1
+        renderHTML={(htmlStr) => mdParser.render(htmlStr)}
+        onChange={this.handleEditorChange}
+      />
+    );
+  };
+
+  infoDescription = (event) => {
+    this.setState({ description: event.target.value });
   };
 
   renderTextarea = () => {
@@ -196,44 +243,23 @@ class DoctorManager extends Component {
     );
   };
 
-  renderMdEditor = () => {
-    return (
-      <MdEditor
-        style={{ height: '590px' }}
-        value={this.state.contentMarkdown}
-        renderHTML={(htmlStr) => mdParser.render(htmlStr)}
-        onChange={this.handleEditorChange}
-      />
-    );
-  };
-
-  infoDescription = (event) => {
-    this.setState({ description: event.target.value });
-  };
-
   render() {
     return (
       <div className='doctor-manager text-center mt-3'>
         <div className='doctor-manager-title'>
           <h3>Doctor info manager</h3>
         </div>
-
-        {/* 20ms22ss */}
         <div className='doctor-manager-info'>
           <div className='doctor-info-select'>
             <h5 className='doctor-info-label'>Doctors</h5>
             {this.renderSelections()}
           </div>
-
-          {/* 20ms22ss, 24ms41ss */}
           <div className='doctor-info-desc'>
             <h5>Description</h5>
             {this.renderTextarea()}
           </div>
         </div>
-
         <div className='doctor-manager-editor'>{this.renderMdEditor()}</div>
-        {/* 14ms39ss */}
         <div className='doctor-manager-btns'>
           <button
             type='button'
@@ -256,16 +282,19 @@ class DoctorManager extends Component {
 }
 const mapStateToProps = (state) => {
   return {
-    allDoctors: state.admin.allDoctors, //18ms04ss
+    allDoctors: state.admin.allDoctors,
     language: state.app.language,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    // 6ms25ss
+    editingDoctorDetailsFn: (doctorId) =>
+      dispatch(actions.editingDoctorDetailsFn(doctorId)),
     updateDoctorInfoFn: (newData) =>
-      dispatch(actions.updateDoctorInfoFn(newData)), // 31ms55ss
-    fetchAllDoctorsFn: () => dispatch(actions.fetchAllDoctorsFn()), //18ms04ss
+      dispatch(actions.updateDoctorInfoFn(newData)),
+    fetchAllDoctorsFn: () => dispatch(actions.fetchAllDoctorsFn()),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(DoctorManager);

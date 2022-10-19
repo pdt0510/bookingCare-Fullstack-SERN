@@ -1,4 +1,4 @@
-// saving code for a auto checking, v74xx1
+// saving code for a auto checking
 const types = {
   STRING: 'STRING',
   BOOLEAN: 'BOOLEAN',
@@ -12,7 +12,7 @@ const tableInfo = {
   tableName: 'markdowns',
   keyValueCols: [
     `contentHTML-${types.TEXTLONG}`,
-    `contentMarkdown-${types.TEXTLONG}`, //40ms26sS
+    `contentMarkdown-${types.TEXTLONG}`,
     `description-${types.TEXTLONG}`,
     `doctorId-${types.INTEGER}`,
     `specialityId-${types.INTEGER}`,

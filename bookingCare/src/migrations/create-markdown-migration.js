@@ -8,12 +8,11 @@ const types = {
   TEXTLONG: 'TEXTLONG',
 };
 
-//src20, 35ms35ss
 const tableInfo = {
   tableName: 'markdowns',
   keyValueCols: [
     `contentHTML-${types.TEXTLONG}`,
-    `contentMarkdown-${types.TEXTLONG}`, //40ms26sS
+    `contentMarkdown-${types.TEXTLONG}`,
     `description-${types.TEXTLONG}`,
     `doctorId-${types.INTEGER}`,
     `specialityId-${types.INTEGER}`,
@@ -21,13 +20,12 @@ const tableInfo = {
   ],
 };
 
-// 42ms48ss
 const handleColTypes = (colTypeList, sequelizeList = true) => {
   let result = {};
   if (sequelizeList) {
     tableInfo.keyValueCols.forEach((element) => {
       const keys = element.split('-');
-      const [colName, colType] = keys; // v74xx1
+      const [colName, colType] = keys;
       if (colType === types.STRING) {
         result[colName] = { type: colTypeList.STRING };
       } else if (colType === types.INTEGER) {
@@ -45,7 +43,7 @@ const handleColTypes = (colTypeList, sequelizeList = true) => {
   } else {
     tableInfo.keyValueCols.forEach((element) => {
       const keys = element.split('-');
-      const [colName, colType] = keys; // v74xx1
+      const [colName, colType] = keys;
       if (colType === types.STRING) {
         result[colName] = colTypeList.STRING;
       } else if (colType === types.INTEGER) {

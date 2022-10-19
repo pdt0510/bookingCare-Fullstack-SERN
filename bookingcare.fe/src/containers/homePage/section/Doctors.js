@@ -8,11 +8,22 @@ import * as actions from '../../../store/actions';
 import { LANGUAGES } from '../../../utils';
 import { FormattedMessage } from 'react-intl';
 import { homepageLangs } from '../../../connectSupplyFE/otherSupplies';
+import { path } from '../../../utils/constant';
+import { withRouter } from 'react-router-dom';
+import { compose } from 'redux';
 
+//src21
 class Doctors extends Component {
   componentDidMount = async () => {
     const { loadingTopDoctorHome } = this.props;
     await loadingTopDoctorHome();
+  };
+
+  // 11ms02ss
+  navToDoctorDetailPage = (id) => {
+    const { history } = this.props;
+    const { doctorDetailPage } = path;
+    history.push(doctorDetailPage + id); //14ms40ss
   };
 
   renderTopDoctorHome = (dataArr) => {
@@ -34,7 +45,12 @@ class Doctors extends Component {
       }
 
       return (
-        <div key={id} href='##' className='section-blocks doctor-block'>
+        <div
+          key={id}
+          href='##'
+          className='section-blocks doctor-block'
+          onClick={() => this.navToDoctorDetailPage(id)}
+        >
           <div
             className='doctor-pics'
             style={{ backgroundImage: `url(${base64Img})` }}
@@ -82,7 +98,14 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  loadingTopDoctorHome: (limit) => dispatch(actions.fetchTopDoctorHomeFn(limit)),
+  loadingTopDoctorHome: (limit) =>
+    dispatch(actions.fetchTopDoctorHomeFn(limit)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Doctors);
+// 14ms40ss
+export default compose(
+  withRouter,
+  connect(mapStateToProps, mapDispatchToProps),
+)(Doctors);
+
+// export default connect(mapStateToProps, mapDispatchToProps)(Doctors);

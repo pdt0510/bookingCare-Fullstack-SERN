@@ -8,7 +8,6 @@ import AdminUser from '../containers/System/AdminUser';
 import DoctorManager from '../containers/System/admin/DoctorManager';
 import { routeLinks } from '../connectSupplyFE/otherSupplies';
 
-//src20
 class System extends Component {
   render() {
     const { systemMenuPath, isLoggedIn } = this.props;
@@ -24,10 +23,7 @@ class System extends Component {
               <Route path={userManagerLink} component={UserManage} />
               <Route path={userReduxLink} component={UserRedux} />
               <Route path={userAdminLink} component={AdminUser} />
-
-              {/* 2ms53ss */}
               <Route path={doctorManagerLink} component={DoctorManager} />
-
               <Route
                 component={() => {
                   return <Redirect to={systemMenuPath} />;

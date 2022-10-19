@@ -21,7 +21,6 @@ import FullPreviewImg from '../FullPreviewImg';
 import TableManagerUser from './TableManagerUser';
 import 'react-toastify/dist/ReactToastify.css';
 
-//src20
 class UserRedux extends Component {
   state = {
     email: '',
@@ -62,10 +61,8 @@ class UserRedux extends Component {
     let convertTobase64Str = '';
 
     if (typeof avatar === 'string') {
-      //base64 is available in reudx
       this.props.savingImgUrl(avatar);
     } else {
-      //from real db, converting Buffer to base64 of avatar
       convertTobase64Str = new Buffer.from(avatar).toString('binary');
       this.props.savingImgUrl(convertTobase64Str);
     }

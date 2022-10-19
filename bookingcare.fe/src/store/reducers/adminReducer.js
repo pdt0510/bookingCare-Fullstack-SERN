@@ -8,9 +8,9 @@ const initialState = {
   userList: [],
   topDoctorList: [],
   allDoctors: [],
+  doctorInfo: null,
 };
 
-//src20
 const adminReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.FETCHING_API:
@@ -90,33 +90,47 @@ const adminReducer = (state = initialState, action) => {
     case actionTypes.TOP_DOCTOR_HOME_FAILED:
       return {
         ...state,
-        // topDoctorList: [],
+        topDoctorList: [],
         isLoading: false,
       };
 
-    case actionTypes.GET_ALL_DOCTORS_SUCCESS: //13ms06ss
+    case actionTypes.GET_ALL_DOCTORS_SUCCESS:
       return {
         ...state,
         allDoctors: action.allDoctors,
         isLoading: false,
       };
 
-    case actionTypes.GET_ALL_DOCTORS_FAILED: //13ms06ss
+    case actionTypes.GET_ALL_DOCTORS_FAILED:
       return {
         ...state,
         allDoctors: [],
         isLoading: false,
       };
 
-    case actionTypes.UPDATE_DOCTOR_INFO_SUCCESS: //13ms06ss
+    case actionTypes.UPDATE_DOCTOR_INFO_SUCCESS:
       return {
         ...state,
         isLoading: false,
       };
 
-    case actionTypes.UPDATE_DOCTOR_INFO_FAILED: //13ms06ss
+    case actionTypes.UPDATE_DOCTOR_INFO_FAILED:
       return {
         ...state,
+        isLoading: false,
+      };
+
+    case actionTypes.FETCH_DOCTOR_INFO_BY_ID_SUCCESS: //42ms59ss
+      return {
+        ...state,
+        doctorInfo: action.doctorInfo,
+        isLoading: false,
+      };
+
+    case actionTypes.FETCH_DOCTOR_INFO_BY_ID_FAILED: //42ms59ss
+      return {
+        ...state,
+        doctorInfo: null,
         isLoading: false,
       };
 

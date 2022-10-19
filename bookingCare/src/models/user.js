@@ -3,7 +3,6 @@ import * as migrationInfo from '../migrations/create-user-migration.js';
 const { tableInfo, handleColTypes } = migrationInfo;
 const { Model } = require('sequelize');
 
-//src20
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -23,7 +22,6 @@ module.exports = (sequelize, DataTypes) => {
         targetKey: 'keymap',
         as: 'genderData',
       });
-      // 32ms48ss, v77xx1
       User.hasOne(models.markdowns, {
         foreignKey: 'doctorId',
         as: 'doctorInfo',

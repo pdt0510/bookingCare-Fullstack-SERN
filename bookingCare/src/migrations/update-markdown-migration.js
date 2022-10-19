@@ -6,7 +6,6 @@ const tableInfo = {
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     return Promise.all([
-      //src20, 38ms31ss
       queryInterface.changeColumn(tableInfo.tableName, 'contentHTML', {
         type: Sequelize.TEXT('long'),
         allowNull: false,

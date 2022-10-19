@@ -1,10 +1,10 @@
 import React, { Component, Fragment } from 'react';
+import './App.scss';
 import { connect } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 import { ConnectedRouter as Router } from 'connected-react-router';
 import { history } from '../redux';
 import { ToastContainer } from 'react-toastify';
-
 import {
   userIsAuthenticated,
   userIsNotAuthenticated,
@@ -15,10 +15,10 @@ import System from '../routes/System';
 import Login from './auth/Login';
 import ConfirmModal from '../components/ConfirmModal';
 import HomePage from './homePage/HomePage';
-import './App.scss';
-
 import CustomScrollbars from '../components/CustomScrollbars';
+import DoctorDetail from './patients/doctors/DoctorDetail';
 
+//src21
 class App extends Component {
   handlePersistorState = () => {
     const { persistor } = this.props;
@@ -39,6 +39,7 @@ class App extends Component {
   }
 
   render() {
+    const { HOME, LOGIN, SYSTEM, HOMEPAGE, doctorDetailPage, idParam } = path;
     return (
       <Fragment>
         <Router history={history}>
@@ -47,16 +48,21 @@ class App extends Component {
             <div className='content-container'>
               <CustomScrollbars>
                 <Switch>
-                  <Route path={path.HOME} exact component={Home} />
+                  <Route path={HOME} exact component={Home} />
                   <Route
-                    path={path.LOGIN}
+                    path={LOGIN}
                     component={userIsNotAuthenticated(Login)}
                   />
                   <Route
-                    path={path.SYSTEM}
+                    path={SYSTEM}
                     component={userIsAuthenticated(System)}
                   />
-                  <Route path={path.HOMEPAGE} component={HomePage} />
+                  <Route path={HOMEPAGE} component={HomePage} />
+                  {/* 5ms02ss */}
+                  <Route
+                    path={doctorDetailPage + idParam}
+                    component={DoctorDetail}
+                  />
                 </Switch>
               </CustomScrollbars>
             </div>
