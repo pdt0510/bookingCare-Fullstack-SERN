@@ -4,8 +4,9 @@ import './DoctorDetail.scss';
 import HomeHeader from '../../homePage/section/HomeHeader';
 import * as actions from '../../../store/actions';
 import { LANGUAGES } from '../../../utils';
+import DoctorSchedule from './DoctorSchedule';
+import DoctorExtraInfo from './DoctorExtraInfo';
 
-//src21, 5ms02ss
 class DoctorDetail extends Component {
   state = {
     avatar: null,
@@ -13,26 +14,28 @@ class DoctorDetail extends Component {
     contentMarkdown: null,
     description: null,
     fullname: null,
+    doctorId: null,
+    doctorInfo: null,
   };
 
-  //42ms59ss
   componentDidMount = async () => {
-    const { match } = this.props;
+    const { match, fetchDoctorDetailByIdFn } = this.props;
     const doctorId = +match.params.id;
-    await this.props.getDoctorInfoByIdFn(doctorId);
+    await fetchDoctorDetailByIdFn(doctorId);
   };
 
-  // 42ms59ss
   componentDidUpdate = async (prevProps, prevState) => {
-    const { doctorDetails, language } = this.props;
-    // console.log('doctorDetails ---', doctorDetails);
+    const { doctorDetails, language, match } = this.props;
+    const doctorId = +match.params.id;
 
     if (this.state.avatar === null && doctorDetails) {
       this.setState({
+        doctorId: doctorId,
         avatar: this.bufferToBase64String(),
         fullname: this.handleFullname(),
         contentHTML: this.handleContentHTML(),
         description: this.handleDescription(),
+        doctorInfo: doctorDetails.doctorInfo,
       });
     } else if (this.state.avatar && prevProps.language !== language) {
       this.setState({
@@ -41,7 +44,6 @@ class DoctorDetail extends Component {
     }
   };
 
-  // 51ms40ss
   bufferToBase64String = () => {
     const { avatar } = this.props.doctorDetails;
     return new Buffer.from(avatar).toString('binary');
@@ -59,48 +61,34 @@ class DoctorDetail extends Component {
   };
 
   handleDescription = () => {
-    // way 2
-    const { description } = this.props.doctorDetails.doctorInfo;
+    const { description } = this.props.doctorDetails.doctorDetails;
     if (description) {
       const htmlString = description.replaceAll('\n', '<br/>');
-      return <span dangerouslySetInnerHTML={{ __html: htmlString }} />; // v78xx1
+      return <span dangerouslySetInnerHTML={{ __html: htmlString }} />;
     }
     return <span>No descriptions</span>;
-
-    //way 1
-    // const stringToArr = description.split('\n');
-    // return stringToArr.map((item, idx) => {
-    //   return (
-    //     <>
-    //       <span key={idx}>{item}</span> <br />
-    //     </>
-    //   );
-    // });
   };
 
   handleContentHTML = () => {
-    const { doctorInfo } = this.props.doctorDetails;
-    // console.log('doctorInfo ---', doctorInfo); // 50ms01ss
+    const { doctorDetails } = this.props.doctorDetails;
 
-    if (doctorInfo.contentHTML) {
+    if (doctorDetails.contentHTML) {
       return (
-        <span dangerouslySetInnerHTML={{ __html: doctorInfo.contentHTML }} /> // v78xx1
+        <span dangerouslySetInnerHTML={{ __html: doctorDetails.contentHTML }} />
       );
     }
     return <span>No content</span>;
   };
 
   render() {
-    // const convertedId = Number(this.props.match.params.id); //23ms18ss
-    const { avatar, fullname, contentHTML, description } = this.state;
+    const { avatar, fullname, contentHTML, description, doctorId, doctorInfo } =
+      this.state;
 
     return (
       <>
-        {/* v79xx3 */}
         <div className='doctorDetail-header-bgr'>
           <HomeHeader />
         </div>
-        {/* 29ms22ss */}
         <div className='doctorDetail-content'>
           <div className='doctorDetail-intro container'>
             <div className='doctorDetail-intro-left'>
@@ -123,7 +111,17 @@ class DoctorDetail extends Component {
             </div>
           </div>
           <div className='doctorDetail-schedule container'>
-            <h1>Doctor schedule</h1>
+            {doctorId && doctorInfo && (
+              <>
+                <DoctorSchedule doctorId={doctorId} doctorInfo={doctorInfo} />
+
+                <DoctorExtraInfo
+                  clinicAddress={doctorInfo.clinicAddress} //v89xx2
+                  clinicName={doctorInfo.clinicName}
+                  priceId={doctorInfo.priceId}
+                />
+              </>
+            )}
           </div>
           <div className='doctorDetail-detail-bgr'>
             <div className='doctorDetail-detail-content container'>
@@ -137,13 +135,13 @@ class DoctorDetail extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  doctorDetails: state.admin.doctorInfo, //42ms59ss
+  doctorDetails: state.admin.doctorDetails,
   language: state.app.language,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  getDoctorInfoByIdFn: (doctorId) =>
-    dispatch(actions.fetchDoctorInfoByIdFn(doctorId)), //42ms59ss
+  fetchDoctorDetailByIdFn: (doctorId) =>
+    dispatch(actions.fetchDoctorDetailByIdFn(doctorId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DoctorDetail);

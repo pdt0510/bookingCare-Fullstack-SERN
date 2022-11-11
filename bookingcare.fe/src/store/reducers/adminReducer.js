@@ -8,7 +8,12 @@ const initialState = {
   userList: [],
   topDoctorList: [],
   allDoctors: [],
+  doctorSchedule: [],
+  doctorDetails: null,
   doctorInfo: null,
+  priceList: [],
+  paymentList: [],
+  provinceList: [],
 };
 
 const adminReducer = (state = initialState, action) => {
@@ -17,6 +22,16 @@ const adminReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: true,
+      };
+
+    case actionTypes.FETCH_DOCTOR_INFO_ALLCODE_SUCCESSED: //45ms09ss
+      const { priceList, paymentList, provinceList } = action.payload;
+      return {
+        ...state,
+        priceList,
+        paymentList,
+        provinceList,
+        isLoading: false,
       };
 
     case actionTypes.FETCH_GENDER_ROLE_POS_API_SUCCESSED:
@@ -108,29 +123,51 @@ const adminReducer = (state = initialState, action) => {
         isLoading: false,
       };
 
-    case actionTypes.UPDATE_DOCTOR_INFO_SUCCESS:
+    case actionTypes.UPDATE_DOCTOR_DETAILS_SUCCESS:
       return {
         ...state,
         isLoading: false,
       };
 
-    case actionTypes.UPDATE_DOCTOR_INFO_FAILED:
+    case actionTypes.UPDATE_DOCTOR_DETAILS_FAILED:
       return {
         ...state,
         isLoading: false,
       };
 
-    case actionTypes.FETCH_DOCTOR_INFO_BY_ID_SUCCESS: //42ms59ss
+    case actionTypes.FETCH_DOCTOR_DETAILS_BY_ID_SUCCESS:
+      return {
+        ...state,
+        doctorDetails: action.doctorDetails,
+        isLoading: false,
+      };
+
+    case actionTypes.FETCH_DOCTOR_DETAILS_BY_ID_FAILED:
+      return {
+        ...state,
+        doctorDetails: null,
+        isLoading: false,
+      };
+
+    case actionTypes.GETTING_DOCTOR_SCHEDULE_SUCCESS:
+      return {
+        ...state,
+        doctorSchedule: action.doctorSchedule,
+        isLoading: false,
+      };
+
+    case actionTypes.GETTING_DOCTOR_SCHEDULE_FAILED:
+      return {
+        ...state,
+        doctorSchedule: [],
+        isLoading: false,
+      };
+
+    // 42ms39ss
+    case actionTypes.EDITING_DOCTOR_INFO_SUCCESS:
       return {
         ...state,
         doctorInfo: action.doctorInfo,
-        isLoading: false,
-      };
-
-    case actionTypes.FETCH_DOCTOR_INFO_BY_ID_FAILED: //42ms59ss
-      return {
-        ...state,
-        doctorInfo: null,
         isLoading: false,
       };
 

@@ -3,65 +3,13 @@ import { userService } from '../../services';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-//src21
+//src24
 const toastMes = {
   toastSuccess: () => toast.success('Successfully requested'),
   toastError: (message) => toast.error(message, { autoClose: 5000 }),
 };
 
-// 6ms25ss
-export const editingDoctorDetailsFn = (doctorId) => {
-  return async (dispatch) => {
-    try {
-      const data = await userService.editingDoctorDetailsServ(doctorId);
-      if (data.errCode === 0) {
-        dispatch(editingDoctorDetailssSuccess(data.user));
-      } else {
-        dispatch(editingDoctorDetailsFailed());
-        toastMes.toastError(data.message);
-      }
-      return data;
-    } catch (error) {
-      console.log('editingDoctorDetailsFn error - ', error);
-    }
-  };
-};
-
-export const loadingDoctorInfoFn = (doctorId) => {
-  return async (dispatch) => {
-    try {
-      const data = await userService.getDoctorInfoByIdServ(doctorId);
-      if (data.errCode === 0) {
-        dispatch(fetchDoctorInfoByIdSuccess(data.user));
-      } else {
-        dispatch(fetchDoctorInfoByIdFailed());
-        toastMes.toastError(data.message);
-      }
-      return data;
-    } catch (error) {
-      console.log('loadingDoctorInfoFn error - ', error);
-    }
-  };
-};
-
-//42ms59ss
-export const fetchDoctorInfoByIdFn = (doctorId) => {
-  return async (dispatch) => {
-    try {
-      const data = await userService.getDoctorInfoByIdServ(doctorId);
-      if (data.errCode === 0) {
-        dispatch(fetchDoctorInfoByIdSuccess(data.user));
-      } else {
-        dispatch(fetchDoctorInfoByIdFailed());
-        toastMes.toastError(data.message);
-      }
-      return data;
-    } catch (error) {
-      console.log('getAllDoctorsFn error - ', error);
-    }
-  };
-};
-
+//v87xx5
 export const updateDoctorInfoFn = (updatedData) => {
   return async (dispatch) => {
     try {
@@ -71,6 +19,161 @@ export const updateDoctorInfoFn = (updatedData) => {
         toastMes.toastSuccess();
       } else {
         dispatch(updateDoctorInfoFailed());
+        toastMes.toastError(data.message);
+      }
+      return data;
+    } catch (error) {
+      console.log('updateDoctorInfoFn error - ', error);
+    }
+  };
+};
+
+//42ms39ss
+export const editDoctorInfoFn = (doctorId) => {
+  return async (dispatch) => {
+    try {
+      const data = await userService.editDoctorInfoServ(doctorId);
+
+      if (data.errCode === 0) {
+        dispatch(editDoctorInfoSuccess(data.user));
+      } else {
+        dispatch(editDoctorInfoFailed());
+        toastMes.toastError(data.message);
+      }
+      return data;
+    } catch (error) {
+      console.log('editDoctorInfoFn error - ', error);
+    }
+  };
+};
+
+// 45ms09ss
+export const fetchDoctorInfoAllcodeFn = () => {
+  const priceList = [];
+  const paymentList = [];
+  const provinceList = [];
+
+  return async (dispatch) => {
+    try {
+      const data = await userService.getUserAllCodeServ();
+      if (data.errCode === 0) {
+        data.allCodes.forEach((item) => {
+          if (item.type === 'PRICE') {
+            priceList.push(item);
+          } else if (item.type === 'PAYMENT') {
+            paymentList.push(item);
+          } else if (item.type === 'PROVINCE') {
+            provinceList.push(item);
+          }
+        });
+        const payloadData = { priceList, paymentList, provinceList };
+        dispatch(fetchDoctorInfoAllcodeSuccess(payloadData));
+      } else {
+        dispatch(fetchDoctorInfoAllcodeFailed());
+        toastMes.toastError(data.message);
+      }
+      return data.errCode;
+    } catch (error) {
+      console.log('fetchDoctorInfoAllcodeFn error', error);
+    }
+  };
+};
+
+export const fetchDoctorScheduleByIdFn = (doctorId) => {
+  return async (dispatch) => {
+    try {
+      const data = await userService.getDoctorScheduleByIdServ(doctorId);
+      if (data.errCode === 0) {
+        dispatch(fetchDoctorScheduleByIdSuccess());
+      } else {
+        dispatch(fetchDoctorScheduleByIdFailed());
+        toastMes.toastError(data.message);
+      }
+      return data;
+    } catch (error) {
+      console.log('fetchDoctorScheduleByIdFn error - ', error);
+    }
+  };
+};
+
+export const uploadDoctorScheduleFn = (dataArr) => {
+  return async (dispatch) => {
+    try {
+      const data = await userService.uploadDoctorScheduleServ(dataArr);
+      if (data.errCode === 0) {
+        dispatch(uploadDoctorScheduleSuccess());
+        toastMes.toastSuccess();
+      } else {
+        dispatch(uploadDoctorScheduleFailed());
+        toastMes.toastError(data.message);
+      }
+      return data;
+    } catch (error) {
+      console.log('fetchDoctorScheduleFn error - ', error);
+    }
+  };
+};
+
+export const fetchDoctorScheduleFn = () => {
+  return async (dispatch) => {
+    try {
+      const data = await userService.fetchDoctorScheduleServ();
+      if (data.errCode === 0) {
+        dispatch(getDoctorScheduleSuccess(data.doctorSchedule));
+      } else {
+        dispatch(getDoctorScheduleFailed());
+        toastMes.toastError(data.message);
+      }
+      return data;
+    } catch (error) {
+      console.log('fetchDoctorScheduleFn error - ', error);
+    }
+  };
+};
+
+export const editDoctorDetailsFn = (doctorId) => {
+  return async (dispatch) => {
+    try {
+      const data = await userService.editDoctorDetailsServ(doctorId);
+      if (data.errCode === 0) {
+        dispatch(editingDoctorDetailssSuccess(data.user));
+      } else {
+        dispatch(editingDoctorDetailsFailed());
+        toastMes.toastError(data.message);
+      }
+      return data;
+    } catch (error) {
+      console.log('editDoctorDetailsFn error - ', error);
+    }
+  };
+};
+
+export const fetchDoctorDetailByIdFn = (doctorId) => {
+  return async (dispatch) => {
+    try {
+      const data = await userService.getDoctorDetailsByIdServ(doctorId);
+      if (data.errCode === 0) {
+        dispatch(fetchDoctorInfoByIdSuccess(data.user));
+      } else {
+        dispatch(fetchDoctorInfoByIdFailed());
+        toastMes.toastError(data.message);
+      }
+      return data;
+    } catch (error) {
+      console.log('fetchDoctorDetailByIdFn error - ', error);
+    }
+  };
+};
+
+export const updateDoctorDetailsFn = (updatedData) => {
+  return async (dispatch) => {
+    try {
+      const data = await userService.updateDoctorDetailsServ(updatedData);
+      if (data.errCode === 0) {
+        dispatch(updateDoctorDetailsSuccess());
+        toastMes.toastSuccess();
+      } else {
+        dispatch(updateDoctorDetailsFailed());
         toastMes.toastError(data.message);
       }
       return data;
@@ -180,14 +283,14 @@ export const createUserInfo = (newUser) => {
   };
 };
 
-export const fetchAttrsOfAllcodeApi = () => {
+export const fetchUserAllcodeFn = () => {
   const genderList = [];
   const roleList = [];
   const posList = [];
 
   return async (dispatch) => {
     try {
-      const data = await userService.allCodeUser();
+      const data = await userService.getUserAllCodeServ();
       if (data.errCode === 0) {
         data.allCodes.forEach((item) => {
           if (item.type === 'GENDER') {
@@ -199,23 +302,31 @@ export const fetchAttrsOfAllcodeApi = () => {
           }
         });
       }
-
       const payloadData = { genderList, roleList, posList };
-      return dispatch(fetchGenderApiSuccessed(payloadData));
+      return dispatch(fetchUserAllcodesSuccess(payloadData));
     } catch (error) {
-      fetchGenderApiFailed();
-      console.log('fetchAttrsOfAllcodeApi error', error);
+      fetchUserAllcodesFailed();
+      console.log('fetchUserAllcodeFn error', error);
     }
   };
 };
 
-export const fetchGenderApiSuccessed = (payload) => ({
+export const fetchUserAllcodesSuccess = (payload) => ({
   type: actionTypes.FETCH_GENDER_ROLE_POS_API_SUCCESSED,
   payload,
 });
 
-export const fetchGenderApiFailed = () => ({
+export const fetchUserAllcodesFailed = () => ({
   type: actionTypes.FETCH_GENDER_ROLE_POS_API_FAILED,
+});
+
+export const fetchDoctorInfoAllcodeSuccess = (payload) => ({
+  type: actionTypes.FETCH_DOCTOR_INFO_ALLCODE_SUCCESSED,
+  payload,
+});
+
+export const fetchDoctorInfoAllcodeFailed = () => ({
+  type: actionTypes.FETCH_DOCTOR_INFO_ALLCODE_FAILED,
 });
 
 export const isLoadingFromFetch = () => ({
@@ -280,27 +391,69 @@ export const getAllDoctorsfailed = () => ({
   type: actionTypes.GET_ALL_DOCTORS_FAILED,
 });
 
+export const updateDoctorDetailsSuccess = () => ({
+  type: actionTypes.UPDATE_DOCTOR_DETAILS_SUCCESS,
+});
+
+export const updateDoctorDetailsFailed = () => ({
+  type: actionTypes.UPDATE_DOCTOR_DETAILS_FAILED,
+});
+
+export const fetchDoctorInfoByIdSuccess = (doctorDetails) => ({
+  type: actionTypes.FETCH_DOCTOR_DETAILS_BY_ID_SUCCESS,
+  doctorDetails,
+});
+
+export const fetchDoctorInfoByIdFailed = () => ({
+  type: actionTypes.FETCH_DOCTOR_DETAILS_BY_ID_FAILED,
+});
+
+export const editingDoctorDetailssSuccess = () => ({
+  type: actionTypes.EDITING_DOCTOR_DETAIL_SUCCESS,
+});
+
+export const editingDoctorDetailsFailed = () => ({
+  type: actionTypes.EDITING_DOCTOR_DETAIL_FAILED,
+});
+
+export const getDoctorScheduleSuccess = (doctorSchedule) => ({
+  type: actionTypes.GETTING_DOCTOR_SCHEDULE_SUCCESS,
+  doctorSchedule,
+});
+
+export const getDoctorScheduleFailed = () => ({
+  type: actionTypes.GETTING_DOCTOR_SCHEDULE_FAILED,
+});
+
+export const uploadDoctorScheduleSuccess = () => ({
+  type: actionTypes.UPLOAD_DOCTOR_SCHEDULE_SUCCESS,
+});
+
+export const uploadDoctorScheduleFailed = () => ({
+  type: actionTypes.UPLOAD_DOCTOR_SCHEDULE_FAILED,
+});
+
+export const fetchDoctorScheduleByIdSuccess = () => ({
+  type: actionTypes.FETCH_DOCTOR_SCHEDULE_BY_ID_SUCCESS,
+});
+
+export const fetchDoctorScheduleByIdFailed = () => ({
+  type: actionTypes.FETCH_DOCTOR_SCHEDULE_BY_ID_FAILED,
+});
+
+export const editDoctorInfoSuccess = (doctorInfo) => ({
+  type: actionTypes.EDITING_DOCTOR_INFO_SUCCESS,
+  doctorInfo,
+});
+
+export const editDoctorInfoFailed = () => ({
+  type: actionTypes.EDITING_DOCTOR_INFO_FAILED,
+});
+
 export const updateDoctorInfoSuccess = () => ({
   type: actionTypes.UPDATE_DOCTOR_INFO_SUCCESS,
 });
 
 export const updateDoctorInfoFailed = () => ({
   type: actionTypes.UPDATE_DOCTOR_INFO_FAILED,
-});
-
-export const fetchDoctorInfoByIdSuccess = (doctorInfo) => ({
-  type: actionTypes.FETCH_DOCTOR_INFO_BY_ID_SUCCESS,
-  doctorInfo,
-});
-
-export const fetchDoctorInfoByIdFailed = () => ({
-  type: actionTypes.FETCH_DOCTOR_INFO_BY_ID_FAILED,
-});
-
-export const editingDoctorDetailssSuccess = () => ({
-  type: actionTypes.EDITING_DOCTOR_DETAIL_SSUCCESS,
-});
-
-export const editingDoctorDetailsFailed = () => ({
-  type: actionTypes.EDITING_DOCTOR_DETAIL_FAILED,
 });

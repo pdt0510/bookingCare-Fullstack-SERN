@@ -1,0 +1,71 @@
+.DoctorExtraInfo-content {
+  flex: 50% 1;
+  line-height: 30px;
+
+  .separate-line {
+    border-left: 1px solid #80808047;
+
+    .separate-line-space {
+      margin-left: 20px;
+    }
+
+    .DoctorExtraInfo-label {
+      text-transform: uppercase;
+      font-size: 14px;
+      color: #666;
+      font-weight: bold;
+    }
+
+    .DoctorExtraInfo-address {
+      margin-top: 65px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #6666661f;
+
+      .DoctorExtraInfo-clinicName {
+        display: block;
+        font-weight: bold;
+      }
+    }
+
+    .DoctorExtraInfo-price {
+      padding: 12px 0;
+
+      .DoctorExtraInfo-priceTable-label {
+        cursor: pointer;
+        color: #45c3d2;
+        text-decoration: none;
+      }
+
+      .DoctorExtraInfo-price-table {
+        line-height: 16px;
+        font-size: smaller;
+
+        .price-table {
+          display: block;
+          border: 1px solid #ddd;
+          padding: 2px 4px;
+        }
+
+        .price-table-up {
+          background: #f8f8f8;
+
+          .price-table-mes {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+          }
+        }
+
+        .price-table-down {
+          background-color: #eee;
+        }
+      }
+
+      span.currency-mark {
+        position: relative;
+        font-size: 12px;
+        bottom: 5px;
+      }
+    }
+  }
+}

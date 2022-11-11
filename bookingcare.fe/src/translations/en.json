@@ -58,6 +58,9 @@
             "speciality-manager": "Clinic manager",
             "handbook": "Handbook",
             "handbook-manager": "Handbook manager"
+        },
+        "doctor": {
+            "schedule": "Doctor schedule manager"
         }
     },
     "system": {
@@ -111,5 +114,35 @@
         "handbook": "Handbook",
         "allPosts": "All posts",
         "socialMedia": "Social media about Booking Care"
+    },
+    "doctor-manager": {
+        "mainTitle": "DOCTOR INFO MANAGER",
+        "doctors": "Doctors",
+        "chooseADoctor": "Choose a doctor",
+        "description": "Description",
+        "cancel": "Cancel",
+        "save": "Save",
+        "price": "Prices",
+        "payMethod": "Pay methods",
+        "province": "Provinces",
+        "clinicName": "Clinic name",
+        "clinicAddress": "Clinic address",
+        "note": "Note"
+    },
+    "schedule-manager": {
+        "mainTitle": "DOCTOR SCHEDULE MANAGER",
+        "chooseUser": "Choose a doctor",
+        "chooseDate": "Choose a date (day/month/year)",
+        "doctorSchedule": "Doctor schedule",
+        "cancel": "Cancel",
+        "save": "Save"
+    },
+    "doctor-schedule": {
+        "schedule": "Schedule",
+        "noSchedule": "No schedule !",
+        "clinicAddress": "Clinic address",
+        "price": "Price: ",
+        "insuranceType": "Insurance type: ",
+        "booking": "Choose and booking (for free)"
     }
 }

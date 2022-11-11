@@ -1,0 +1,102 @@
+.section-bgr {
+  background-color: #f5f5f5;
+}
+
+.container-section {
+  width: 1240px;
+  margin: 0 auto;
+
+  .section-content {
+    padding: 20px 0 30px;
+
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 8px 5px;
+
+      .section-title-text {
+        font-size: 28px;
+        font-weight: 500;
+      }
+
+      .section-moreBtn {
+        font-size: 14px;
+        padding: 10px 15px;
+        background-color: #ebebeb;
+        text-transform: uppercase;
+        cursor: pointer;
+
+        &:hover {
+          background-color: #ddcacaa4;
+        }
+      }
+    }
+
+    .section-body {
+      margin: 28px 0 4px;
+
+      .section-blocks {
+        width: 96% !important;
+        margin: 0px 6px;
+        cursor: pointer;
+
+        &:hover > .section-content-text {
+          color: #45c3d2;
+        }
+
+        .section-content-text {
+          font-size: 16px;
+          padding-top: 4px;
+        }
+
+        .section-content-pics {
+          padding-top: 53%;
+          background-position: center;
+          background-repeat: no-repeat;
+        }
+      }
+    }
+
+    .slick-arrow {
+      top: 0;
+      width: 48px;
+      height: 46px;
+      opacity: 0.5;
+      z-index: 1;
+    }
+
+    .slick-prev {
+      transform: translate(-20%, 125%);
+    }
+
+    .slick-next {
+      transform: translate(15%, 125%);
+    }
+
+    .slick-prev::before,
+    .slick-next::before {
+      font-size: 32px;
+      color: #0000ff;
+      font-weight: bold;
+      font-family: unset;
+    }
+
+    .slick-prev:before {
+      content: '⮘';
+    }
+
+    .slick-next:before {
+      content: '⮚';
+    }
+
+    .slick-prev:hover,
+    .slick-next:hover {
+      background-color: #c6cac9;
+    }
+
+    .slick-disabled {
+      display: none !important;
+    }
+  }
+}

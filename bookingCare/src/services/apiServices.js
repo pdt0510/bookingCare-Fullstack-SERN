@@ -43,7 +43,7 @@ const hashingPassword = (password) => {
   });
 };
 
-export const allCodeApi = (typeVal, keymapVal) => {
+export const getUserAllCodeServ = (typeVal, keymapVal) => {
   return new Promise(async (resolve, reject) => {
     try {
       let data = {};
@@ -51,7 +51,9 @@ export const allCodeApi = (typeVal, keymapVal) => {
       const { noErrors, notFound } = apiSupplies.errStates;
 
       if (typeVal === 'ALL' && keymapVal === 'ALL') {
-        allCodes = await db.allcodes.findAll();
+        allCodes = await db.allcodes.findAll({
+          attributes: { exclude: ['id', 'createdAt', 'updatedAt'] },
+        });
       } else if (typeVal && keymapVal === '') {
         allCodes = await db.allcodes.findAll({
           where: { type: typeVal },

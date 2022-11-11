@@ -1,0 +1,30 @@
+.doctor-section-body {
+  .slick-prev {
+    transform: translate(-20%, 220%) !important;
+  }
+
+  .slick-next {
+    transform: translate(15%, 220%) !important;
+  }
+
+  .doctor-block {
+    height: 245px;
+    text-align: center;
+    border: 1px solid #eee;
+
+    .doctor-pics {
+      width: 120px;
+      height: 120px;
+      border-radius: 60px;
+      margin: 10px auto;
+
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: contain;
+    }
+
+    .doctor-pic1 {
+      background-image: url('../../../assets/images/doctors/084302-pgs-nguyen-trong-hung.jpg');
+    }
+  }
+}

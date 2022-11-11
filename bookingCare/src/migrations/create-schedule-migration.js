@@ -13,8 +13,8 @@ const tableInfo = {
     `doctorId-${types.INTEGER}`,
     `currentNumber-${types.INTEGER}`,
     `maxNumber-${types.INTEGER}`,
-    `date-${types.DATE}`,
-    `timeType-${types.DATE}`,
+    `date-${types.STRING}`,
+    `timeType-${types.STRING}`,
   ],
 };
 

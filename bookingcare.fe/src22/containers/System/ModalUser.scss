@@ -1,0 +1,24 @@
+.header-custom {
+  padding: 4px 12px;
+
+  button.close {
+    border: none;
+    background: none;
+    border-radius: 4px;
+    padding: 0px 12px 4px;
+
+    span {
+      font-size: 24px;
+    }
+  }
+
+  button.close:hover {
+    background: rgba(128, 128, 128, 0.333);
+  }
+}
+
+.modal-footer {
+  .modalFooter-btn-group {
+    line-height: 0;
+  }
+}

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CRUD</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <style>
+      body {
+        padding: 0;
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h4 class="my-2">Create an new user</h4>
+      <form action="<%= userPostedUrl%>" method="post">
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="EmailFor">Email</label>
+            <input
+              name="email"
+              type="email"
+              class="form-control"
+              id="EmailFor"
+              placeholder="Email"
+            />
+          </div>
+          <div class="form-group col-md-6">
+            <label for="PasswordFor">Password</label>
+            <input
+              name="password"
+              type="text"
+              class="form-control"
+              id="PasswordFor"
+              placeholder="Password"
+            />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="FirstnameFor">Firstname</label>
+            <input
+              name="firstname"
+              type="text"
+              class="form-control"
+              id="FirstnameFor"
+              placeholder="Firstname"
+            />
+          </div>
+          <div class="form-group col-md-6">
+            <label for="LastnameFor">Lastname</label>
+            <input
+              name="lastname"
+              type="text"
+              class="form-control"
+              id="LastnameFor"
+              placeholder="Lastname"
+            />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="addressFor">Address</label>
+          <input
+            name="address"
+            type="text"
+            class="form-control"
+            id="addressFor"
+            placeholder="Address"
+          />
+        </div>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="phoneNumberFor">Phone number</label>
+            <input
+              name="phoneNumber"
+              type="number"
+              class="form-control"
+              id="phoneNumberFor"
+              placeholder="Phone number"
+            />
+          </div>
+          <div class="form-group col-md-3">
+            <label for="genderFor">Gender</label>
+            <select name="gender" id="genderFor" class="form-control">
+              <option value="0" selected>Female</option>
+              <option value="1">Male</option>
+            </select>
+          </div>
+          <div class="form-group col-md-3">
+            <label for="roleFor">Role</label>
+            <select name="roleId" id="roleFor" class="form-control">
+              <option value="0" selected>Admin</option>
+              <option value="1">Doctor</option>
+              <option value="2">Patient</option>
+            </select>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Sign in</button>
+      </form>
+    </div>
+  </body>
+</html>

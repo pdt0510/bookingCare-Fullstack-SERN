@@ -1,0 +1,32 @@
+//src23, 18ms10ss
+.DoctorSchedule {
+  .DoctorSchedule-date {
+    display: flex;
+  }
+
+  .DoctorSchedule-info {
+    display: flex;
+    margin-top: 8px;
+
+    .DoctorSchedule-info-marktime {
+      flex: 40%;
+      border-right: 1px solid #80808047;
+
+      .btn-timeMark {
+        box-shadow: none;
+        background-color: #fff8ae;
+        margin: 0 8px 8px 0;
+        min-width: 156px;
+        min-height: 38px;
+
+        &:hover {
+          box-shadow: 0px 0px 2px #33b0e3 inset;
+        }
+      }
+    }
+
+    .DoctorSchedule-info-address {
+      flex: 50%;
+    }
+  }
+}

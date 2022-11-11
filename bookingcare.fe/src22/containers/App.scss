@@ -1,0 +1,11 @@
+@import '../styles/common.scss';
+
+.content-container {
+  height: 100vh;
+
+  .switch-lang {
+    display: inline-block;
+    font-weight: 600;
+    cursor: pointer;
+  }
+}

@@ -9,9 +9,14 @@ export const apiUrls = {
   allCodeApi: '/allcode',
   topDoctorHomeApi: '/top-doctor-home',
   getAllDoctorsApi: '/all-doctors',
+  updateDoctorDetailsApi: '/update-doctor-details',
+  getDoctorDetailsByIdApi: '/get-doctor-details',
+  editDoctorDetailsByIdApi: '/edit-doctor-details',
+  fetchDoctorScheduleApi: '/fetch-doctor-schedule',
+  uploadDoctorScheduleApi: '/upload-doctor-schedule',
+  getDoctorScheduleByIdApi: '/get-doctor-schedule',
+  editDoctorInfoByIdApi: '/edit-doctor-info',
   updateDoctorInfoApi: '/update-doctor-info',
-  getDoctorInfoByIdApi: '/getting-doctor-info',
-  editDoctorDetailsByIdApi: '/editing-doctor-details',
 };
 
 export const errStates = {
@@ -46,7 +51,7 @@ export const errStates = {
   notCreated: {
     errCode: 5,
     status: 501, //Not Implemented
-    emailMes: 'Email is already existed',
+    message: 'Request is not Implemented',
   },
   serverError: {
     errCode: -1,

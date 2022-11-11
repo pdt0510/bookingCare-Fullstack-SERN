@@ -1,6 +1,5 @@
-//src21,
 .doctorDetail-header-bgr .home-header-content {
-  background-color: #c6f9ff; //v79xx3
+  background-color: #c6e6ff;
 }
 
 .doctorDetail-content {
@@ -33,8 +32,8 @@
   }
 
   .doctorDetail-schedule {
-    border: 1px solid;
     margin-top: 16px;
+    display: flex;
   }
 
   .doctorDetail-detail-bgr {

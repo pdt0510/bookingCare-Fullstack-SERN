@@ -1,9 +1,85 @@
-//src21
 import axios from '../axios';
 import * as apiSupplies from '../connectSupplyFE/apiSupplies';
 
-// 6ms25ss
-export const editingDoctorDetailsServ = (doctorId) => {
+// v87xx5
+export const updateDoctorInfoServ = (updatedData) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const { apiUrl, updateDoctorInfoApi } = apiSupplies.apiUrls;
+      const data = await axios.post(apiUrl + updateDoctorInfoApi, updatedData);
+      resolve(data);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+//42ms39ss
+export const editDoctorInfoServ = (doctorId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const { apiUrl, editDoctorInfoByIdApi } = apiSupplies.apiUrls;
+      const data = await axios.get(apiUrl + editDoctorInfoByIdApi, {
+        params: { doctorId },
+      });
+      resolve(data);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+export const getUserAllCodeServ = () => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const { apiUrl, allCodeApi } = apiSupplies.apiUrls;
+      const data = await axios.get(apiUrl + allCodeApi);
+      resolve(data);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+export const getDoctorScheduleByIdServ = (doctorId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const { apiUrl, getDoctorScheduleByIdApi } = apiSupplies.apiUrls;
+      const data = await axios.get(apiUrl + getDoctorScheduleByIdApi, {
+        params: { doctorId },
+      });
+      resolve(data);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+export const uploadDoctorScheduleServ = (dataArr) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const { apiUrl, uploadDoctorScheduleApi } = apiSupplies.apiUrls;
+      const data = await axios.post(apiUrl + uploadDoctorScheduleApi, dataArr);
+      resolve(data);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+export const fetchDoctorScheduleServ = () => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const { apiUrl, getDoctorScheduleApi } = apiSupplies.apiUrls;
+      const data = await axios.get(apiUrl + getDoctorScheduleApi);
+      resolve(data);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+export const editDoctorDetailsServ = (doctorId) => {
   return new Promise(async (resolve, reject) => {
     try {
       const { apiUrl, editDoctorDetailsByIdApi } = apiSupplies.apiUrls;
@@ -17,12 +93,11 @@ export const editingDoctorDetailsServ = (doctorId) => {
   });
 };
 
-//42ms59ss
-export const getDoctorInfoByIdServ = (doctorId) => {
+export const getDoctorDetailsByIdServ = (doctorId) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const { apiUrl, getDoctorInfoByIdApi } = apiSupplies.apiUrls;
-      const data = await axios.get(apiUrl + getDoctorInfoByIdApi, {
+      const { apiUrl, getDoctorDetailsByIdApi } = apiSupplies.apiUrls;
+      const data = await axios.get(apiUrl + getDoctorDetailsByIdApi, {
         params: { id: doctorId },
       });
       resolve(data);
@@ -32,11 +107,14 @@ export const getDoctorInfoByIdServ = (doctorId) => {
   });
 };
 
-export const updateDoctorInfoServ = (updatedData) => {
+export const updateDoctorDetailsServ = (updatedData) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const { apiUrl, updateDoctorInfoApi } = apiSupplies.apiUrls;
-      const data = await axios.post(apiUrl + updateDoctorInfoApi, updatedData);
+      const { apiUrl, updateDoctorDetailsApi } = apiSupplies.apiUrls;
+      const data = await axios.post(
+        apiUrl + updateDoctorDetailsApi,
+        updatedData,
+      );
       resolve(data);
     } catch (error) {
       reject(error);
@@ -65,18 +143,6 @@ export const topDoctorHomeServ = (limitNums) => {
           limit: limitNums,
         },
       });
-      resolve(data);
-    } catch (error) {
-      reject(error);
-    }
-  });
-};
-
-export const allCodeUser = () => {
-  return new Promise(async (resolve, reject) => {
-    try {
-      const { apiUrl, allCodeApi } = apiSupplies.apiUrls;
-      const data = await axios.get(apiUrl + allCodeApi);
       resolve(data);
     } catch (error) {
       reject(error);

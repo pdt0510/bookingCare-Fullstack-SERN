@@ -58,6 +58,9 @@
             "speciality-manager": "Quản lý chuyên khoa",
             "handbook": "Cẩm nang ",
             "handbook-manager": "Quản lý cẩm nang"
+        },
+        "doctor": {
+            "schedule": "Quản lý lịch khám bệnh"
         }
     },
     "system": {
@@ -112,5 +115,35 @@
         "handbook": "Cẩm nang",
         "allPosts": "Tất cả bài viết",
         "socialMedia": "Truyền thông nói Booking care"
+    },
+    "doctor-manager": {
+        "mainTitle": "QUẢN LÝ THÔNG TIN BÁC SĨ",
+        "doctors": "Bác sĩ",
+        "chooseADoctor": "Chọn bác sĩ",
+        "description": "Mô tả",
+        "cancel": "Hủy",
+        "save": "Lưu",
+        "price": "Giá khám",
+        "payMethod": "Kiểu thanh toán",
+        "province": "Tỉnh/Tp",
+        "clinicName": "Tên phòng khám",
+        "clinicAddress": "Nơi khám",
+        "note": "Ghi chú"
+    },
+    "schedule-manager": {
+        "mainTitle": "QUẢN LÝ LỊCH KHÁM BÁC SĨ",
+        "chooseUser": "Chọn bác sĩ",
+        "chooseDate": "Chọn ngày (ngày/tháng/năm)",
+        "doctorSchedule": "Lịch khám",
+        "cancel": "Hủy",
+        "save": "Lưu"
+    },
+    "doctor-schedule": {
+        "schedule": "Lịch khám",
+        "noSchedule": "Không có lịch khám !",
+        "clinicAddress": "Địa chỉ phòng khám",
+        "price": "Giá khám: ",
+        "insuranceType": "Loại bảo hiểm: ",
+        "booking": "Chọn và đặt lịch (miễn phí)"
     }
 }
