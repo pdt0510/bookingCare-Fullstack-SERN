@@ -1,7 +1,62 @@
 import axios from '../axios';
 import * as apiSupplies from '../connectSupplyFE/apiSupplies';
 
-// v87xx5
+export const postUserBookingServ = (newData) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const { apiUrl, createUserBookingApi } = apiSupplies.apiUrls;
+      const data = await axios.post(apiUrl + createUserBookingApi, newData);
+      resolve(data);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+// v92xx2
+export const getDoctorIntroServ = (id) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const { apiUrl, getDoctorIntroApi } = apiSupplies.apiUrls;
+      const data = await axios.get(apiUrl + getDoctorIntroApi, {
+        params: { id },
+      });
+      resolve(data);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+// v92xx1
+export const getDoctorContentHtmlServ = (id) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const { apiUrl, getDoctorContentHtmlApi } = apiSupplies.apiUrls;
+      const data = await axios.get(apiUrl + getDoctorContentHtmlApi, {
+        params: { id },
+      });
+      resolve(data);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+export const getDoctorExtraInfoServ = (doctorId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const { apiUrl, getDoctorExtraInfoByIdApi } = apiSupplies.apiUrls;
+      const data = await axios.get(apiUrl + getDoctorExtraInfoByIdApi, {
+        params: { doctorId },
+      });
+      resolve(data);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
 export const updateDoctorInfoServ = (updatedData) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -14,7 +69,6 @@ export const updateDoctorInfoServ = (updatedData) => {
   });
 };
 
-//42ms39ss
 export const editDoctorInfoServ = (doctorId) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -85,20 +139,6 @@ export const editDoctorDetailsServ = (doctorId) => {
       const { apiUrl, editDoctorDetailsByIdApi } = apiSupplies.apiUrls;
       const data = await axios.get(apiUrl + editDoctorDetailsByIdApi, {
         params: { doctorId },
-      });
-      resolve(data);
-    } catch (error) {
-      reject(error);
-    }
-  });
-};
-
-export const getDoctorDetailsByIdServ = (doctorId) => {
-  return new Promise(async (resolve, reject) => {
-    try {
-      const { apiUrl, getDoctorDetailsByIdApi } = apiSupplies.apiUrls;
-      const data = await axios.get(apiUrl + getDoctorDetailsByIdApi, {
-        params: { id: doctorId },
       });
       resolve(data);
     } catch (error) {

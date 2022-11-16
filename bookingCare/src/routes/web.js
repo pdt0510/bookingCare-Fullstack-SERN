@@ -4,8 +4,8 @@ import * as homeCtrl from '../controller/homeController';
 import * as apiSupplies from '../connectSupply/apiSupplies';
 import * as apiCtrl from '../controller/apiController';
 import * as doctorCtrls from '../controller/doctorController';
+import * as patientCtrls from './../controller/patientController';
 
-//src24
 const appRouters = express.Router();
 const initWebRoutes = (app) => {
   const {
@@ -48,13 +48,16 @@ const initWebRoutes = (app) => {
     topDoctorHomeApi,
     getAllDoctorsApi,
     updateDoctorDetailsApi,
-    getDoctorDetailsByIdApi,
     editDoctorDetailsByIdApi,
     getDoctorScheduleApi,
     uploadDoctorScheduleApi,
     getDoctorScheduleByIdApi,
     editDoctorInfoByIdApi,
     updateDoctorInfoApi,
+    getDoctorExtraInfoByIdApi,
+    getDoctorContentHtmlApi,
+    getDoctorIntroApi,
+    createUserBookingApi,
   } = apiSupplies.apiUrls;
 
   const {
@@ -70,14 +73,18 @@ const initWebRoutes = (app) => {
     topDoctorHomeCtrl,
     getAllDoctorsCtrl,
     postDoctorDetailsCtrl,
-    getDoctorDetailsByIdCtrl,
     editDoctorDetailCtrl,
     getDoctorScheduleKeysCtrl,
     uploadDoctorScheduleCtrl,
     getDoctorScheduleByIdCtrl,
     editDoctorInfoCtrl,
     postDoctorInfoCtrl,
+    getDoctorExtraInfoCtrl,
+    getDoctorContentHtmlCtrl,
+    getDoctorIntroCtrl,
   } = doctorCtrls;
+
+  const { postUserBookingCtrl } = patientCtrls;
 
   appRouters.post(apiUrl + loginApi, loginFn);
   appRouters.get(apiUrl + userListedApi, userListFn);
@@ -88,13 +95,19 @@ const initWebRoutes = (app) => {
   appRouters.get(apiUrl + topDoctorHomeApi, topDoctorHomeCtrl);
   appRouters.get(apiUrl + getAllDoctorsApi, getAllDoctorsCtrl);
   appRouters.post(apiUrl + updateDoctorDetailsApi, postDoctorDetailsCtrl);
-  appRouters.get(apiUrl + getDoctorDetailsByIdApi, getDoctorDetailsByIdCtrl);
   appRouters.get(apiUrl + editDoctorDetailsByIdApi, editDoctorDetailCtrl);
   appRouters.get(apiUrl + getDoctorScheduleApi, getDoctorScheduleKeysCtrl);
   appRouters.post(apiUrl + uploadDoctorScheduleApi, uploadDoctorScheduleCtrl);
   appRouters.get(apiUrl + getDoctorScheduleByIdApi, getDoctorScheduleByIdCtrl);
-  appRouters.get(apiUrl + editDoctorInfoByIdApi, editDoctorInfoCtrl); //42ms39ss
-  appRouters.post(apiUrl + updateDoctorInfoApi, postDoctorInfoCtrl); //v87xx5
+  appRouters.get(apiUrl + editDoctorInfoByIdApi, editDoctorInfoCtrl);
+  appRouters.post(apiUrl + updateDoctorInfoApi, postDoctorInfoCtrl);
+  appRouters.get(apiUrl + getDoctorExtraInfoByIdApi, getDoctorExtraInfoCtrl); //3ms03ss
+
+  appRouters.get(apiUrl + getDoctorContentHtmlApi, getDoctorContentHtmlCtrl); //v92xx1
+
+  appRouters.get(apiUrl + getDoctorIntroApi, getDoctorIntroCtrl); //v92xx2
+
+  appRouters.post(apiUrl + createUserBookingApi, postUserBookingCtrl); //30ms20ss
 
   return app.use(homeUrl, appRouters);
 };

@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { FormattedMessage, FormattedTime } from 'react-intl';
 
-import CustomScrollBar from './CustomScrollbars';
+import CustomScrollBar from '../components/CustomScrollbars';
 
 import './CustomToast.scss';
 

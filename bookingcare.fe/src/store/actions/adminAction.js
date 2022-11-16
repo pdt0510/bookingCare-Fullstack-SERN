@@ -1,15 +1,86 @@
+//src25
 import actionTypes from './actionTypes';
 import { userService } from '../../services';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-//src24
 const toastMes = {
   toastSuccess: () => toast.success('Successfully requested'),
   toastError: (message) => toast.error(message, { autoClose: 5000 }),
 };
 
-//v87xx5
+export const postUserBookingFn = (newData) => {
+  return async (dispatch) => {
+    try {
+      const data = await userService.postUserBookingServ(newData);
+
+      if (data.errCode === 0) {
+        toastMes.toastSuccess();
+      } else {
+        toastMes.toastError(data.message);
+      }
+      return data;
+    } catch (error) {
+      console.log('postUserBookingFn error - ', error);
+    }
+  };
+};
+
+// v92xx2
+export const getDoctorIntroFn = (doctorId) => {
+  return async (dispatch) => {
+    try {
+      const data = await userService.getDoctorIntroServ(doctorId);
+
+      if (data.errCode === 0) {
+        dispatch(getDoctorContentHtmlSuccess());
+      } else {
+        dispatch(getDoctorContentHtmlFailed());
+        toastMes.toastError(data.message);
+      }
+      return data;
+    } catch (error) {
+      console.log('getDoctorContentHtmlFn error - ', error);
+    }
+  };
+};
+
+//v92xx1
+export const getDoctorContentHtmlFn = (doctorId) => {
+  return async (dispatch) => {
+    try {
+      const data = await userService.getDoctorContentHtmlServ(doctorId);
+
+      if (data.errCode === 0) {
+        dispatch(getDoctorContentHtmlSuccess());
+      } else {
+        dispatch(getDoctorContentHtmlFailed());
+        toastMes.toastError(data.message);
+      }
+      return data;
+    } catch (error) {
+      console.log('getDoctorContentHtmlFn error - ', error);
+    }
+  };
+};
+
+// 3ms03ss
+export const getDoctorExtraInfoFn = (doctorId) => {
+  return async (dispatch) => {
+    try {
+      const result = await userService.getDoctorExtraInfoServ(doctorId);
+      if (result.errCode === 0) {
+        //success dispatch
+      } else {
+        toastMes.toastError(result.message);
+      }
+      return result;
+    } catch (error) {
+      console.log('fetchDoctorScheduleByIdFn error - ', error);
+    }
+  };
+};
+
 export const updateDoctorInfoFn = (updatedData) => {
   return async (dispatch) => {
     try {
@@ -28,7 +99,6 @@ export const updateDoctorInfoFn = (updatedData) => {
   };
 };
 
-//42ms39ss
 export const editDoctorInfoFn = (doctorId) => {
   return async (dispatch) => {
     try {
@@ -47,7 +117,6 @@ export const editDoctorInfoFn = (doctorId) => {
   };
 };
 
-// 45ms09ss
 export const fetchDoctorInfoAllcodeFn = () => {
   const priceList = [];
   const paymentList = [];
@@ -144,23 +213,6 @@ export const editDoctorDetailsFn = (doctorId) => {
       return data;
     } catch (error) {
       console.log('editDoctorDetailsFn error - ', error);
-    }
-  };
-};
-
-export const fetchDoctorDetailByIdFn = (doctorId) => {
-  return async (dispatch) => {
-    try {
-      const data = await userService.getDoctorDetailsByIdServ(doctorId);
-      if (data.errCode === 0) {
-        dispatch(fetchDoctorInfoByIdSuccess(data.user));
-      } else {
-        dispatch(fetchDoctorInfoByIdFailed());
-        toastMes.toastError(data.message);
-      }
-      return data;
-    } catch (error) {
-      console.log('fetchDoctorDetailByIdFn error - ', error);
     }
   };
 };
@@ -399,13 +451,12 @@ export const updateDoctorDetailsFailed = () => ({
   type: actionTypes.UPDATE_DOCTOR_DETAILS_FAILED,
 });
 
-export const fetchDoctorInfoByIdSuccess = (doctorDetails) => ({
-  type: actionTypes.FETCH_DOCTOR_DETAILS_BY_ID_SUCCESS,
-  doctorDetails,
+export const getDoctorContentHtmlSuccess = () => ({
+  type: actionTypes.GET_DOCTOR_CONTENT_HTML_SUCCESS,
 });
 
-export const fetchDoctorInfoByIdFailed = () => ({
-  type: actionTypes.FETCH_DOCTOR_DETAILS_BY_ID_FAILED,
+export const getDoctorContentHtmlFailed = () => ({
+  type: actionTypes.GET_DOCTOR_CONTENT_HTML_FAILED,
 });
 
 export const editingDoctorDetailssSuccess = () => ({

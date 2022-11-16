@@ -140,9 +140,27 @@
     "doctor-schedule": {
         "schedule": "Schedule",
         "noSchedule": "No schedule !",
+        "booking": "Choose and booking (for free)"
+    },
+    "doctor-extra-info": {
         "clinicAddress": "Clinic address",
         "price": "Price: ",
-        "insuranceType": "Insurance type: ",
-        "booking": "Choose and booking (for free)"
+        "seeMore": "See more",
+        "hideTable": "Hide table",
+        "insuranceType": "Insurance type: "
+    },
+    "bookingModal": {
+        "title": "BOOKING INFOS",
+        "price": "PRICE: ",
+        "bookingFree": "BOOKING (FREE): ",
+        "fullname": "Fullname",
+        "phoneNumber": "Phone number",
+        "email": "Email",
+        "address": "Address",
+        "reason": "Reason",
+        "birthday": "Birthday",
+        "gender": "Gender",
+        "addNew": "Add new",
+        "cancel": "Cancel"
     }
 }

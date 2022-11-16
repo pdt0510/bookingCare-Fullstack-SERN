@@ -1,10 +1,109 @@
-//src24
+//src25
 import db from '../models/index';
 import * as apiSupplies from '../connectSupply/apiSupplies';
 import _ from 'lodash';
 
-//v87xx5
-export const postDoctorInfoServ = (newData) => {
+// v92xx2
+export const getDoctorIntroServ = (doctorId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let result = null;
+      const { noErrors, notFound } = apiSupplies.errStates;
+
+      /*way 2, ủengược lại way 1 -> output chuẩn, v92xx3*/
+      const user = await db.users.findOne({
+        where: { id: doctorId },
+        attributes: ['firstName', 'lastName', 'avatar'],
+        include: [
+          {
+            model: db.markdowns,
+            as: 'doctorMarkdown',
+            attributes: ['description'],
+          },
+          {
+            model: db.allcodes,
+            as: 'positionData',
+            attributes: ['valueEN', 'valueVI'],
+          },
+        ],
+        raw: true,
+        nest: true,
+      });
+
+      /*way 1: markdowns mapping ngược tới users, dù result output chưa chuẩn*/
+      // const user = await db.markdowns.findOne({
+      //   where: { doctorId },
+      //   attributes: ['description'],
+      //   include: [
+      //     {
+      //       model: db.users,
+      //       as: 'doctorDetails',
+      //       attributes: ['firstName', 'lastName', 'avatar'],
+      //     },
+      //   ],
+      //   raw: true,
+      //   nest: true,
+      // });
+      result = user ? { ...noErrors, user } : { ...notFound, user: null };
+      resolve(result);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+// v92xx1
+export const getDoctorContentHtmlServ = (doctorId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let result = null;
+      const { noErrors, notFound } = apiSupplies.errStates;
+
+      const user = await db.markdowns.findOne({
+        where: { doctorId },
+        attributes: ['contentHTML'],
+      });
+
+      result = user ? { ...noErrors, user } : { ...notFound, user: null };
+      resolve(result);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+//3ms03ss
+export const getDoctorExtraInfoByIdServ = (doctorId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let result = null;
+      const { noErrors, notFound } = apiSupplies.errStates;
+
+      const data = await db.doctor_infors.findOne({
+        where: { doctorId },
+        attributes: ['priceId', 'clinicAddress', 'clinicName', 'note'],
+      });
+
+      if (data) {
+        result = {
+          ...noErrors,
+          data,
+        };
+      } else {
+        result = {
+          ...notFound,
+          data: null,
+        };
+      }
+
+      resolve(result);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+export const updateDoctorInfoServ = (newData) => {
   return new Promise(async (resolve, reject) => {
     try {
       const { notFound, noErrors, notCreated } = apiSupplies.errStates;
@@ -12,7 +111,6 @@ export const postDoctorInfoServ = (newData) => {
         ...noErrors,
       };
 
-      // create
       const isCreated = await db.doctor_infors.findOrCreate({
         where: { doctorId: newData.doctorId },
         defaults: {
@@ -20,7 +118,6 @@ export const postDoctorInfoServ = (newData) => {
         },
       });
 
-      // update
       if (isCreated[1] === false) {
         const isUpdated = 1;
         const isUpdate = await db.doctor_infors.update(
@@ -42,7 +139,6 @@ export const postDoctorInfoServ = (newData) => {
   });
 };
 
-//42ms39ss
 export const editDoctorInfoServ = (doctorId) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -57,17 +153,17 @@ export const editDoctorInfoServ = (doctorId) => {
         include: [
           {
             model: db.allcodes,
-            as: 'priceData', // 42ms39ss
+            as: 'priceData',
             attributes: ['valueEN', 'valueVI'],
           },
           {
             model: db.allcodes,
-            as: 'provinceData', // 42ms39ss
+            as: 'provinceData',
             attributes: ['valueEN', 'valueVI'],
           },
           {
             model: db.allcodes,
-            as: 'paymentData', // 42ms39ss
+            as: 'paymentData',
             attributes: ['valueEN', 'valueVI'],
           },
         ],
@@ -227,54 +323,6 @@ export const editDoctorDetailsServ = (doctorId) => {
   });
 };
 
-export const getDoctorDetailsByIdServ = (id) => {
-  return new Promise(async (resolve, reject) => {
-    try {
-      let result = null;
-      const user = await db.users.findOne({
-        where: { id },
-        attributes: ['firstName', 'lastName', 'avatar', 'address'],
-        include: [
-          {
-            model: db.markdowns,
-            as: 'doctorDetails',
-            attributes: ['contentHTML', 'contentMarkdown', 'description'],
-          },
-          {
-            model: db.allcodes,
-            as: 'positionData',
-            attributes: ['valueEN', 'valueVI'],
-          },
-          {
-            model: db.doctor_infors,
-            as: 'doctorInfo', //v89xx1
-            attributes: {
-              exclude: ['id', 'doctorId', 'createdAt', 'updatedAt'],
-            },
-          },
-        ],
-        raw: true,
-        nest: true,
-      });
-
-      if (user) {
-        const { noErrors } = apiSupplies.errStates;
-        result = {
-          ...noErrors,
-          user,
-        };
-      } else {
-        const { notFound } = apiSupplies.errStates;
-        result = notFound;
-      }
-
-      resolve(result);
-    } catch (error) {
-      reject(error);
-    }
-  });
-};
-
 export const postDoctorDetailsServ = (newData) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -283,7 +331,6 @@ export const postDoctorDetailsServ = (newData) => {
         ...noErrors,
       };
 
-      // create
       const isCreated = await db.markdowns.findOrCreate({
         where: { doctorId: newData.doctorId },
         defaults: {
@@ -291,7 +338,6 @@ export const postDoctorDetailsServ = (newData) => {
         },
       });
 
-      // update
       if (isCreated[1] === false) {
         const isUpdated = 1;
         const isUpdate = await db.markdowns.update(

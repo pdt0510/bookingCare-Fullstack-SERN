@@ -1,8 +1,72 @@
-//src24
+//src25
 import * as doctorServ from '../services/doctorServices';
 import * as apiSupplies from '../connectSupply/apiSupplies';
 
-//v87xx5
+// v92xx2
+export const getDoctorIntroCtrl = async (req, res) => {
+  let data = null;
+  const id = +req.query.id;
+
+  if (!id || typeof id !== 'number') {
+    const { incorrectInfo } = apiSupplies.errStates;
+    data = {
+      errCode: 4,
+      status: 406,
+      message: incorrectInfo.idMes,
+    };
+  } else {
+    try {
+      data = await doctorServ.getDoctorIntroServ(id);
+    } catch (error) {
+      data = apiSupplies.errStates.serverError;
+      console.log('getDoctorIntroServ error ---', error);
+    }
+  }
+  return res.status(data.status).json(data);
+};
+
+// v92xx1
+export const getDoctorContentHtmlCtrl = async (req, res) => {
+  let data = null;
+  const id = +req.query.id;
+
+  if (!id || typeof id !== 'number') {
+    const { incorrectInfo } = apiSupplies.errStates;
+    data = {
+      errCode: 4,
+      status: 406,
+      message: incorrectInfo.idMes,
+    };
+  } else {
+    try {
+      data = await doctorServ.getDoctorContentHtmlServ(id);
+    } catch (error) {
+      data = apiSupplies.errStates.serverError;
+      console.log('getDoctorContentHtmlServ error ---', error);
+    }
+  }
+  return res.status(data.status).json(data);
+};
+
+//3ms03ss
+export const getDoctorExtraInfoCtrl = async (req, res) => {
+  let data = null;
+  const doctorId = +req.query.doctorId;
+  const { fieldRequired, serverError } = apiSupplies.errStates;
+
+  if (!doctorId || typeof doctorId !== 'number') {
+    data = fieldRequired;
+  } else {
+    try {
+      data = await doctorServ.getDoctorExtraInfoByIdServ(doctorId);
+    } catch (error) {
+      data = serverError;
+      console.log('getDoctorExtraInfoCtrl error ---', error);
+    }
+  }
+  return res.status(data.status).json(data);
+};
+
 export const postDoctorInfoCtrl = async (req, res) => {
   let isEmpty = false;
   let data = null;
@@ -23,10 +87,10 @@ export const postDoctorInfoCtrl = async (req, res) => {
     data = apiSupplies.errStates.fieldRequired;
   } else {
     try {
-      data = await doctorServ.postDoctorInfoServ(newData);
+      data = await doctorServ.updateDoctorInfoServ(newData);
     } catch (error) {
       data = apiSupplies.errStates.serverError;
-      console.log('postDoctorDetailsCtrl error ---', error);
+      console.log('updateDoctorInfoServ error ---', error);
     }
   }
   return res.status(data.status).json(data);
@@ -122,28 +186,6 @@ export const editDoctorDetailCtrl = async (req, res) => {
     } catch (error) {
       data = apiSupplies.errStates.serverError;
       console.log('editDoctorDetailCtrl error ---', error);
-    }
-  }
-  return res.status(data.status).json(data);
-};
-
-export const getDoctorDetailsByIdCtrl = async (req, res) => {
-  const id = +req.query.id;
-  let data = null;
-
-  if (!id || typeof id !== 'number') {
-    const { incorrectInfo } = apiSupplies.errStates;
-    data = {
-      errCode: 4,
-      status: 406,
-      message: incorrectInfo.idMes,
-    };
-  } else {
-    try {
-      data = await doctorServ.getDoctorDetailsByIdServ(id);
-    } catch (error) {
-      data = apiSupplies.errStates.serverError;
-      console.log('getDoctorDetailsByIdServ error ---', error);
     }
   }
   return res.status(data.status).json(data);

@@ -88,8 +88,28 @@ export const scheduleManagerLangs = {
 export const doctorScheduleLangs = {
   scheduleL: 'doctor-schedule.schedule',
   noScheduleL: 'doctor-schedule.noSchedule',
-  clinicAddressL: 'doctor-schedule.clinicAddress',
-  priceL: 'doctor-schedule.price',
-  insuranceTypeL: 'doctor-schedule.insuranceType',
   bookingL: 'doctor-schedule.booking',
+};
+
+export const doctorExtraInfoLangs = {
+  clinicAddressL: 'doctor-extra-info.clinicAddress',
+  priceL: 'doctor-extra-info.price',
+  seeMoreL: 'doctor-extra-info.seeMore',
+  hideTableL: 'doctor-extra-info.hideTable',
+  insuranceTypeL: 'doctor-extra-info.insuranceType',
+};
+
+export const bookingModalLangs = {
+  titleL: 'bookingModal.title',
+  priceL: 'bookingModal.price',
+  bookingFreeL: 'bookingModal.bookingFree',
+  fullnameL: 'bookingModal.fullname',
+  phoneNumberL: 'bookingModal.phoneNumber',
+  emailL: 'bookingModal.email',
+  addressL: 'bookingModal.address',
+  reasonL: 'bookingModal.reason',
+  birthdayL: 'bookingModal.birthday',
+  genderL: 'bookingModal.gender',
+  addNewL: 'bookingModal.addNew',
+  cancelL: 'bookingModal.cancel',
 };

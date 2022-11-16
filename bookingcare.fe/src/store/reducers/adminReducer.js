@@ -9,7 +9,6 @@ const initialState = {
   topDoctorList: [],
   allDoctors: [],
   doctorSchedule: [],
-  doctorDetails: null,
   doctorInfo: null,
   priceList: [],
   paymentList: [],
@@ -24,7 +23,7 @@ const adminReducer = (state = initialState, action) => {
         isLoading: true,
       };
 
-    case actionTypes.FETCH_DOCTOR_INFO_ALLCODE_SUCCESSED: //45ms09ss
+    case actionTypes.FETCH_DOCTOR_INFO_ALLCODE_SUCCESSED:
       const { priceList, paymentList, provinceList } = action.payload;
       return {
         ...state,
@@ -135,20 +134,6 @@ const adminReducer = (state = initialState, action) => {
         isLoading: false,
       };
 
-    case actionTypes.FETCH_DOCTOR_DETAILS_BY_ID_SUCCESS:
-      return {
-        ...state,
-        doctorDetails: action.doctorDetails,
-        isLoading: false,
-      };
-
-    case actionTypes.FETCH_DOCTOR_DETAILS_BY_ID_FAILED:
-      return {
-        ...state,
-        doctorDetails: null,
-        isLoading: false,
-      };
-
     case actionTypes.GETTING_DOCTOR_SCHEDULE_SUCCESS:
       return {
         ...state,
@@ -163,7 +148,6 @@ const adminReducer = (state = initialState, action) => {
         isLoading: false,
       };
 
-    // 42ms39ss
     case actionTypes.EDITING_DOCTOR_INFO_SUCCESS:
       return {
         ...state,

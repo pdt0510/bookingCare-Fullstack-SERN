@@ -21,8 +21,8 @@ export const manageActions = {
 };
 
 export const dateFormat = {
-  SEND_TO_SERVER: 'DD/MM/YYYY',
-  selectionFormat: 'dddd, DD/MM',
+  DD_MM_YYYY: 'DD/MM/YYYY',
+  dd_DD_MM: 'dddd, DD/MM',
   weekdaysVI: `C.Nhật_Thứ 2_Thứ 3_Thứ 4_Thứ 5_Thứ 6_Thứ 7`.split('_'),
   weekdaysEN: `Sun_Mon_Tue_Wed_Thu_Fri_Sat`.split('_'),
 };
@@ -66,7 +66,8 @@ export const ALLCODE_DEFAULTS = {
   PROcol: 'PRO',
 };
 
-export const DOCTOR_EXTRA_INFO_DEFAULTS = {
-  hideTable: 'Hide table',
-  seeMore: 'See more',
+export const DOCTORSCHEDULE_DEFAULTS = {
+  today: 'Today',
+  homNay: 'Hôm nay',
+  fulltime: 'fulltime',
 };

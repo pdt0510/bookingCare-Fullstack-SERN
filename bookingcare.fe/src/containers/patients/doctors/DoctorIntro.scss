@@ -1,0 +1,59 @@
+.doctorIntro-content {
+  margin-top: 77px;
+
+  .doctorIntro-intro {
+    display: flex;
+    height: 160px;
+    padding: 15px 0;
+
+    .doctorIntro-left {
+      .intro-avatar {
+        width: 120px;
+        height: 120px;
+        border-radius: 60px;
+        margin-right: 15px;
+
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: contain;
+      }
+    }
+
+    .doctorIntro-right {
+      .intro-header {
+        font-size: 24px;
+        font-weight: 500;
+      }
+
+      .bookingInfo {
+        font-weight: 500;
+        color: #337ab7;
+        font-size: 18px;
+      }
+    }
+  }
+
+  .doctorIntro-schedule {
+    margin-top: 16px;
+    display: flex;
+  }
+
+  .doctorIntro-markdown-bgr {
+    background-color: #f9f9f9;
+
+    .doctorIntro-markdown {
+      padding: 20px 0;
+
+      span {
+        font-size: 14px;
+      }
+
+      p {
+        margin: 0;
+        padding-left: 20px;
+        font-size: 17px;
+        font-weight: 500;
+      }
+    }
+  }
+}

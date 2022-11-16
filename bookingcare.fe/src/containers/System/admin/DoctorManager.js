@@ -5,7 +5,7 @@ import MdEditor from 'react-markdown-editor-lite';
 import 'react-markdown-editor-lite/lib/index.css';
 import './DoctorManager.scss';
 import Select from 'react-select';
-import { FormattedMessage, injectIntl } from 'react-intl'; //v88xx1
+import { FormattedMessage, injectIntl } from 'react-intl';
 import { doctorManagerLangs } from '../../../connectSupplyFE/otherSupplies';
 import * as actions from '../../../store/actions';
 import { LANGUAGES } from '../../../utils';
@@ -22,14 +22,12 @@ class DoctorManager extends Component {
     doctorId: null,
     isEdited: false,
 
-    //markdown table
     contentHTML: '',
     contentMarkdown: '',
     description: '',
     selectedDoctor: null,
     doctorOptions: [],
 
-    //doctor_info table, 39ms57ss
     priceSelected: null,
     priceOptions: [],
 
@@ -48,7 +46,7 @@ class DoctorManager extends Component {
     const { fetchAllDoctorsFn, allDoctors, fetchDoctorInfoAllcodeFn } =
       this.props;
     if (allDoctors.length === 0) {
-      await fetchDoctorInfoAllcodeFn(); //45ms09ss
+      await fetchDoctorInfoAllcodeFn();
       await fetchAllDoctorsFn();
     } else if (allDoctors.length > 0) {
       this.postingAllDataToState();
@@ -170,15 +168,14 @@ class DoctorManager extends Component {
     const { language } = this.props;
 
     const tempList = list.map((item, idx) => {
-      let viCurrency = null; //42ms26ss
+      let viCurrency = null;
       let $Currency = null;
 
-      // 1h08ms19ss
       if (item.type === dataType) {
         if (language === LANGUAGES.EN) {
           $Currency = `${item.valueEN} ${dollar}`;
         } else {
-          viCurrency = item.valueVI.slice(0, 3) + `.000 ${vnd}`; //42ms26ss
+          viCurrency = item.valueVI.slice(0, 3) + `.000 ${vnd}`;
         }
 
         return {
@@ -212,7 +209,7 @@ class DoctorManager extends Component {
       const { editDoctorDetailsFn, editDoctorInfoFn } = this.props;
       const id = selectedDoctor.doctorId;
       const details = await editDoctorDetailsFn(id);
-      const info = await editDoctorInfoFn(id); //42ms39ss
+      const info = await editDoctorInfoFn(id);
       let doctorDetail = details.user;
       let doctorInfo = info.doctorInfo;
 
@@ -313,7 +310,7 @@ class DoctorManager extends Component {
         width='250px'
         value={selectedOne}
         options={options}
-        placeholder={formatMessage({ id: chooseADoctorL })} //v88xx1
+        placeholder={formatMessage({ id: chooseADoctorL })}
         onChange={this.selectedDoctorOnchange}
       />
     );
@@ -368,7 +365,7 @@ class DoctorManager extends Component {
     };
 
     const detail = await updateDoctorDetailsFn(markdownForUpdate);
-    const info = await updateDoctorInfoFn(doctorInfoForUpdate); //v87xx5
+    const info = await updateDoctorInfoFn(doctorInfoForUpdate);
     if (detail.errCode === 0 && info.errCode === 0) {
       this.clearForm();
     }
@@ -484,7 +481,7 @@ class DoctorManager extends Component {
       clinicNameL,
       clinicAddressL,
       noteL,
-    } = doctorManagerLangs; //v87xx6
+    } = doctorManagerLangs;
 
     const {
       doctorOptions,
@@ -567,7 +564,7 @@ class DoctorManager extends Component {
                   name='clinicName'
                   className='form-control'
                   value={clinicName}
-                  placeholder={formatMessage({ id: clinicNameL })} //v88xx1
+                  placeholder={formatMessage({ id: clinicNameL })}
                   onChange={this.inputOnchange}
                 />
               </div>
@@ -634,11 +631,11 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     updateDoctorInfoFn: (doctorInfo) =>
-      dispatch(actions.updateDoctorInfoFn(doctorInfo)), //v87xx5
+      dispatch(actions.updateDoctorInfoFn(doctorInfo)),
     editDoctorInfoFn: (doctorId) =>
-      dispatch(actions.editDoctorInfoFn(doctorId)), //42ms39ss
+      dispatch(actions.editDoctorInfoFn(doctorId)),
     fetchDoctorInfoAllcodeFn: () =>
-      dispatch(actions.fetchDoctorInfoAllcodeFn()), //45ms09ss
+      dispatch(actions.fetchDoctorInfoAllcodeFn()),
     editDoctorDetailsFn: (doctorId) =>
       dispatch(actions.editDoctorDetailsFn(doctorId)),
     updateDoctorDetailsFn: (newData) =>
@@ -648,6 +645,6 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default compose(
-  injectIntl, //v88xx1
+  injectIntl,
   connect(mapStateToProps, mapDispatchToProps),
 )(DoctorManager);

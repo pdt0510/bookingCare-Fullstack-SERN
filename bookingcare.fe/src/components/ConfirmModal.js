@@ -7,7 +7,7 @@ import './ConfirmModal.scss';
 import * as actions from '../store/actions';
 import { KeyCodeUtils } from '../utils';
 
-class ConfirmModal extends Component {
+class BookingModal extends Component {
   constructor(props) {
     super(props);
     this.acceptBtnRef = React.createRef();
@@ -124,4 +124,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ConfirmModal);
+export default connect(mapStateToProps, mapDispatchToProps)(BookingModal);

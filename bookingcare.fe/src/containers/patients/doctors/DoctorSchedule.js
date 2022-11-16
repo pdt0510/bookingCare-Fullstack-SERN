@@ -2,19 +2,24 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './DoctorSchedule.scss';
 import * as actions from '../../../store/actions';
-import { dateFormat, LANGUAGES } from '../../../utils';
+import { CommonUtils, dateFormat, LANGUAGES } from '../../../utils';
 import Select from 'react-select';
 import moment from 'moment';
 
 import { FormattedMessage } from 'react-intl';
 import { doctorScheduleLangs } from '../../../connectSupplyFE/otherSupplies';
+import { DOCTORSCHEDULE_DEFAULTS } from './../../../utils/constant';
+import BookingModal from './modal/BookingModal';
 
+//src25,
 class DoctorSchedule extends Component {
   state = {
     selectedDate: null,
     wholeList: [],
     sortedList: [],
     datesOptions: [],
+    isOpen: false,
+    modalData: null,
   };
 
   componentDidMount = async () => {
@@ -59,19 +64,19 @@ class DoctorSchedule extends Component {
 
   dateListForSelectUi = (dateList) => {
     const { language } = this.props;
-    const { selectionFormat } = dateFormat;
+    const { today, homNay } = DOCTORSCHEDULE_DEFAULTS;
     const currentDate = this.getTimeStampCurrentDate();
 
     const tempList = dateList.map((date, idx) => {
       const timestampToDate = new Date(date);
-      let formattedDate = moment(timestampToDate).format(selectionFormat);
+      let formattedDate = moment(timestampToDate).format(dateFormat.dd_DD_MM);
 
       if (date === currentDate) {
         const getDate = formattedDate.split(',')[1];
         formattedDate =
           language === LANGUAGES.EN
-            ? `Today, ${getDate}`
-            : `Hôm nay, ${getDate}`;
+            ? `${today}, ${getDate}`
+            : `${homNay}, ${getDate}`;
       }
 
       return {
@@ -90,9 +95,9 @@ class DoctorSchedule extends Component {
       const { weekdaysVI, weekdaysEN } = dateFormat;
 
       if (language === LANGUAGES.VI) {
-        moment.updateLocale('vi', { weekdays: weekdaysVI });
+        moment.updateLocale(LANGUAGES.VI, { weekdays: weekdaysVI });
       } else {
-        moment.updateLocale('en', { weekdays: weekdaysEN });
+        moment.updateLocale(LANGUAGES.EN, { weekdays: weekdaysEN });
       }
       const datesOptions = this.dateListForSelectUi(dateList);
       return datesOptions;
@@ -132,10 +137,9 @@ class DoctorSchedule extends Component {
 
   convertStrToTimestamp = (dateList) => {
     const listCloned = [...dateList];
-
     const strToTimetampList = listCloned.map((item) => {
-      const strToDate = moment(item.date, dateFormat.selectionFormat);
-      const dateToTimestamp = Date.parse(strToDate);
+      const strToDate = CommonUtils.converStrToDateBydd_DD_MM(item.date);
+      const dateToTimestamp = CommonUtils.convertDateToTimestamp(strToDate);
       return {
         ...item,
         date: dateToTimestamp,
@@ -166,14 +170,13 @@ class DoctorSchedule extends Component {
   };
 
   getHiddenTimemarks = () => {
-    const { selectedDate } = this.state;
+    const { label } = this.state.selectedDate;
+    const { today, homNay, fulltime } = DOCTORSCHEDULE_DEFAULTS;
 
-    if (
-      selectedDate.label.includes('Today') ||
-      selectedDate.label.includes('Hôm nay')
-    ) {
+    if (label.includes(today) || label.includes(homNay)) {
       const currentHour = new Date().getHours();
       const marktimeSighs = {
+        T0: 0,
         T1: 8,
         T2: 9,
         T3: 10,
@@ -183,9 +186,8 @@ class DoctorSchedule extends Component {
         T7: 15,
         T8: 16,
       };
-
       if (currentHour > marktimeSighs.T8) {
-        return 'fulltime';
+        return fulltime;
       }
 
       for (const key in marktimeSighs) {
@@ -194,36 +196,38 @@ class DoctorSchedule extends Component {
         }
       }
     }
+    return 'T0';
   };
 
   renderTimemarks = () => {
     const tempList = this.getTimemarks();
+    const { fulltime } = DOCTORSCHEDULE_DEFAULTS;
 
     if (tempList && tempList.length > 0) {
       const hiddenAt = this.getHiddenTimemarks();
       const length = tempList.length;
       let timemarkList = [];
 
-      for (let idx = 0; idx < length; idx++) {
-        const { timeType, timeTypeData } = tempList[idx];
+      if (hiddenAt !== fulltime) {
+        for (let idx = 0; idx < length; idx++) {
+          const { timeType, timeTypeData } = tempList[idx];
 
-        if (timeType < hiddenAt || hiddenAt === 'fulltime') {
-          continue;
+          if (timeType >= hiddenAt) {
+            timemarkList.push(
+              <button
+                key={idx}
+                value={timeType}
+                type={timeType}
+                className='btn btn-timeMark'
+                onClick={() => this.toggleModalFn(tempList[idx])} //v91xx1,45ms58ss
+              >
+                {this.props.language === LANGUAGES.EN
+                  ? timeTypeData.valueEN
+                  : timeTypeData.valueVI}
+              </button>,
+            );
+          }
         }
-
-        timemarkList.push(
-          <button
-            key={idx}
-            name={timeType}
-            type='button'
-            className='btn btn-timeMark'
-            onClick={this.handleTimemark}
-          >
-            {this.props.language === LANGUAGES.EN
-              ? timeTypeData.valueEN
-              : timeTypeData.valueVI}
-          </button>,
-        );
       }
 
       if (timemarkList.length === 0) {
@@ -294,25 +298,51 @@ class DoctorSchedule extends Component {
     return <Select {...props} styles={customStyles} />;
   };
 
+  toggleModalFn = (item) => {
+    const { isOpen } = this.state;
+    const isOpened = false;
+    let modalData = null;
+
+    // 45ms58ss
+    if (isOpen === isOpened) {
+      modalData = {
+        ...item,
+        doctorId: this.props.doctorId,
+        date: this.state.selectedDate.value,
+      };
+    }
+
+    this.setState({
+      modalData: modalData ? modalData : null, //45ms58ss
+      isOpen: !isOpen,
+    });
+  };
+
   render() {
-    const { datesOptions } = this.state;
+    const { datesOptions, isOpen, modalData } = this.state;
     const { scheduleL, bookingL } = doctorScheduleLangs;
 
     return (
       <>
         <div className='DoctorSchedule'>
           <div className='DoctorSchedule-date'>{this.renderSelections()}</div>
-            <div className='DoctorSchedule-info-marktime'>
-              <h5>
-                <FormattedMessage id={scheduleL} />
-              </h5>
-              {datesOptions.length > 0 && this.renderTimemarks()}
-              <div>
-                <FormattedMessage id={bookingL} />
-              </div>
+          <div className='DoctorSchedule-info-marktime'>
+            <h5>
+              <FormattedMessage id={scheduleL} />
+            </h5>
+            {datesOptions.length > 0 && this.renderTimemarks()}
+            <div>
+              <FormattedMessage id={bookingL} />
             </div>
-         
+          </div>
         </div>
+        {isOpen && (
+          <BookingModal
+            isOpen={isOpen}
+            modalData={modalData ? modalData : null}
+            toggleModalFn={this.toggleModalFn} //v91xx1
+          />
+        )}
       </>
     );
   }

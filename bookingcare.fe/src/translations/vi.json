@@ -141,9 +141,27 @@
     "doctor-schedule": {
         "schedule": "Lịch khám",
         "noSchedule": "Không có lịch khám !",
+        "booking": "Chọn và đặt lịch (miễn phí)"
+    },
+    "doctor-extra-info": {
         "clinicAddress": "Địa chỉ phòng khám",
         "price": "Giá khám: ",
-        "insuranceType": "Loại bảo hiểm: ",
-        "booking": "Chọn và đặt lịch (miễn phí)"
+        "seeMore": "Xem chi tiểt",
+        "hideTable": "Ẩn bảng giá",
+        "insuranceType": "Loại bảo hiểm: "
+    },
+    "bookingModal": {
+        "title": "THÔNG TIN ĐẶT LỊCH",
+        "price": "GIÁ KHÁM: ",
+        "bookingFree": "ĐẶT LỊCH (MIỄN PHÍ): ",
+        "fullname": "Họ tên",
+        "phoneNumber": "Số điện thoại",
+        "email": "Địa chỉ email",
+        "address": "Địa chỉ",
+        "reason": "Lý do khám",
+        "birthday": "Ngày sinh",
+        "gender": "Giới tính",
+        "addNew": "Thêm mới",
+        "cancel": "Hủy"
     }
 }

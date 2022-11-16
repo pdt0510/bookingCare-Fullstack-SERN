@@ -2,53 +2,55 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import './DoctorExtraInfo.scss';
 import * as actions from '../../../store/actions';
-import { DOCTOR_EXTRA_INFO_DEFAULTS, LANGUAGES } from '../../../utils';
-
+import { LANGUAGES } from '../../../utils';
 import { FormattedMessage } from 'react-intl';
-import { doctorScheduleLangs } from '../../../connectSupplyFE/otherSupplies';
+import { doctorExtraInfoLangs } from '../../../connectSupplyFE/otherSupplies';
+import CommonUtils from './../../../utils/CommonUtils';
 
-//src24, v89xx2
+//src25
 class DoctorExtraInfo extends Component {
   state = {
     doctorPriceVI: null,
     doctorPriceUSD: null,
+    clinicAddress: null,
+    clinicName: null,
     openPriceTable: false,
   };
 
   componentDidMount = async () => {
-    await this.props.fetchDoctorInfoAllcodeFn();
-    const doctorPrice = this.formatCurrencyByLangs();
+    const { doctorId, fetchDoctorInfoAllcodeFn, getDoctorExtraInfoFn } =
+      this.props;
 
-    this.setState({
-      doctorPriceVI: doctorPrice.viCurrency,
-      doctorPriceUSD: doctorPrice.dollarCurrency,
-    });
-  };
+    if (doctorId && typeof doctorId === 'number') {
+      await fetchDoctorInfoAllcodeFn();
+      const doctorExtra = await getDoctorExtraInfoFn(doctorId); //3ms03ss
 
-  formatCurrencyByLangs = () => {
-    const { priceList, priceId } = this.props;
-    const priceLength = priceList.length;
+      if (doctorExtra.data) {
+        const { priceId, clinicAddress, clinicName } = doctorExtra.data;
 
-    for (let idx = 0; idx < priceLength; idx++) {
-      let viCurrency = null;
-      let dollarCurrency = null;
+        // 26ms18ss
+        const doctorPrice = CommonUtils.formatCurrency(
+          priceId,
+          this.props.priceList,
+        );
 
-      if (priceList[idx].keymap === priceId) {
-        dollarCurrency = `${priceList[idx].valueEN}`;
-        viCurrency = `${priceList[idx].valueVI.slice(0, 3)}.000`;
-
-        return { viCurrency, dollarCurrency };
+        this.setState({
+          doctorPriceVI: doctorPrice.viCurrency,
+          doctorPriceUSD: doctorPrice.dollarCurrency, // 26ms18ss
+          clinicAddress,
+          clinicName,
+        });
       }
     }
   };
 
   getDoctorPriceByLangs = (addDot = true) => {
-    let doctorPrice = null;
+    let tempdoctorPrice = null;
     const { language } = this.props;
     const { doctorPriceUSD, doctorPriceVI } = this.state;
 
     if (language === LANGUAGES.EN) {
-      doctorPrice = (
+      tempdoctorPrice = (
         <>
           {doctorPriceUSD}
           <span className='currency-mark'>$</span>
@@ -56,7 +58,7 @@ class DoctorExtraInfo extends Component {
         </>
       );
     } else {
-      doctorPrice = (
+      tempdoctorPrice = (
         <>
           {doctorPriceVI}
           <span className='currency-mark'>đ</span>
@@ -64,8 +66,7 @@ class DoctorExtraInfo extends Component {
         </>
       );
     }
-
-    return doctorPrice;
+    return tempdoctorPrice;
   };
 
   toggleTable = (name, value) => {
@@ -80,7 +81,7 @@ class DoctorExtraInfo extends Component {
         <span className='price-table price-table-up'>
           <div className='price-table-mes'>
             <h6>
-              <FormattedMessage id={doctorScheduleLangs.priceL} />
+              <FormattedMessage id={doctorExtraInfoLangs.priceL} />
             </h6>
             <h6>{this.getDoctorPriceByLangs(false)}</h6>
           </div>
@@ -89,17 +90,16 @@ class DoctorExtraInfo extends Component {
         </span>
         <span className='price-table price-table-down'>
           Người bệnh có thể thanh toán chi phí bằng hình thức tiền mặt và quẹt
-          thẻ
+          thẻ.
         </span>
       </div>
     );
   };
 
   render() {
-    const { openPriceTable } = this.state;
-    const { clinicAddress, clinicName } = this.props;
-    const { clinicAddressL, priceL } = doctorScheduleLangs;
-    const { hideTable, seeMore } = DOCTOR_EXTRA_INFO_DEFAULTS;
+    const { openPriceTable, clinicAddress, clinicName } = this.state;
+    const { clinicAddressL, priceL, seeMoreL, hideTableL } =
+      doctorExtraInfoLangs;
 
     return (
       <div className='DoctorExtraInfo-content'>
@@ -117,17 +117,19 @@ class DoctorExtraInfo extends Component {
             <span className='DoctorExtraInfo-label'>
               <FormattedMessage id={priceL} />
             </span>
-            {
-              openPriceTable
-                ? this.renderPriceTable()
-                : this.getDoctorPriceByLangs() // 51ms21ss
-            }
+            {openPriceTable
+              ? this.renderPriceTable()
+              : this.getDoctorPriceByLangs()}
 
             <span
               className='DoctorExtraInfo-priceTable-label'
-              onClick={() => this.toggleTable('openPriceTable', openPriceTable)} //51ms21ss
+              onClick={() => this.toggleTable('openPriceTable', openPriceTable)}
             >
-              {openPriceTable ? hideTable : seeMore}
+              {openPriceTable ? (
+                <FormattedMessage id={hideTableL} />
+              ) : (
+                <FormattedMessage id={seeMoreL} />
+              )}
             </span>
           </div>
         </div>
@@ -137,12 +139,14 @@ class DoctorExtraInfo extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  priceList: state.admin.priceList, //v89xx1
+  priceList: state.admin.priceList,
   language: state.app.language,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchDoctorInfoAllcodeFn: () => dispatch(actions.fetchDoctorInfoAllcodeFn()), //v89xx1
+  getDoctorExtraInfoFn: (doctorId) =>
+    dispatch(actions.getDoctorExtraInfoFn(doctorId)), //3ms03ss
+  fetchDoctorInfoAllcodeFn: () => dispatch(actions.fetchDoctorInfoAllcodeFn()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DoctorExtraInfo);

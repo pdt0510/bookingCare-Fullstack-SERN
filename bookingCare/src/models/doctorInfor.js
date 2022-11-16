@@ -3,7 +3,6 @@ import * as migrationInfo from '../migrations/create-doctorInfor-migration';
 const { tableInfo, handleColTypes } = migrationInfo;
 const { Model } = require('sequelize');
 
-//src24, 10ms47ss
 module.exports = (sequelize, DataTypes) => {
   class DoctorInfor extends Model {
     /**
@@ -16,21 +15,17 @@ module.exports = (sequelize, DataTypes) => {
       DoctorInfor.belongsTo(models.allcodes, {
         foreignKey: 'priceId',
         targetKey: 'keymap',
-        as: 'priceData', // 42ms39ss
+        as: 'priceData',
       });
       DoctorInfor.belongsTo(models.allcodes, {
         foreignKey: 'provinceId',
         targetKey: 'keymap',
-        as: 'provinceData', // 42ms39ss
+        as: 'provinceData',
       });
       DoctorInfor.belongsTo(models.allcodes, {
         foreignKey: 'paymentId',
         targetKey: 'keymap',
-        as: 'paymentData', // 42ms39ss
-      });
-      DoctorInfor.belongsTo(models.users, {
-        foreignKey: 'doctorId',
-        as: 'doctorInfo', //v89xx1
+        as: 'paymentData',
       });
     }
   }

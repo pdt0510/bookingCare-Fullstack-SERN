@@ -10,13 +10,16 @@ export const apiUrls = {
   topDoctorHomeApi: '/top-doctor-home',
   getAllDoctorsApi: '/all-doctors',
   updateDoctorDetailsApi: '/update-doctor-details',
-  getDoctorDetailsByIdApi: '/get-doctor-details',
   editDoctorDetailsByIdApi: '/edit-doctor-details',
   fetchDoctorScheduleApi: '/fetch-doctor-schedule',
   uploadDoctorScheduleApi: '/upload-doctor-schedule',
   getDoctorScheduleByIdApi: '/get-doctor-schedule',
   editDoctorInfoByIdApi: '/edit-doctor-info',
   updateDoctorInfoApi: '/update-doctor-info',
+  getDoctorExtraInfoByIdApi: '/get-doctor-extra-info',
+  getDoctorContentHtmlApi: '/get-doctor-contentHTML',
+  getDoctorIntroApi: '/get-doctor-intro',
+  createUserBookingApi: '/create-user-booking',
 };
 
 export const errStates = {
@@ -51,7 +54,7 @@ export const errStates = {
   notCreated: {
     errCode: 5,
     status: 501, //Not Implemented
-    message: 'Request is not Implemented',
+    message: `It's not created`,
   },
   serverError: {
     errCode: -1,

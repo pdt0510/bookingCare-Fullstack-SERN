@@ -3,6 +3,7 @@ const types = {
   STRING: 'STRING',
   BOOLEAN: 'BOOLEAN',
   INTEGER: 'INTEGER',
+  BIGINT: 'BIGINT',
   DATE: 'DATE',
   TEXT: 'TEXT',
 };
@@ -13,8 +14,10 @@ const tableInfo = {
     `statusId-${types.STRING}`,
     `doctorId-${types.INTEGER}`,
     `patientId-${types.INTEGER}`,
-    `date-${types.DATE}`,
+    `patientId-${types.INTEGER}`,
+    `date-${types.BIGINT}`,
     `timeType-${types.STRING}`,
+    `birthday-${types.BIGINT}`, //v94xx2
   ],
 };
 
@@ -27,6 +30,8 @@ const handleColTypes = (colTypeList, sequelizeList = true) => {
         result[keys[0]] = { type: colTypeList.STRING };
       } else if (element.includes(types.INTEGER)) {
         result[keys[0]] = { type: colTypeList.INTEGER };
+      } else if (element.includes(types.BIGINT)) {
+        result[keys[0]] = { type: colTypeList.BIGINT };
       } else if (element.includes(types.BOOLEAN)) {
         result[keys[0]] = { type: colTypeList.BOOLEAN };
       } else if (element.includes(types.DATE)) {
@@ -42,6 +47,8 @@ const handleColTypes = (colTypeList, sequelizeList = true) => {
         result[keys[0]] = colTypeList.STRING;
       } else if (element.includes(types.INTEGER)) {
         result[keys[0]] = colTypeList.INTEGER;
+      } else if (element.includes(types.BIGINT)) {
+        result[keys[0]] = colTypeList.BIGINT;
       } else if (element.includes(types.BOOLEAN)) {
         result[keys[0]] = colTypeList.BOOLEAN;
       } else if (element.includes(types.DATE)) {

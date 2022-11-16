@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Markdown.belongsTo(models.users, {
         foreignKey: 'doctorId',
-        as: 'doctorDetails',
+        as: 'doctorMarkdown',
       });
     }
   }

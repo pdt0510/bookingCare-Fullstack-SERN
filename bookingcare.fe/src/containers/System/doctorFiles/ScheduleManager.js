@@ -4,15 +4,14 @@ import 'react-markdown-editor-lite/lib/index.css';
 import './ScheduleManager.scss';
 import Select from 'react-select';
 import * as actions from '../../../store/actions';
-import { dateFormat, LANGUAGES } from '../../../utils';
+import { CommonUtils, LANGUAGES } from '../../../utils';
 import { FormattedMessage } from 'react-intl';
-import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import moment from 'moment';
-import vi from 'date-fns/locale/vi';
 import { scheduleManagerLangs } from '../../../connectSupplyFE/otherSupplies';
 import 'dotenv/config';
+import DatePickerCustom from './DatePickerCustom';
 
+// src25,
 class ScheduleManager extends Component {
   state = {
     startDate: new Date(),
@@ -57,54 +56,10 @@ class ScheduleManager extends Component {
     }
   };
 
-  formatDate = (date) => {
-    if (date) {
-      return moment(date).format(dateFormat.SEND_TO_SERVER);
-    }
-    return null;
-  };
-
-  datePickerVI = () => {
-    const day = 'CN_T2_T3_T4_T5_T6_T7'.split('_');
-    const months =
-      'Th-1_Th-2_Th-3_Th-4_Th-5_Th-6_Th-7_Th-8_Th-9_Th-10_Th-11_Th-12'.split(
-        '_',
-      );
-
-    return {
-      localize: {
-        day: (n) => day[n],
-        month: (n) => months[n],
-      },
-      formatLong: {
-        date: () => 'dd/MM/yyyy',
-      },
-    };
-  };
-
-  handleChangeDate = (date) => {
+  getDatePicker = (date) => {
     this.setState({
       startDate: date,
     });
-  };
-
-  renderPickerDate = () => {
-    const customDatePicker = this.datePickerVI();
-
-    return (
-      <DatePicker
-        name='startDate'
-        selected={this.state.startDate}
-        onChange={this.handleChangeDate}
-        minDate={new Date()}
-        dateFormat={customDatePicker.formatLong.date()}
-        locale={
-          this.props.language === LANGUAGES.VI
-            ? { ...vi, ...customDatePicker }
-            : ''
-        }
-      />
-    );
   };
 
   doctorOptionsByLangs = () => {
@@ -296,7 +251,7 @@ class ScheduleManager extends Component {
   handleSchedule = () => {
     const { doctorId, startDate } = this.state;
     const activedMarktimes = this.getActivedTimemark();
-    const formattedDate = this.formatDate(startDate);
+    const formattedDate = CommonUtils.convertDateToDD_MM_YYYY(startDate);
     const maxNumber = process.env.MAX_NUMBER_SCHEDULE || 10;
 
     const isValid = this.validationsSchedule({
@@ -340,7 +295,7 @@ class ScheduleManager extends Component {
       saveL,
     } = scheduleManagerLangs;
 
-    const { firstTimemarks, secondTimemarks } = this.state;
+    const { firstTimemarks, secondTimemarks, startDate } = this.state;
 
     return (
       <div className='scheduleManager-content container'>
@@ -354,11 +309,15 @@ class ScheduleManager extends Component {
             </h6>
             {this.renderSelections()}
           </div>
-          <div className='scheduleManager-select-date col-6'>
+          <div className=' col-6'>
             <h6>
               <FormattedMessage id={chooseDateL} />
             </h6>
-            {this.renderPickerDate()}
+            <DatePickerCustom
+              startDate={startDate} //v94xx1
+              minDate={true} //v94xx1
+              getDatePicker={this.getDatePicker}
+            />
           </div>
         </div>
         <div className='scheduleManager-timeMark'>
