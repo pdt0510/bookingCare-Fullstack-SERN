@@ -3,7 +3,6 @@ import './DoctorContentHTML.scss';
 import { connect } from 'react-redux';
 import * as actions from '../../../store/actions';
 
-//src25
 class DoctorDetail extends Component {
   state = {
     doctorId: null,
@@ -12,7 +11,7 @@ class DoctorDetail extends Component {
 
   componentDidMount = async () => {
     const { doctorId, getDoctorContentHtmlFn } = this.props;
-    const data = await getDoctorContentHtmlFn(doctorId); //v92xx1
+    const data = await getDoctorContentHtmlFn(doctorId);
 
     if (data.errCode === 0 && this.state.contentHTML === null) {
       this.setState({
@@ -46,7 +45,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   getDoctorContentHtmlFn: (doctorId) =>
-    dispatch(actions.getDoctorContentHtmlFn(doctorId)), //v92xx1
+    dispatch(actions.getDoctorContentHtmlFn(doctorId)), 
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DoctorDetail);

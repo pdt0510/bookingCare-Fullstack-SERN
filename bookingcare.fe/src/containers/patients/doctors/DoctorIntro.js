@@ -6,7 +6,6 @@ import { LANGUAGES } from '../../../utils';
 import { bookingModalLangs } from '../../../connectSupplyFE/otherSupplies';
 import { FormattedMessage } from 'react-intl';
 
-//src25
 class DoctorIntro extends Component {
   state = {
     doctorId: null,
@@ -111,7 +110,7 @@ class DoctorIntro extends Component {
           </div>
           <div className='doctorIntro-right'>
             <div className='intro-header'>
-              <span>{fullname}</span>
+              <span>{fullname}</span> <br />
             </div>
             <div className='intro-content'>
               {introBookingInfo

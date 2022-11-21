@@ -158,7 +158,7 @@
         "email": "Email",
         "address": "Address",
         "reason": "Reason",
-        "birthday": "Birthday",
+        "birthday": "Birthday (d/m/y)",
         "gender": "Gender",
         "addNew": "Add new",
         "cancel": "Cancel"

@@ -1,8 +1,37 @@
-//src25
+//src26
 import * as patientServ from '../services/patientServices';
 import * as apiSupplies from '../connectSupply/apiSupplies';
 
-// 30ms20ss
+export const verifyEmailByTokenCtrl = async (req, res) => {
+  let isEmpty = false;
+  let data = null;
+
+  // v98xx2: values được passed như params từ fn, ko phải từ url string on bar 
+  const newData = {
+    ...req.query,
+    doctorId: +req.query.doctorId,
+  };
+
+  for (const key in newData) {
+    if (newData[key] === '') {
+      isEmpty = true;
+      break;
+    }
+  }
+
+  if (typeof newData.doctorId !== 'number' || isEmpty === true) {
+    data = apiSupplies.errStates.fieldRequired;
+  } else {
+    try {
+      data = await patientServ.verifyEmailByTokenServ(newData);
+    } catch (error) {
+      data = apiSupplies.errStates.serverError;
+      console.log('verifyEmailByTokenCtrl error ---', error);
+    }
+  }
+  return res.status(data.status).json(data);
+};
+
 export const postUserBookingCtrl = async (req, res) => {
   let isEmpty = false;
   let data = null;
@@ -23,7 +52,6 @@ export const postUserBookingCtrl = async (req, res) => {
     data = apiSupplies.errStates.fieldRequired;
   } else {
     try {
-      console.log('newData ------', newData);
       data = await patientServ.postUserBookingServ(newData);
     } catch (error) {
       data = apiSupplies.errStates.serverError;

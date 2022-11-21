@@ -1,8 +1,6 @@
-//src25
 import * as doctorServ from '../services/doctorServices';
 import * as apiSupplies from '../connectSupply/apiSupplies';
 
-// v92xx2
 export const getDoctorIntroCtrl = async (req, res) => {
   let data = null;
   const id = +req.query.id;
@@ -25,7 +23,6 @@ export const getDoctorIntroCtrl = async (req, res) => {
   return res.status(data.status).json(data);
 };
 
-// v92xx1
 export const getDoctorContentHtmlCtrl = async (req, res) => {
   let data = null;
   const id = +req.query.id;
@@ -48,7 +45,6 @@ export const getDoctorContentHtmlCtrl = async (req, res) => {
   return res.status(data.status).json(data);
 };
 
-//3ms03ss
 export const getDoctorExtraInfoCtrl = async (req, res) => {
   let data = null;
   const doctorId = +req.query.doctorId;
@@ -58,7 +54,7 @@ export const getDoctorExtraInfoCtrl = async (req, res) => {
     data = fieldRequired;
   } else {
     try {
-      data = await doctorServ.getDoctorExtraInfoByIdServ(doctorId);
+      data = await doctorServ.getDoctorExtraInfoServ(doctorId);
     } catch (error) {
       data = serverError;
       console.log('getDoctorExtraInfoCtrl error ---', error);

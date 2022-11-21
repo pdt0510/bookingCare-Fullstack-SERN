@@ -1,6 +1,20 @@
 import axios from '../axios';
 import * as apiSupplies from '../connectSupplyFE/apiSupplies';
 
+export const verifyEmailServ = (info) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const { apiUrl, verifyEmailByTokenApi } = apiSupplies.apiUrls;
+      const data = await axios.get(apiUrl + verifyEmailByTokenApi, {
+        params: info, //v98xx2: passing to service file
+      });
+      resolve(data);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
 export const postUserBookingServ = (newData) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -13,7 +27,6 @@ export const postUserBookingServ = (newData) => {
   });
 };
 
-// v92xx2
 export const getDoctorIntroServ = (id) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -28,7 +41,6 @@ export const getDoctorIntroServ = (id) => {
   });
 };
 
-// v92xx1
 export const getDoctorContentHtmlServ = (id) => {
   return new Promise(async (resolve, reject) => {
     try {

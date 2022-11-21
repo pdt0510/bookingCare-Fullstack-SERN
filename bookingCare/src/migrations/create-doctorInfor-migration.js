@@ -8,7 +8,6 @@ const types = {
   TEXTLONG: 'TEXTLONG',
 };
 
-//src24, 10ms47ss
 const tableInfo = {
   tableName: 'doctor_infors',
   keyValueCols: [

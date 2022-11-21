@@ -1,7 +1,8 @@
 import axios from 'axios';
+import 'dotenv/config';
 
 const instance = axios.create({
-  baseURL: process.env.REACT_APP_BACKEND_URL,
+  baseURL: process.env.REACT_APP_BACKEND_URL, //v97xx2
   withCredentials: true,
 });
 

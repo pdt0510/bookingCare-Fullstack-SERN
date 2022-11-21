@@ -7,7 +7,6 @@ import { FormattedMessage } from 'react-intl';
 import { doctorExtraInfoLangs } from '../../../connectSupplyFE/otherSupplies';
 import CommonUtils from './../../../utils/CommonUtils';
 
-//src25
 class DoctorExtraInfo extends Component {
   state = {
     doctorPriceVI: null,
@@ -23,12 +22,11 @@ class DoctorExtraInfo extends Component {
 
     if (doctorId && typeof doctorId === 'number') {
       await fetchDoctorInfoAllcodeFn();
-      const doctorExtra = await getDoctorExtraInfoFn(doctorId); //3ms03ss
+      const doctorExtra = await getDoctorExtraInfoFn(doctorId);
 
       if (doctorExtra.data) {
         const { priceId, clinicAddress, clinicName } = doctorExtra.data;
 
-        // 26ms18ss
         const doctorPrice = CommonUtils.formatCurrency(
           priceId,
           this.props.priceList,
@@ -36,7 +34,7 @@ class DoctorExtraInfo extends Component {
 
         this.setState({
           doctorPriceVI: doctorPrice.viCurrency,
-          doctorPriceUSD: doctorPrice.dollarCurrency, // 26ms18ss
+          doctorPriceUSD: doctorPrice.dollarCurrency,
           clinicAddress,
           clinicName,
         });
@@ -145,7 +143,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   getDoctorExtraInfoFn: (doctorId) =>
-    dispatch(actions.getDoctorExtraInfoFn(doctorId)), //3ms03ss
+    dispatch(actions.getDoctorExtraInfoFn(doctorId)),
   fetchDoctorInfoAllcodeFn: () => dispatch(actions.fetchDoctorInfoAllcodeFn()),
 });
 

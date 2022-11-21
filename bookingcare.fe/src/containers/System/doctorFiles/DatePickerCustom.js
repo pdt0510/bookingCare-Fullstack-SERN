@@ -8,7 +8,6 @@ import 'react-datepicker/dist/react-datepicker.css';
 import vi from 'date-fns/locale/vi';
 import 'dotenv/config';
 
-//src25, v94xx1
 class DatePickerCustom extends Component {
   datePickerVI = () => {
     const day = 'CN_T2_T3_T4_T5_T6_T7'.split('_');
@@ -36,7 +35,6 @@ class DatePickerCustom extends Component {
     const { startDate, minDate, maxDate } = this.props;
     const customDatePicker = this.datePickerVI();
 
-    // v94xx1
     const customProps = {
       minDate: minDate ? new Date() : null,
       maxDate: maxDate ? new Date() : null,

@@ -1,4 +1,4 @@
-//src25
+//src26
 import actionTypes from './actionTypes';
 import { userService } from '../../services';
 import { toast } from 'react-toastify';
@@ -7,6 +7,24 @@ import 'react-toastify/dist/ReactToastify.css';
 const toastMes = {
   toastSuccess: () => toast.success('Successfully requested'),
   toastError: (message) => toast.error(message, { autoClose: 5000 }),
+};
+
+//10ms21ss
+export const verifyEmailFn = (newData) => {
+  return async (dispatch) => {
+    try {
+      const data = await userService.verifyEmailServ(newData);
+
+      if (data.errCode === 0) {
+        toastMes.toastSuccess();
+      } else {
+        toastMes.toastError(data.message);
+      }
+      return data;
+    } catch (error) {
+      console.log('verifyEmailFn error - ', error);
+    }
+  };
 };
 
 export const postUserBookingFn = (newData) => {
@@ -26,7 +44,6 @@ export const postUserBookingFn = (newData) => {
   };
 };
 
-// v92xx2
 export const getDoctorIntroFn = (doctorId) => {
   return async (dispatch) => {
     try {
@@ -45,7 +62,6 @@ export const getDoctorIntroFn = (doctorId) => {
   };
 };
 
-//v92xx1
 export const getDoctorContentHtmlFn = (doctorId) => {
   return async (dispatch) => {
     try {
@@ -64,13 +80,11 @@ export const getDoctorContentHtmlFn = (doctorId) => {
   };
 };
 
-// 3ms03ss
 export const getDoctorExtraInfoFn = (doctorId) => {
   return async (dispatch) => {
     try {
       const result = await userService.getDoctorExtraInfoServ(doctorId);
       if (result.errCode === 0) {
-        //success dispatch
       } else {
         toastMes.toastError(result.message);
       }

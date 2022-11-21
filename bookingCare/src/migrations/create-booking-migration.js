@@ -16,8 +16,9 @@ const tableInfo = {
     `patientId-${types.INTEGER}`,
     `patientId-${types.INTEGER}`,
     `date-${types.BIGINT}`,
+    `birthday-${types.BIGINT}`,
     `timeType-${types.STRING}`,
-    `birthday-${types.BIGINT}`, //v94xx2
+    `token-${types.STRING}`, //41ms15ss
   ],
 };
 

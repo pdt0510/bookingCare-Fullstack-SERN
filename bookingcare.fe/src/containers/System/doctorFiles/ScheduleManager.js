@@ -11,7 +11,6 @@ import { scheduleManagerLangs } from '../../../connectSupplyFE/otherSupplies';
 import 'dotenv/config';
 import DatePickerCustom from './DatePickerCustom';
 
-// src25,
 class ScheduleManager extends Component {
   state = {
     startDate: new Date(),
@@ -251,9 +250,8 @@ class ScheduleManager extends Component {
   handleSchedule = () => {
     const { doctorId, startDate } = this.state;
     const activedMarktimes = this.getActivedTimemark();
-    const formattedDate = CommonUtils.convertDateToDD_MM_YYYY(startDate);
-    const maxNumber = process.env.MAX_NUMBER_SCHEDULE || 10;
-
+    const formattedDate = CommonUtils.convertObjDateTo_DMY_str(startDate);
+    const maxNumber = process.env.REACT_APP_MAX_NUMBER_SCHEDULE;
     const isValid = this.validationsSchedule({
       activedMarktimes,
       doctorId,
@@ -314,8 +312,8 @@ class ScheduleManager extends Component {
               <FormattedMessage id={chooseDateL} />
             </h6>
             <DatePickerCustom
-              startDate={startDate} //v94xx1
-              minDate={true} //v94xx1
+              startDate={startDate}
+              minDate={true}
               getDatePicker={this.getDatePicker}
             />
           </div>

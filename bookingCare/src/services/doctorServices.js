@@ -1,16 +1,13 @@
-//src25
 import db from '../models/index';
 import * as apiSupplies from '../connectSupply/apiSupplies';
 import _ from 'lodash';
 
-// v92xx2
 export const getDoctorIntroServ = (doctorId) => {
   return new Promise(async (resolve, reject) => {
     try {
       let result = null;
       const { noErrors, notFound } = apiSupplies.errStates;
 
-      /*way 2, ủengược lại way 1 -> output chuẩn, v92xx3*/
       const user = await db.users.findOne({
         where: { id: doctorId },
         attributes: ['firstName', 'lastName', 'avatar'],
@@ -30,20 +27,6 @@ export const getDoctorIntroServ = (doctorId) => {
         nest: true,
       });
 
-      /*way 1: markdowns mapping ngược tới users, dù result output chưa chuẩn*/
-      // const user = await db.markdowns.findOne({
-      //   where: { doctorId },
-      //   attributes: ['description'],
-      //   include: [
-      //     {
-      //       model: db.users,
-      //       as: 'doctorDetails',
-      //       attributes: ['firstName', 'lastName', 'avatar'],
-      //     },
-      //   ],
-      //   raw: true,
-      //   nest: true,
-      // });
       result = user ? { ...noErrors, user } : { ...notFound, user: null };
       resolve(result);
     } catch (error) {
@@ -52,7 +35,6 @@ export const getDoctorIntroServ = (doctorId) => {
   });
 };
 
-// v92xx1
 export const getDoctorContentHtmlServ = (doctorId) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -72,8 +54,7 @@ export const getDoctorContentHtmlServ = (doctorId) => {
   });
 };
 
-//3ms03ss
-export const getDoctorExtraInfoByIdServ = (doctorId) => {
+export const getDoctorExtraInfoServ = (doctorId) => {
   return new Promise(async (resolve, reject) => {
     try {
       let result = null;

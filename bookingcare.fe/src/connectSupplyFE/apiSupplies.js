@@ -20,6 +20,8 @@ export const apiUrls = {
   getDoctorContentHtmlApi: '/get-doctor-contentHTML',
   getDoctorIntroApi: '/get-doctor-intro',
   createUserBookingApi: '/create-user-booking',
+  verifyBookingByTokenApi: '/verify-booking-token',
+  verifyEmailByTokenApi: '/verify-email-by-token',
 };
 
 export const errStates = {

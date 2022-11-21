@@ -11,7 +11,6 @@ import { doctorScheduleLangs } from '../../../connectSupplyFE/otherSupplies';
 import { DOCTORSCHEDULE_DEFAULTS } from './../../../utils/constant';
 import BookingModal from './modal/BookingModal';
 
-//src25,
 class DoctorSchedule extends Component {
   state = {
     selectedDate: null,
@@ -69,7 +68,7 @@ class DoctorSchedule extends Component {
 
     const tempList = dateList.map((date, idx) => {
       const timestampToDate = new Date(date);
-      let formattedDate = moment(timestampToDate).format(dateFormat.dd_DD_MM);
+      let formattedDate = CommonUtils.convertObjDateTo_dDM_str(timestampToDate);
 
       if (date === currentDate) {
         const getDate = formattedDate.split(',')[1];
@@ -138,8 +137,7 @@ class DoctorSchedule extends Component {
   convertStrToTimestamp = (dateList) => {
     const listCloned = [...dateList];
     const strToTimetampList = listCloned.map((item) => {
-      const strToDate = CommonUtils.converStrToDateBydd_DD_MM(item.date);
-      const dateToTimestamp = CommonUtils.convertDateToTimestamp(strToDate);
+      const dateToTimestamp = CommonUtils.convertStrDateToTimestamp(item.date);
       return {
         ...item,
         date: dateToTimestamp,
@@ -219,7 +217,7 @@ class DoctorSchedule extends Component {
                 value={timeType}
                 type={timeType}
                 className='btn btn-timeMark'
-                onClick={() => this.toggleModalFn(tempList[idx])} //v91xx1,45ms58ss
+                onClick={() => this.toggleModalFn(tempList[idx])}
               >
                 {this.props.language === LANGUAGES.EN
                   ? timeTypeData.valueEN
@@ -303,17 +301,15 @@ class DoctorSchedule extends Component {
     const isOpened = false;
     let modalData = null;
 
-    // 45ms58ss
     if (isOpen === isOpened) {
       modalData = {
         ...item,
-        doctorId: this.props.doctorId,
         date: this.state.selectedDate.value,
       };
     }
 
     this.setState({
-      modalData: modalData ? modalData : null, //45ms58ss
+      modalData: modalData ? modalData : null,
       isOpen: !isOpen,
     });
   };
@@ -321,6 +317,7 @@ class DoctorSchedule extends Component {
   render() {
     const { datesOptions, isOpen, modalData } = this.state;
     const { scheduleL, bookingL } = doctorScheduleLangs;
+    const { doctorId } = this.props;
 
     return (
       <>
@@ -336,11 +333,12 @@ class DoctorSchedule extends Component {
             </div>
           </div>
         </div>
-        {isOpen && (
+        {isOpen && doctorId && (
           <BookingModal
             isOpen={isOpen}
+            doctorId={doctorId}
             modalData={modalData ? modalData : null}
-            toggleModalFn={this.toggleModalFn} //v91xx1
+            toggleModalFn={this.toggleModalFn}
           />
         )}
       </>

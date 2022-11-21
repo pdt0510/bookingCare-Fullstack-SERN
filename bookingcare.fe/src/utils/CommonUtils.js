@@ -16,10 +16,8 @@ class CommonUtils {
     });
   }
 
-  // 26ms18ss
   static formatCurrency = (priceId, priceList) => {
     const priceLength = priceList.length;
-
     for (let idx = 0; idx < priceLength; idx++) {
       let viCurrency = null;
       let dollarCurrency = null;
@@ -30,32 +28,39 @@ class CommonUtils {
         return { viCurrency, dollarCurrency };
       }
     }
+
+    return null;
   };
 
-  static convertDateToDD_MM_YYYY = (date) => {
+  // v96xx1
+  static convertObjDateTo_DMY_str = (date) => {
     if (date) {
-      return moment(date).format(dateFormat.DD_MM_YYYY);
+      // return moment(date, dateFormat.DMY); //return 1 obj
+      return moment(date).format(dateFormat.DMY); //return 1 string
     }
     return null;
   };
 
-  static converStrToDateBydd_DD_MM = (strDate) => {
+  static convertObjDateTo_dDM_str = (date) => {
+    if (date) {
+      return moment(date).format(dateFormat.dDM);
+    }
+    return null;
+  };
+
+  //timestamp without hh-mm-ss
+  static convertStrDateToTimestamp = (strDate) => {
     if (strDate) {
-      return moment(strDate, dateFormat.dd_DD_MM);
+      const test = moment(strDate, 'DD/MM/YYYY');
+      return Date.parse(test);
     }
     return null;
   };
 
-  static convertDateToTimestamp = (date) => {
+  //date without hh-mm-ss
+  static convertTimestampToDateObj = (date) => {
     if (date) {
-      return Date.parse(date);
-    }
-    return null;
-  };
-
-  static convertTimestampToDate = (date) => {
-    if (date) {
-      return new Date(date);
+      return new Date(date); //return object
     }
     return null;
   };

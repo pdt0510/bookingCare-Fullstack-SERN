@@ -159,7 +159,7 @@
         "email": "Địa chỉ email",
         "address": "Địa chỉ",
         "reason": "Lý do khám",
-        "birthday": "Ngày sinh",
+        "birthday": "Ngày sinh (ngày/tháng/năm)",
         "gender": "Giới tính",
         "addNew": "Thêm mới",
         "cancel": "Hủy"

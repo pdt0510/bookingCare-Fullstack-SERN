@@ -7,6 +7,7 @@ export const path = {
   HOMEPAGE: '/home',
   DOCTOR: '/doctor',
   doctorDetailPage: '/users/',
+  VERIFY_EMAIL_BOOKING: '/verify-booking/token=:token/doctorId=:idDoctor', //4ms49ss
 };
 
 export const LANGUAGES = {
@@ -21,8 +22,8 @@ export const manageActions = {
 };
 
 export const dateFormat = {
-  DD_MM_YYYY: 'DD/MM/YYYY',
-  dd_DD_MM: 'dddd, DD/MM',
+  DMY: 'DD/MM/YYYY',
+  dDM: 'dddd, DD/MM',
   weekdaysVI: `C.Nhật_Thứ 2_Thứ 3_Thứ 4_Thứ 5_Thứ 6_Thứ 7`.split('_'),
   weekdaysEN: `Sun_Mon_Tue_Wed_Thu_Fri_Sat`.split('_'),
 };

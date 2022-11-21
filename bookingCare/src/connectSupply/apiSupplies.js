@@ -20,6 +20,8 @@ export const apiUrls = {
   getDoctorContentHtmlApi: '/get-doctor-contentHTML',
   getDoctorIntroApi: '/get-doctor-intro',
   createUserBookingApi: '/create-user-booking',
+  verifyBookingByTokenApi: '/verify-booking-token',
+  verifyEmailByTokenApi: '/verify-email-by-token',
 };
 
 export const errStates = {
@@ -45,6 +47,7 @@ export const errStates = {
     emailMes: 'Incorrect email',
     accMes: 'Your account is incorrect',
     passwordConfirmedMes: 'Incorrect password',
+    isActived: 'Verified booking is actived already',
   },
   missingParams: {
     errCode: 4,

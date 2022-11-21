@@ -33,7 +33,7 @@ const initWebRoutes = (app) => {
   appRouters.get(userFormUrl, getCRUD);
   appRouters.post(userPostedUrl, postCRUD);
   appRouters.get(userListedUrl, userList);
-  appRouters.get(`${userEditedUrl}/${idParam}`, editUser);
+  appRouters.get(`${userEditedUrl}/${idParam}`, editUser); //v98xx1
   appRouters.post(`${userUpdatedUrl}/${idParam}`, updateUser);
   appRouters.get(`${userDeletedUrl}/${idParam}`, delUser);
 
@@ -58,6 +58,8 @@ const initWebRoutes = (app) => {
     getDoctorContentHtmlApi,
     getDoctorIntroApi,
     createUserBookingApi,
+    verifyBookingByTokenApi,
+    verifyEmailByTokenApi,
   } = apiSupplies.apiUrls;
 
   const {
@@ -84,7 +86,10 @@ const initWebRoutes = (app) => {
     getDoctorIntroCtrl,
   } = doctorCtrls;
 
-  const { postUserBookingCtrl } = patientCtrls;
+  const {
+    postUserBookingCtrl,
+    verifyEmailByTokenCtrl,
+  } = patientCtrls;
 
   appRouters.post(apiUrl + loginApi, loginFn);
   appRouters.get(apiUrl + userListedApi, userListFn);
@@ -101,13 +106,11 @@ const initWebRoutes = (app) => {
   appRouters.get(apiUrl + getDoctorScheduleByIdApi, getDoctorScheduleByIdCtrl);
   appRouters.get(apiUrl + editDoctorInfoByIdApi, editDoctorInfoCtrl);
   appRouters.post(apiUrl + updateDoctorInfoApi, postDoctorInfoCtrl);
-  appRouters.get(apiUrl + getDoctorExtraInfoByIdApi, getDoctorExtraInfoCtrl); //3ms03ss
-
-  appRouters.get(apiUrl + getDoctorContentHtmlApi, getDoctorContentHtmlCtrl); //v92xx1
-
-  appRouters.get(apiUrl + getDoctorIntroApi, getDoctorIntroCtrl); //v92xx2
-
-  appRouters.post(apiUrl + createUserBookingApi, postUserBookingCtrl); //30ms20ss
+  appRouters.get(apiUrl + getDoctorExtraInfoByIdApi, getDoctorExtraInfoCtrl);
+  appRouters.get(apiUrl + getDoctorContentHtmlApi, getDoctorContentHtmlCtrl);
+  appRouters.get(apiUrl + getDoctorIntroApi, getDoctorIntroCtrl);
+  appRouters.post(apiUrl + createUserBookingApi, postUserBookingCtrl);
+  appRouters.get(apiUrl + verifyEmailByTokenApi, verifyEmailByTokenCtrl); //10ms21ss
 
   return app.use(homeUrl, appRouters);
 };

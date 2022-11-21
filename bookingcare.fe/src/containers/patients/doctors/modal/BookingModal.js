@@ -24,72 +24,69 @@ import DatePickerCustom from '../../../System/doctorFiles/DatePickerCustom';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { bookingModalLangs } from '../../../../connectSupplyFE/otherSupplies';
 import { compose } from 'redux';
+import { v4 as uuidv4 } from 'uuid'; //v97xx1
 
-//src25, v91xx1
 class BookingModal extends Component {
-  // v93xx1
   state = {
     form: {
-      fullname: '', //v93xx2
-      phoneNumber: '',
-      email: '',
-      address: '',
-      reason: '',
+      fullname: 'Phạm Ngọc Trân',
+      phoneNumber: '0948888888',
+      email: 'tintuc271@gmail.com',
+      address: 'address 123',
+      reason: 'reason 123',
       birthday: new Date(),
       gender: '',
     },
-
-    //others
-    doctorId: '',
     doctorPriceVI: '',
     doctorPriceUSD: '',
     introBookingInfo: '',
   };
 
   componentDidMount = async () => {
-    if (this.props.modalData) {
+    if (this.props.doctorId) {
       const {
         fetchDoctorInfoAllcodeFn,
         getDoctorExtraInfoFn,
         fetchUserAllcodeFn,
         modalData,
+        doctorId,
       } = this.props;
 
       await fetchUserAllcodeFn();
       await fetchDoctorInfoAllcodeFn();
-      const doctorExtra = await getDoctorExtraInfoFn(modalData.doctorId);
+      const doctorExtra = await getDoctorExtraInfoFn(doctorId);
 
-      if (doctorExtra.data) {
+      if (doctorExtra) {
         const { priceList } = this.props;
-        const { date, timeTypeData, doctorId } = modalData;
         const { priceId } = doctorExtra.data;
+        const { date, timeTypeData } = modalData;
 
         const doctorPrice = CommonUtils.formatCurrency(priceId, priceList);
+        if (doctorPrice) {
+          const introBookingInfo = {
+            price: this.getPrice(
+              doctorPrice.viCurrency,
+              doctorPrice.dollarCurrency,
+            ),
+            schedule: this.getSchedule(timeTypeData),
+            date: this.getDate(date),
+          };
 
-        const introBookingInfo = {
-          price: this.renderPrice(
-            doctorPrice.viCurrency,
-            doctorPrice.dollarCurrency,
-          ),
-          schedule: this.renderSchedule(timeTypeData),
-          date: this.renderDate(date),
-        };
+          const defaultForm = {
+            birthday: new Date(),
+            gender: this.getInitialGender(),
+          };
 
-        const defaultForm = {
-          birthday: new Date(),
-          gender: this.getInitialGender(),
-        };
-
-        this.setState({
-          form: {
-            ...this.state.form,
-            ...defaultForm,
-          },
-          doctorId: doctorId,
-          doctorPriceVI: doctorPrice.viCurrency,
-          doctorPriceUSD: doctorPrice.dollarCurrency, // 26ms18ss
-          introBookingInfo,
-        });
+          this.setState({
+            form: {
+              ...this.state.form,
+              ...defaultForm,
+            },
+            doctorPriceVI: doctorPrice.viCurrency,
+            doctorPriceUSD: doctorPrice.dollarCurrency,
+            introBookingInfo,
+          });
+        }
       }
     }
   };
@@ -105,7 +102,7 @@ class BookingModal extends Component {
     const { name, value } = event.target;
     this.setState({
       form: {
-        ...this.state.form, //v93xx2
+        ...this.state.form,
         [name]: value,
       },
     });
@@ -126,7 +123,7 @@ class BookingModal extends Component {
 
     for (let key in stateCloned) {
       if (key !== 'doctorId') {
-        stateCloned[key] = ''; //v93xx1, v93xx2
+        stateCloned[key] = '';
       }
     }
 
@@ -135,64 +132,33 @@ class BookingModal extends Component {
     });
   };
 
-  renderPrice = (doctorPriceVI, doctorPriceUSD) => {
+  getPrice = (doctorPriceVI, doctorPriceUSD) => {
     const { language } = this.props;
     return language === LANGUAGES.EN
       ? ` ${doctorPriceUSD}$`
       : ` ${doctorPriceVI}đ`;
   };
 
-  renderSchedule = (timeTypeData) => {
+  getSchedule = (timeTypeData) => {
     const { language } = this.props;
     return language === LANGUAGES.EN
       ? ` ${timeTypeData.valueEN}`
       : ` ${timeTypeData.valueVI}`;
   };
 
-  renderDate = (date) => {
-    const timestampToDate = CommonUtils.convertTimestampToDate(date);
-    const formattedDate = CommonUtils.convertDateToDD_MM_YYYY(timestampToDate);
+  getDate = (date) => {
+    const timestampToDate = CommonUtils.convertTimestampToDateObj(date);
+    const formattedDate = CommonUtils.convertObjDateTo_DMY_str(timestampToDate);
     return ` ${formattedDate}`;
   };
 
   getDatePicker = (date) => {
     this.setState({
       form: {
-        ...this.state.form, //v93xx2
+        ...this.state.form,
         birthday: date,
       },
     });
-  };
-
-  convertDateToTimestamp = (date) => {
-    const formattedDate = CommonUtils.convertDateToDD_MM_YYYY(date);
-    const strToDate = CommonUtils.converStrToDateBydd_DD_MM(formattedDate);
-    const dateToTimestamp = CommonUtils.convertDateToTimestamp(strToDate);
-    return dateToTimestamp;
-  };
-
-  submitHandle = async () => {
-    const { form, doctorId } = this.state;
-    const { timeType, date } = this.props.modalData;
-
-    const dateToTimestamp = this.convertDateToTimestamp(form.birthday);
-    const statesSubmit = {
-      ...form,
-      doctorId,
-      birthday: dateToTimestamp,
-      timeType,
-      date,
-    };
-    const isValid = this.checkingInputValues(statesSubmit);
-
-    if (isValid) {
-      const data = await this.props.postUserBookingFn(statesSubmit);
-
-      if (data.errCode === 0) {
-        this.resettingForm();
-        this.props.toggleModalFn();
-      }
-    }
   };
 
   renderGenderList = () => {
@@ -212,12 +178,90 @@ class BookingModal extends Component {
     return this.props.intl.formatMessage({ id: mesL });
   };
 
+  // 26ms50ss
+  renderEmailContent = (token) => {
+    const { language, doctorId } = this.props;
+    const { form, introBookingInfo } = this.state;
+    const { price, schedule, date } = introBookingInfo;
+    let emailStr = null;
+
+    // const redirectLink = `${process.env.REACT_APP_REDIRECT_URL}/verify-booking?token=:${token}&doctorId=:${39}`; //8ms26ss
+
+    const redirectLink = `${process.env.REACT_APP_REDIRECT_URL}/verify-booking/token=${token}/doctorId=${doctorId}`; //4ms49ss
+
+    if (language === LANGUAGES.EN) {
+      emailStr = `You received this email because you booked an online medical appointment on the Bookingcare.vn website.
+      <h3>Hello there! ${form.fullname}.</h3>
+      <h3>Medical examination time: ${schedule}, ${date}</h3>
+      <h3>Price: ${price}</h3>
+      If the above information is true, please click on the link below to confirm and complete the medical appointment, thank you.
+      <h3>
+        <a href=${redirectLink} target='_blank'>Click here</a>
+      </h3>`;
+    } else {
+      emailStr = `
+      Bạn nhân được email này vì đã đặt lịch khám bệnh online trên Bookingcare.vn website.
+      <h3>Xin chào ! ${form.fullname}.</h3>    
+      <h3>Thời gian khám bệnh: ${schedule}, ${date}</h3>
+      <h3>Giá khám: ${price}</h3>
+      Nếu các thông tin trên là đúng sự thật, vui lòng click vào đường link bên dưới để xác nhận và hoàn tất thủ đặt lịch khám bệnh, xin chân thành cảm ơn.
+      <h3>
+        <a href=${redirectLink} target='_blank'>Nhấn vào đây</a>
+      </h3>`;
+    }
+
+    return emailStr;
+  };
+
+  // v96xx2
+  convertDateToTimestamp = (date) => {
+    const DMY_dateStr = CommonUtils.convertObjDateTo_DMY_str(date);
+    const strDateToTimestamp =
+      CommonUtils.convertStrDateToTimestamp(DMY_dateStr);
+
+    return strDateToTimestamp;
+  };
+
+  submitHandle = async () => {
+    const { form } = this.state;
+    const { modalData, doctorId } = this.props;
+    const { timeType, date } = modalData;
+
+    // v96xx1
+    const dateToTimestamp = this.convertDateToTimestamp(form.birthday);
+
+    if (typeof dateToTimestamp === 'number') {
+      let statesSubmit = {
+        ...form,
+        doctorId,
+        birthday: dateToTimestamp,
+        timeType,
+        date,
+      };
+
+      const isValid = this.checkingInputValues(statesSubmit);
+      if (isValid) {
+        const token = uuidv4(); //8ms26ss
+        statesSubmit = {
+          ...statesSubmit,
+          emailContent: this.renderEmailContent(token), //26ms50ss, 8ms26ss
+          token: token, //8ms26ss
+        };
+
+        const data = await this.props.postUserBookingFn(statesSubmit);
+        if (data.errCode === 0) {
+          this.resettingForm();
+          this.props.toggleModalFn();
+        }
+      }
+    }
+  };
+
   render() {
-    const { toggleModalFn, isOpen } = this.props;
-    const { form, doctorId, introBookingInfo } = this.state;
+    const { toggleModalFn, isOpen, doctorId } = this.props;
+    const { form, introBookingInfo } = this.state;
     const { fullname, phoneNumber, email, address, reason, birthday, gender } =
       form;
-
     const {
       titleL,
       fullnameL,
@@ -233,23 +277,20 @@ class BookingModal extends Component {
 
     return (
       <Modal
-        isOpen={isOpen} //v91xx1
+        isOpen={isOpen}
         centered
         size='lg'
         className='bookingModal-content'
       >
-        <ModalHeader
-          toggle={toggleModalFn} //v91xx1
-        >
+        <ModalHeader toggle={toggleModalFn}>
           <FormattedMessage id={titleL} />
         </ModalHeader>
 
-        {/* v92xx5 */}
         <Row className='modal-doctorIntro'>
-          {doctorId && (
+          {doctorId && introBookingInfo && (
             <DoctorIntro
               doctorId={doctorId}
-              introBookingInfo={introBookingInfo} //3ms59ss
+              introBookingInfo={introBookingInfo}
             />
           )}
         </Row>
@@ -344,7 +385,7 @@ class BookingModal extends Component {
                     <FormattedMessage id={birthdayL} />
                   </Label>
                   <DatePickerCustom
-                    maxDate={true} //v94xx1
+                    maxDate={true}
                     startDate={birthday}
                     getDatePicker={this.getDatePicker}
                   />
@@ -389,6 +430,7 @@ const mapStateToProps = (state) => ({
   language: state.app.language,
 });
 
+// 12ms46ss
 const mapDispatchToProps = (dispatch) => ({
   postUserBookingFn: (newData) => dispatch(actions.postUserBookingFn(newData)),
   fetchUserAllcodeFn: () => dispatch(actions.fetchUserAllcodeFn()),
