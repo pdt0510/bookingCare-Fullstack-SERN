@@ -1,15 +1,14 @@
-//src26
 import nodemailer from 'nodemailer';
-import 'dotenv/config'; //12ms12ss
+import 'dotenv/config';
 
 const sendSimpleEmail = async ({ ...clientInfo }) => {
   const smtpConfig = {
     host: 'smtp.gmail.com',
     port: 465,
-    secure: true, // use SSL
+    secure: true,
     auth: {
-      user: process.env.EMAIL_FOR_RESPONSE, //12ms12ss
-      pass: process.env.EMAIL_APP_PASSWORD, //v95xx1,
+      user: process.env.EMAIL_FOR_RESPONSE,
+      pass: process.env.EMAIL_APP_PASSWORD,
     },
   };
 

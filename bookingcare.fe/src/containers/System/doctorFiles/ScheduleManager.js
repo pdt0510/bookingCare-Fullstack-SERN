@@ -127,6 +127,7 @@ class ScheduleManager extends Component {
   };
 
   handleChange = (selectedOption) => {
+    console.log(selectedOption);
     this.setState({
       selectedDoctor: selectedOption,
       doctorId: selectedOption.doctorId,

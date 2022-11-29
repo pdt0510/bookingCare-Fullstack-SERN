@@ -1,0 +1,133 @@
+//src27, v102xx1
+
+.DetailSpeciality-content {
+  text-align: center;
+
+  .home-header-content {
+    background-color: #c6e6ff;
+  }
+
+  //v103xx2
+  .DetailSpeciality-bgrImg {
+    margin-top: 77px;
+    padding-top: 30%;
+    background-position: unset;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  .DetailSpeciality-speciality-info {
+    margin-top: 77px;
+    text-align: left;
+    height: 130px;
+    font-size: 13px;
+    overflow: hidden;
+
+    // v103xx1
+    &.open {
+      overflow: visible;
+      height: fit-content;
+    }
+
+    h1 {
+      font-size: 20px;
+    }
+
+    h2 {
+      font-size: 16px;
+    }
+
+    ul {
+      margin-left: 24px;
+    }
+  }
+
+  .DetailSpeciality-seeMore {
+    padding: 8px 16px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  .DetailSpeciality-section-bgr {
+    background-color: #eeeeee;
+    padding: 12px 0;
+
+    .DetailSpeciality-doctor {
+      .DetailSpeciality-area {
+        select {
+          font-size: 18px;
+          text-align: left;
+        }
+      }
+
+      .DetailSpeciality-doctor-section {
+        display: flex;
+        background-color: white;
+        box-shadow: 0 1px 6px rgba(32, 33, 36, 0.28);
+        border-radius: 8px;
+        margin-top: 12px;
+
+        .DetailSpeciality-doctor-intro {
+          flex: 50%;
+
+          .doctorIntro-content {
+            margin-top: 0;
+
+            .intro-avatar {
+              width: 80px;
+              height: 80px;
+            }
+
+            .doctorIntro-right {
+              text-align: left;
+
+              .intro-header {
+                font-size: 18px;
+              }
+            }
+          }
+        }
+
+        .DetailSpeciality-doctor-extra {
+          flex: 50% 1;
+          padding: 0 20px;
+          border-left: 1px solid #80808026;
+
+          .DoctorSchedule {
+            text-align: left;
+
+            .DoctorSchedule-info-marktime {
+              .btn-timeMark {
+                min-width: 144px;
+                min-height: fit-content;
+              }
+            }
+          }
+
+          .DoctorExtraInfo-content {
+            text-align: left;
+            margin-top: 24px;
+
+            .separate-line {
+              border-left: none;
+
+              .separate-line-space {
+                margin-left: 0;
+              }
+
+              .DoctorExtraInfo-address {
+                margin-top: -12px;
+                padding: 4px 0;
+                border-top: 1px solid #80808026;
+              }
+
+              .DoctorExtraInfo-price {
+                padding: 4px 0;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

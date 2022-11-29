@@ -10,7 +10,12 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate(models) {}
+    static associate(models) {
+      Speciality.hasMany(models.doctor_infors, {
+        foreignKey: 'specialityId', //v101xx3
+        as: 'specialityData',
+      });
+    }
   }
 
   const colsTypes = handleColTypes(DataTypes, false);

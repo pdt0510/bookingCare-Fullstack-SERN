@@ -24,12 +24,12 @@ import DatePickerCustom from '../../../System/doctorFiles/DatePickerCustom';
 import { FormattedMessage, injectIntl } from 'react-intl';
 import { bookingModalLangs } from '../../../../connectSupplyFE/otherSupplies';
 import { compose } from 'redux';
-import { v4 as uuidv4 } from 'uuid'; //v97xx1
+import { v4 as uuidv4 } from 'uuid';
 
 class BookingModal extends Component {
   state = {
     form: {
-      fullname: 'Phạm Ngọc Trân',
+      fullname: '',
       phoneNumber: '0948888888',
       email: 'tintuc271@gmail.com',
       address: 'address 123',
@@ -178,16 +178,13 @@ class BookingModal extends Component {
     return this.props.intl.formatMessage({ id: mesL });
   };
 
-  // 26ms50ss
   renderEmailContent = (token) => {
     const { language, doctorId } = this.props;
     const { form, introBookingInfo } = this.state;
     const { price, schedule, date } = introBookingInfo;
     let emailStr = null;
 
-    // const redirectLink = `${process.env.REACT_APP_REDIRECT_URL}/verify-booking?token=:${token}&doctorId=:${39}`; //8ms26ss
-
-    const redirectLink = `${process.env.REACT_APP_REDIRECT_URL}/verify-booking/token=${token}/doctorId=${doctorId}`; //4ms49ss
+    const redirectLink = `${process.env.REACT_APP_REDIRECT_URL}/verify-booking/token=${token}/doctorId=${doctorId}`;
 
     if (language === LANGUAGES.EN) {
       emailStr = `You received this email because you booked an online medical appointment on the Bookingcare.vn website.
@@ -213,7 +210,6 @@ class BookingModal extends Component {
     return emailStr;
   };
 
-  // v96xx2
   convertDateToTimestamp = (date) => {
     const DMY_dateStr = CommonUtils.convertObjDateTo_DMY_str(date);
     const strDateToTimestamp =
@@ -227,7 +223,6 @@ class BookingModal extends Component {
     const { modalData, doctorId } = this.props;
     const { timeType, date } = modalData;
 
-    // v96xx1
     const dateToTimestamp = this.convertDateToTimestamp(form.birthday);
 
     if (typeof dateToTimestamp === 'number') {
@@ -241,11 +236,11 @@ class BookingModal extends Component {
 
       const isValid = this.checkingInputValues(statesSubmit);
       if (isValid) {
-        const token = uuidv4(); //8ms26ss
+        const token = uuidv4();
         statesSubmit = {
           ...statesSubmit,
-          emailContent: this.renderEmailContent(token), //26ms50ss, 8ms26ss
-          token: token, //8ms26ss
+          emailContent: this.renderEmailContent(token),
+          token: token,
         };
 
         const data = await this.props.postUserBookingFn(statesSubmit);
@@ -430,7 +425,6 @@ const mapStateToProps = (state) => ({
   language: state.app.language,
 });
 
-// 12ms46ss
 const mapDispatchToProps = (dispatch) => ({
   postUserBookingFn: (newData) => dispatch(actions.postUserBookingFn(newData)),
   fetchUserAllcodeFn: () => dispatch(actions.fetchUserAllcodeFn()),

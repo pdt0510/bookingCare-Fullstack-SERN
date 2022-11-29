@@ -1,8 +1,7 @@
-//src26
 import db from '../models/index';
 import * as apiSupplies from '../connectSupply/apiSupplies';
 import sendSimpleEmail from './emailService';
-import 'dotenv/config'; //12ms12ss
+import 'dotenv/config';
 
 export const verifyEmailByTokenServ = (newData) => {
   return new Promise(async (resolve, reject) => {
@@ -30,7 +29,7 @@ export const verifyEmailByTokenServ = (newData) => {
           };
         } else {
           const isUpdate = await db.bookings.update(
-            { statusId: isActived }, //confirmed
+            { statusId: isActived },
             {
               where: {
                 doctorId: doctorId,
@@ -88,11 +87,11 @@ export const postUserBookingServ = (newData) => {
           doctorId: newData.doctorId,
           date: newData.date,
           timeType: newData.timeType,
-          statusId: 'S1', //allCodes
-          patientId: 26, //tintuc271@gmail...
-          // patientId: isNewUser[0].dataValues.id,
+          statusId: 'S1',
+          patientId: 26,
+
           birthday: newData.birthday,
-          token: newData.token, //v97xx1
+          token: newData.token,
         };
 
         const isNewBooking = await db.bookings.create({ ...newBooking });
@@ -104,11 +103,10 @@ export const postUserBookingServ = (newData) => {
           const clientInfo = {
             clientEmail: newUser.email,
             clientSubject: `Booking for ${newData.fullname}`,
-            htmlText: newData.emailContent, // 26ms50ss
+            htmlText: newData.emailContent,
           };
 
-          sendSimpleEmail({ ...clientInfo }); //v95xx2
-          // await mailServ.sendSimpleEmail({ ...clientInfo });
+          sendSimpleEmail({ ...clientInfo });
         }
       }
 

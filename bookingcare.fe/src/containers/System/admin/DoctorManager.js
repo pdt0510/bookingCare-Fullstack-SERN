@@ -15,6 +15,7 @@ import {
   DOCTOR_DEFAULTS,
 } from './../../../utils/constant';
 import { compose } from 'redux';
+import { getDoctorSpecialitiesServ } from '../../../services/userService';
 
 const mdParser = new MarkdownIt();
 class DoctorManager extends Component {
@@ -37,6 +38,12 @@ class DoctorManager extends Component {
     provinceSelected: null,
     provinceOptions: [],
 
+    specialitySelected: null,
+    specialityOptions: [],
+
+    clinicSelected: null,
+    clinicOptions: [],
+
     clinicName: '',
     clinicAddress: '',
     note: '',
@@ -46,25 +53,28 @@ class DoctorManager extends Component {
     const { fetchAllDoctorsFn, allDoctors, fetchDoctorInfoAllcodeFn } =
       this.props;
     if (allDoctors.length === 0) {
+      const specialityList = await getDoctorSpecialitiesServ();
+      this.setState({ specialityOptions: specialityList }); //v101xx2
+
       await fetchDoctorInfoAllcodeFn();
       await fetchAllDoctorsFn();
     } else if (allDoctors.length > 0) {
-      this.postingAllDataToState();
+      this.postingAllDataToStateFn();
     }
   };
 
   componentDidUpdate = (prevProps, prevState) => {
     const { allDoctors, language } = this.props;
     if (prevProps.allDoctors.length !== allDoctors.length) {
-      this.postingAllDataToState();
+      this.postingAllDataToStateFn();
     } else if (allDoctors.length > 0) {
       if (prevProps.language !== language) {
-        this.postingAllDataToState();
+        this.postingAllDataToStateFn();
       }
     }
   };
 
-  postingAllDataToState = () => {
+  postingAllDataToStateFn = async () => {
     const { allDoctors } = this.props;
 
     if (allDoctors && allDoctors.length > 0) {
@@ -73,21 +83,30 @@ class DoctorManager extends Component {
         priceSelected,
         payMethodSelected,
         provinceSelected,
+        specialityOptions,
+        specialitySelected,
       } = this.state;
 
       const { priceList, paymentList, provinceList } = this.props;
-      const doctorData = this.doctorDetailOptions(allDoctors, selectedDoctor);
 
-      const priceData = this.doctorInfoOptions(priceList, priceSelected);
+      const doctorData = this.doctorDetailOptionsFn(allDoctors, selectedDoctor);
 
-      const paymentData = this.doctorInfoOptions(
+      const priceData = this.doctorInfoOptionsFn(priceList, priceSelected);
+
+      const paymentData = this.doctorInfoOptionsFn(
         paymentList,
         payMethodSelected,
       );
 
-      const provinceData = this.doctorInfoOptions(
+      const provinceData = this.doctorInfoOptionsFn(
         provinceList,
         provinceSelected,
+      );
+
+      // v101xx2
+      const specialityData = this.specialityOptionsFn(
+        specialityOptions,
+        specialitySelected,
       );
 
       this.setState({
@@ -105,11 +124,14 @@ class DoctorManager extends Component {
 
         provinceOptions: provinceData.tempList,
         provinceSelected: provinceData.tempSelectedOne,
+
+        specialityOptions: specialityData.tempList,
+        specialitySelected: specialityData.tempSelectedOne,
       });
     }
   };
 
-  doctorDetailOptions = (doctorOptions, selectedDoctor) => {
+  doctorDetailOptionsFn = (doctorOptions, selectedDoctor) => {
     const { language } = this.props;
     let tempOptions = [];
     let doctorId = null;
@@ -163,15 +185,15 @@ class DoctorManager extends Component {
     };
   };
 
-  doctorInfoOptions = (list, selectedOne) => {
-    const { vnd, dollar, dataType } = CURRENCY;
+  doctorInfoOptionsFn = (list, selectedOne) => {
+    const { vnd, dollar, PRICEtype } = CURRENCY;
     const { language } = this.props;
 
     const tempList = list.map((item, idx) => {
       let viCurrency = null;
       let $Currency = null;
 
-      if (item.type === dataType) {
+      if (item.type === PRICEtype) {
         if (language === LANGUAGES.EN) {
           $Currency = `${item.valueEN} ${dollar}`;
         } else {
@@ -202,14 +224,33 @@ class DoctorManager extends Component {
     };
   };
 
-  selectedDoctorOnchange = async (selectedDoctor) => {
-    await this.editingAlert();
+  specialityOptionsFn = (list, selectedOne) => {
+    const tempList = list.map((item) => {
+      return {
+        idx: item.id,
+        value: item.id,
+        label: item.name,
+      };
+    });
 
+    const tempSelectedOne = selectedOne
+      ? tempList[selectedOne.idx]
+      : tempList[0];
+
+    return {
+      tempList,
+      tempSelectedOne,
+    };
+  };
+
+  selectedDoctorOnchangeFn = async (selectedDoctor) => {
+    await this.editingAlert();
     if (selectedDoctor.doctorId) {
       const { editDoctorDetailsFn, editDoctorInfoFn } = this.props;
       const id = selectedDoctor.doctorId;
       const details = await editDoctorDetailsFn(id);
-      const info = await editDoctorInfoFn(id);
+      const info = await editDoctorInfoFn(id); //v101xx3
+
       let doctorDetail = details.user;
       let doctorInfo = info.doctorInfo;
 
@@ -225,6 +266,10 @@ class DoctorManager extends Component {
         paymentId: doctorInfo.paymentId,
         priceId: doctorInfo.priceId,
         provinceId: doctorInfo.provinceId,
+        specialityId:
+          doctorInfo.specialityData === undefined
+            ? DOCTOR_DEFAULTS.doctorInfo.specialityId
+            : doctorInfo.specialityData.id, //v101xx3
       });
 
       this.setState({
@@ -238,6 +283,7 @@ class DoctorManager extends Component {
         priceSelected: selectedOnes.price,
         payMethodSelected: selectedOnes.payment,
         provinceSelected: selectedOnes.province,
+        specialitySelected: selectedOnes.speciality, //v101xx3
 
         clinicName: doctorInfo.clinicName,
         clinicAddress: doctorInfo.clinicAddress,
@@ -246,17 +292,40 @@ class DoctorManager extends Component {
     }
   };
 
+  renderDoctorSelections = (options, selectedOne) => {
+    const { formatMessage } = this.props.intl;
+    const { chooseADoctorL } = doctorManagerLangs;
+    const mySelect = (
+      <Select
+        width='250px'
+        value={selectedOne}
+        options={options}
+        placeholder={formatMessage({ id: chooseADoctorL })}
+        onChange={this.selectedDoctorOnchangeFn}
+      />
+    );
+    return this.customSelectByHOC(mySelect);
+  };
+
   getInfoSelectedForUi = (selectedOnes) => {
-    const { priceId, paymentId, provinceId } = selectedOnes;
-    const { priceOptions, payMethodOptions, provinceOptions } = this.state;
+    const { priceId, paymentId, provinceId, specialityId } = selectedOnes;
+    const {
+      priceOptions,
+      payMethodOptions,
+      provinceOptions,
+      specialityOptions,
+    } = this.state;
+
     const priceLength = priceOptions.length;
     const payMethodLength = payMethodOptions.length;
     const provinceLength = provinceOptions.length;
+    const specialityLength = specialityOptions.length;
 
     const tempSelectedOnes = {
       price: null,
       payment: null,
       province: null,
+      speciality: null,
     };
 
     let idx = 0;
@@ -286,6 +355,15 @@ class DoctorManager extends Component {
       idx++;
     }
 
+    idx = 0; //v101xx3
+    while (idx < specialityLength) {
+      if (specialityId === specialityOptions[idx].value) {
+        tempSelectedOnes.speciality = specialityOptions[idx];
+        break;
+      }
+      idx++;
+    }
+
     return tempSelectedOnes;
   };
 
@@ -300,21 +378,6 @@ class DoctorManager extends Component {
         this.setState({ isEdited: false });
       }
     }
-  };
-
-  renderDoctorSelections = (options, selectedOne) => {
-    const { formatMessage } = this.props.intl;
-    const { chooseADoctorL } = doctorManagerLangs;
-    const mySelect = (
-      <Select
-        width='250px'
-        value={selectedOne}
-        options={options}
-        placeholder={formatMessage({ id: chooseADoctorL })}
-        onChange={this.selectedDoctorOnchange}
-      />
-    );
-    return this.customSelectByHOC(mySelect);
   };
 
   customSelectByHOC = ({ props }) => {
@@ -342,6 +405,7 @@ class DoctorManager extends Component {
       priceSelected,
       payMethodSelected,
       provinceSelected,
+      specialitySelected,
       clinicName,
       clinicAddress,
       note,
@@ -359,6 +423,7 @@ class DoctorManager extends Component {
       priceId: priceSelected.value,
       paymentId: payMethodSelected.value,
       provinceId: provinceSelected.value,
+      specialityId: specialitySelected.value,
       clinicAddress,
       clinicName,
       note,
@@ -381,6 +446,13 @@ class DoctorManager extends Component {
   };
 
   clearForm = () => {
+    const {
+      priceOptions,
+      payMethodOptions,
+      provinceOptions,
+      specialityOptions,
+    } = this.state;
+
     this.setState({
       doctorId: null,
       isEdited: false,
@@ -390,9 +462,11 @@ class DoctorManager extends Component {
       contentMarkdown: '',
       description: '',
 
-      priceSelected: null,
-      payMethodSelected: null,
-      provinceSelected: null,
+      priceSelected: priceOptions[0],
+      payMethodSelected: payMethodOptions[0],
+      provinceSelected: provinceOptions[0],
+      specialitySelected: specialityOptions[0], //v101xx3
+
       clinicName: '',
       clinicAddress: '',
       note: '',
@@ -461,6 +535,23 @@ class DoctorManager extends Component {
     );
   };
 
+  DoctorSpecialitySelectedOnchange = (selectedOne) => {
+    this.setState({
+      specialitySelected: selectedOne,
+    });
+  };
+
+  // v101xx3
+  renderDoctorSpecialitySelections = (options, selectedOne) => {
+    return (
+      <Select
+        value={selectedOne}
+        options={options}
+        onChange={this.DoctorSpecialitySelectedOnchange}
+      />
+    );
+  };
+
   inputOnchange = (event) => {
     const { name, value } = event.target;
     this.setState({
@@ -481,6 +572,8 @@ class DoctorManager extends Component {
       clinicNameL,
       clinicAddressL,
       noteL,
+      specialityNameL,
+      specialityClinicAddressL,
     } = doctorManagerLangs;
 
     const {
@@ -492,6 +585,8 @@ class DoctorManager extends Component {
       payMethodSelected,
       provinceOptions,
       provinceSelected,
+      specialitySelected,
+      specialityOptions,
       clinicName,
       clinicAddress,
       note,
@@ -520,7 +615,6 @@ class DoctorManager extends Component {
             {this.renderTextarea()}
           </div>
 
-          {/* 31ms35ss */}
           <form className='doctorManager-info-form'>
             <div className='row'>
               <div className='col'>
@@ -593,6 +687,33 @@ class DoctorManager extends Component {
                   onChange={this.inputOnchange}
                   className='form-control'
                 />
+              </div>
+            </div>
+            <div className='row doctorManager-speciality-clinic'>
+              <div className='col'>
+                <h5 htmlFor='price'>
+                  <FormattedMessage id={specialityNameL} />
+                </h5>
+                {
+                  // v101xx3
+                  priceOptions &&
+                    priceOptions.length > 0 &&
+                    this.renderDoctorSpecialitySelections(
+                      specialityOptions,
+                      specialitySelected,
+                    )
+                }
+              </div>
+              <div className='col'>
+                <h5 htmlFor='price'>
+                  <FormattedMessage id={specialityClinicAddressL} />
+                </h5>
+                {/* {specialityOptions &&
+                  specialityOptions.length > 0 &&
+                  this.renderDoctorInfoSelections(
+                    specialityOptions,
+                    specialitySelected,
+                  )} */}
               </div>
             </div>
           </form>

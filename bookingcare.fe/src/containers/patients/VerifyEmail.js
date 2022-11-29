@@ -4,15 +4,12 @@ import './VerifyEmail.scss';
 import * as actions from '../../store/actions';
 import HomeHeader from '../homePage/section/HomeHeader';
 
-//src26, 7ms03ss
 class VerifyEmail extends Component {
   state = {
     message: null,
   };
 
   renderRedirectLink = () => {
-    //route of App.js is passed to here for get 'match'
-    //values lấy từ 'params' of url string, v98xx2
     const { idDoctor, token } = this.props.match.params;
 
     if (idDoctor && token) {
@@ -30,7 +27,7 @@ class VerifyEmail extends Component {
   };
 
   confirmHandle = async (info) => {
-    const data = await this.props.verifyEmailFn(info); //10ms21ss
+    const data = await this.props.verifyEmailFn(info);
     this.setState({
       message:
         data.errCode === 0
@@ -61,7 +58,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    verifyEmailFn: (info) => dispatch(actions.verifyEmailFn(info)), //10ms21ss
+    verifyEmailFn: (info) => dispatch(actions.verifyEmailFn(info)),
   };
 };
 

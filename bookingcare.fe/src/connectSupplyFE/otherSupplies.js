@@ -74,6 +74,8 @@ export const doctorManagerLangs = {
   clinicNameL: 'doctor-manager.clinicName',
   clinicAddressL: 'doctor-manager.clinicAddress',
   noteL: 'doctor-manager.note',
+  specialityNameL: 'doctor-manager.specialityName',
+  specialityClinicAddressL: 'doctor-manager.specialityClinicAddress',
 };
 
 export const scheduleManagerLangs = {

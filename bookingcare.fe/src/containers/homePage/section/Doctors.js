@@ -20,8 +20,9 @@ class Doctors extends Component {
 
   navToDoctorDetailPage = (id) => {
     const { history } = this.props;
-    const { doctorDetailPage } = path;
-    history.push(doctorDetailPage + id);
+    const { DOCTOR_DETAIL_PAGE } = path;
+    const redirectLink = DOCTOR_DETAIL_PAGE + id;
+    history.push(redirectLink);
   };
 
   renderTopDoctorHome = (dataArr) => {

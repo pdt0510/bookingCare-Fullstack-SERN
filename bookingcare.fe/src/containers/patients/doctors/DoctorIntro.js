@@ -5,6 +5,8 @@ import * as actions from '../../../store/actions';
 import { LANGUAGES } from '../../../utils';
 import { bookingModalLangs } from '../../../connectSupplyFE/otherSupplies';
 import { FormattedMessage } from 'react-intl';
+import { Link } from 'react-router-dom';
+import { path } from './../../../utils/constant';
 
 class DoctorIntro extends Component {
   state = {
@@ -20,14 +22,14 @@ class DoctorIntro extends Component {
 
   componentDidMount = async () => {
     const { getDoctorIntroFn, doctorId } = this.props;
-    const data = await getDoctorIntroFn(doctorId); //v92xx2
+    const data = await getDoctorIntroFn(doctorId);
 
     if (data.errCode === 0 && this.state.avatar === null) {
       const { avatar, doctorMarkdown, firstName, lastName, positionData } =
         data.user;
 
       this.setState({
-        doctorId: 39,
+        doctorId: doctorId,
         avatar: this.bufferToBase64String(avatar),
         fullname: this.handleFullname(firstName, lastName, positionData),
         description: this.handleDescription(doctorMarkdown.description),
@@ -93,7 +95,7 @@ class DoctorIntro extends Component {
 
   render() {
     const { avatar, fullname, description } = this.state;
-    const { introBookingInfo } = this.props;
+    const { introBookingInfo, seeDoctorDetail, doctorId } = this.props;
 
     return (
       <div className='doctorIntro-content container'>
@@ -106,7 +108,16 @@ class DoctorIntro extends Component {
                   backgroundImage: `url(${avatar})`,
                 }
               }
-            ></div>
+            >
+              {seeDoctorDetail && (
+                <Link
+                  to={path.DOCTOR_DETAIL_PAGE + doctorId} // 33ms30ss
+                  className='doctorIntro-seeMore'
+                >
+                  See details
+                </Link>
+              )}
+            </div>
           </div>
           <div className='doctorIntro-right'>
             <div className='intro-header'>
@@ -114,7 +125,7 @@ class DoctorIntro extends Component {
             </div>
             <div className='intro-content'>
               {introBookingInfo
-                ? this.renderBookingInfo(introBookingInfo) //3ms59ss
+                ? this.renderBookingInfo(introBookingInfo)
                 : description}
             </div>
           </div>
@@ -129,7 +140,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  getDoctorIntroFn: (doctorId) => dispatch(actions.getDoctorIntroFn(doctorId)), //v92xx2
+  getDoctorIntroFn: (doctorId) => dispatch(actions.getDoctorIntroFn(doctorId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(DoctorIntro);

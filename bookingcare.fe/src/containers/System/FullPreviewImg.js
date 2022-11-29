@@ -11,7 +11,12 @@ export default class FullPreviewImg extends Component {
     const { imgUrl } = this.props;
     return (
       <div>
-        {<Lightbox mainSrc={imgUrl} onCloseRequest={this.closeFullImg} />}
+        {
+          <Lightbox
+            mainSrc={imgUrl && imgUrl}
+            onCloseRequest={this.closeFullImg}
+          />
+        }
       </div>
     );
   }

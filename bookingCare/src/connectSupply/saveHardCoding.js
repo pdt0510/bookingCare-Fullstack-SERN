@@ -1,4 +1,3 @@
-// saving code for a auto checking
 const types = {
   STRING: 'STRING',
   BOOLEAN: 'BOOLEAN',
@@ -6,10 +5,11 @@ const types = {
   DATE: 'DATE',
   TEXT: 'TEXT',
   TEXTLONG: 'TEXTLONG',
+  BLOBmedium: `BLOBmedium`,
 };
 
 const tableInfo = {
-  tableName: 'markdowns',
+  tableName: 'tableName',
   keyValueCols: [
     `contentHTML-${types.TEXTLONG}`,
     `contentMarkdown-${types.TEXTLONG}`,
@@ -17,6 +17,7 @@ const tableInfo = {
     `doctorId-${types.INTEGER}`,
     `specialityId-${types.INTEGER}`,
     `clinicId-${types.INTEGER}`,
+    `image-${types.BLOBmedium}`,
   ],
 };
 
@@ -25,39 +26,35 @@ const handleColTypes = (colTypeList, sequelizeList = true) => {
   if (sequelizeList) {
     tableInfo.keyValueCols.forEach((element) => {
       const keys = element.split('-');
-      const [colName, colType] = keys;
-
-      if (colType === types.STRING) {
-        result[colName] = { type: colTypeList.STRING };
-      } else if (colType === types.INTEGER) {
-        result[colName] = { type: colTypeList.INTEGER };
-      } else if (colType === types.BOOLEAN) {
-        result[colName] = { type: colTypeList.BOOLEAN };
-      } else if (colType === types.DATE) {
-        result[colName] = { type: colTypeList.DATE };
-      } else if (colType === types.TEXT) {
-        result[colName] = { type: colTypeList.TEXT };
-      } else if (colType === types.TEXTLONG) {
-        result[colName] = { type: colTypeList.TEXT('long') };
+      if (element.includes(types.STRING)) {
+        result[keys[0]] = { type: colTypeList.STRING };
+      } else if (element.includes(types.INTEGER)) {
+        result[keys[0]] = { type: colTypeList.INTEGER };
+      } else if (element.includes(types.BOOLEAN)) {
+        result[keys[0]] = { type: colTypeList.BOOLEAN };
+      } else if (element.includes(types.DATE)) {
+        result[keys[0]] = { type: colTypeList.DATE };
+      } else if (element.includes(types.TEXT)) {
+        result[keys[0]] = { type: colTypeList.TEXT };
+      } else if (element.includes(types.BLOBmedium)) {
+        result[keys[0]] = { type: colTypeList.BLOB('medium') };
       }
     });
   } else {
     tableInfo.keyValueCols.forEach((element) => {
       const keys = element.split('-');
-      const [colName, colType] = keys;
-
-      if (colType === types.STRING) {
-        result[colName] = colTypeList.STRING;
-      } else if (colType === types.INTEGER) {
-        result[colName] = colTypeList.INTEGER;
-      } else if (colType === types.BOOLEAN) {
-        result[colName] = colTypeList.BOOLEAN;
-      } else if (colType === types.DATE) {
-        result[colName] = colTypeList.DATE;
-      } else if (colType === types.TEXT) {
-        result[colName] = colTypeList.TEXT;
-      } else if (colType === types.TEXTLONG) {
-        result[colName] = colTypeList.TEXT('long');
+      if (element.includes(types.STRING)) {
+        result[keys[0]] = colTypeList.STRING;
+      } else if (element.includes(types.INTEGER)) {
+        result[keys[0]] = colTypeList.INTEGER;
+      } else if (element.includes(types.BOOLEAN)) {
+        result[keys[0]] = colTypeList.BOOLEAN;
+      } else if (element.includes(types.DATE)) {
+        result[keys[0]] = colTypeList.DATE;
+      } else if (element.includes(types.TEXT)) {
+        result[keys[0]] = colTypeList.TEXT;
+      } else if (element.includes(types.BLOBmedium)) {
+        result[keys[0]] = colTypeList.BLOB('medium');
       }
     });
   }

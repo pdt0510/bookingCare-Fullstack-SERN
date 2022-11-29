@@ -128,7 +128,9 @@
         "province": "Tỉnh/Tp",
         "clinicName": "Tên phòng khám",
         "clinicAddress": "Nơi khám",
-        "note": "Ghi chú"
+        "note": "Ghi chú",
+        "specialityName": "Tên chuyên môn",
+        "specialityClinicAddress": "Địa chỉ phòng khám chuyên môn"
     },
     "schedule-manager": {
         "mainTitle": "QUẢN LÝ LỊCH KHÁM BÁC SĨ",

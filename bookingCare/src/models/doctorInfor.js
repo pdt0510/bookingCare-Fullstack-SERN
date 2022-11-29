@@ -27,6 +27,10 @@ module.exports = (sequelize, DataTypes) => {
         targetKey: 'keymap',
         as: 'paymentData',
       });
+      DoctorInfor.belongsTo(models.specialities, {
+        foreignKey: 'specialityId', //v101xx3
+        as: 'specialityData',
+      });
     }
   }
   const colsTypes = handleColTypes(DataTypes, false);

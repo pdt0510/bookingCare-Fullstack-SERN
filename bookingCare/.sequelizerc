@@ -1,4 +1,3 @@
-//v27, 7ms03ss
 import { resolve } from 'path';
 
 export default {

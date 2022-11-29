@@ -61,7 +61,7 @@ export const userList = async (req, res) => {
 };
 
 export const editUser = async (req, res) => {
-  const id = req.params.id; //v98xx2, value from url string (in ejs file)
+  const id = req.params.id;
   const { userEditPage } = webSupplies.filesPath;
   const { userListedUrl, userUpdatedUrl } = webSupplies.urls;
 

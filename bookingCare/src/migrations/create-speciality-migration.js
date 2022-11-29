@@ -5,14 +5,16 @@ const types = {
   INTEGER: 'INTEGER',
   DATE: 'DATE',
   TEXT: 'TEXT',
+  BLOBmedium: `BLOBmedium`,
 };
 
 const tableInfo = {
   tableName: 'specialities',
   keyValueCols: [
     `name-${types.STRING}`,
-    `description-${types.TEXT}`,
-    `image-${types.STRING}`,
+    `htmlDesc-${types.TEXT}`,
+    `textDesc-${types.TEXT}`, //v99xx1
+    `image-${types.BLOBmedium}`,
   ],
 };
 
@@ -31,6 +33,8 @@ const handleColTypes = (colTypeList, sequelizeList = true) => {
         result[keys[0]] = { type: colTypeList.DATE };
       } else if (element.includes(types.TEXT)) {
         result[keys[0]] = { type: colTypeList.TEXT };
+      } else if (element.includes(types.BLOBmedium)) {
+        result[keys[0]] = { type: colTypeList.BLOB('medium') }; //v99xx1
       }
     });
   } else {
@@ -46,6 +50,8 @@ const handleColTypes = (colTypeList, sequelizeList = true) => {
         result[keys[0]] = colTypeList.DATE;
       } else if (element.includes(types.TEXT)) {
         result[keys[0]] = colTypeList.TEXT;
+      } else if (element.includes(types.BLOBmedium)) {
+        result[keys[0]] = colTypeList.BLOB('medium'); //v99xx1
       }
     });
   }

@@ -6,8 +6,9 @@ export const path = {
   SYSTEM: '/system',
   HOMEPAGE: '/home',
   DOCTOR: '/doctor',
-  doctorDetailPage: '/users/',
-  VERIFY_EMAIL_BOOKING: '/verify-booking/token=:token/doctorId=:idDoctor', //4ms49ss
+  DOCTOR_DETAIL_PAGE: '/users/',
+  VERIFY_EMAIL_BOOKING: '/verify-booking/token=:token/doctorId=:idDoctor',
+  DETAIL_SPECIALITY_PAGE: '/detail-speciality/',
 };
 
 export const LANGUAGES = {
@@ -40,7 +41,8 @@ export const USER_ROLES = {
 };
 
 export const CURRENCY = {
-  dataType: 'PRICE',
+  PRICEtype: 'PRICE',
+  SPECIALITYtype: 'SPECIALITY',
   vnd: 'VNĐ',
   dollar: 'USD',
 };
@@ -58,6 +60,7 @@ export const DOCTOR_DEFAULTS = {
     paymentId: 'PAY1',
     priceId: 'PRI1',
     provinceId: 'PRO1',
+    specialityId: 1,
   },
 };
 
@@ -71,4 +74,12 @@ export const DOCTORSCHEDULE_DEFAULTS = {
   today: 'Today',
   homNay: 'Hôm nay',
   fulltime: 'fulltime',
+};
+
+export const DETAIL_SPECIALITY_DEFAULTS = {
+  provinceKey: {
+    HCM: 'PRO2',
+    HN: 'PRO1',
+    toanQuoc: 'ALL'
+  },
 };

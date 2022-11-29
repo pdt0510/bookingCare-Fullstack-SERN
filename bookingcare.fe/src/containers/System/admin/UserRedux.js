@@ -59,7 +59,6 @@ class UserRedux extends Component {
   editUserHandle = (item) => {
     const { createdAt, updatedAt, avatar, ...userEdited } = item;
     let convertTobase64Str = '';
-
     if (typeof avatar === 'string') {
       this.props.savingImgUrl(avatar);
     } else {
@@ -97,9 +96,9 @@ class UserRedux extends Component {
   handleAvatarUploaded = async (e) => {
     const file = e.target.files[0];
     if (file) {
-      let fileToBase64 = await CommonUtils.getBase64(file);
+      let fileToBase64 = await CommonUtils.convertBlobToBase64(file);
       const fileToImgUrl = URL.createObjectURL(file);
-
+      console.log('fileToImgUrl ---', fileToImgUrl);
       if (fileToImgUrl) {
         this.props.savingImgUrl(fileToImgUrl);
         this.setState({
@@ -456,7 +455,6 @@ class UserRedux extends Component {
                     <FormattedMessage id={loadImgL} />
                   </Label>
                   {imgUrl && this.renderImgUrl(imgUrl)}
-
                   {isFullPreview && imgUrl && this.renderPreviewImg(imgUrl)}
                 </FormGroup>
               </Col>
@@ -484,8 +482,6 @@ class UserRedux extends Component {
           </Button>
         </ModalFooter>
         <TableManagerUser editUserHandle={this.editUserHandle} />
-        {/* 11ms29ss */}
-        {/* <MardownEditor /> */}
       </div>
     );
   }

@@ -16,6 +16,15 @@
         background-position: center;
         background-repeat: no-repeat;
         background-size: contain;
+
+        // 33ms30ss
+        .doctorIntro-seeMore {
+          display: block;
+          position: relative;
+          top: 110%;
+          text-align: center;
+          cursor: pointer;
+        }
       }
     }
 

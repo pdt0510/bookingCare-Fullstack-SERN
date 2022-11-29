@@ -38,7 +38,7 @@ const handleColTypes = (colTypeList, sequelizeList = true) => {
         result[colName] = {
           type: colTypeList.INTEGER,
           allowNull: false,
-          defaultValue: colName === 'count' ? 0 : colTypeList.INTEGER, //19ms13ss
+          defaultValue: colName === 'count' ? 0 : colTypeList.INTEGER,
         };
       } else if (colType === types.BOOLEAN) {
         result[colName] = { type: colTypeList.BOOLEAN };

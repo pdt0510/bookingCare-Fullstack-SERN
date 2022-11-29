@@ -1,4 +1,3 @@
-//src26
 import actionTypes from './actionTypes';
 import { userService } from '../../services';
 import { toast } from 'react-toastify';
@@ -9,7 +8,6 @@ const toastMes = {
   toastError: (message) => toast.error(message, { autoClose: 5000 }),
 };
 
-//10ms21ss
 export const verifyEmailFn = (newData) => {
   return async (dispatch) => {
     try {

@@ -22,6 +22,9 @@ export const apiUrls = {
   createUserBookingApi: '/create-user-booking',
   verifyBookingByTokenApi: '/verify-booking-token',
   verifyEmailByTokenApi: '/verify-email-by-token',
+  createSpecialityApi: '/create-speciality',
+  getAllSpecialitiesApi: '/get-all-specialities',
+  getDoctorBySpecialityIdApi: '/get-speciality-doctor',
 };
 
 export const errStates = {

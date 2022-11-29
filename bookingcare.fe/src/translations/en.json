@@ -55,7 +55,7 @@
             "clinic": "Clinic",
             "clinic-manager": "Clinic manager",
             "speciality": "Speciality",
-            "speciality-manager": "Clinic manager",
+            "speciality-manager": "Speciality manager",
             "handbook": "Handbook",
             "handbook-manager": "Handbook manager"
         },
@@ -127,7 +127,9 @@
         "province": "Provinces",
         "clinicName": "Clinic name",
         "clinicAddress": "Clinic address",
-        "note": "Note"
+        "note": "Note",
+        "specialityName": "Speciality name",
+        "specialityClinicAddress": "Speciality clinic address"
     },
     "schedule-manager": {
         "mainTitle": "DOCTOR SCHEDULE MANAGER",

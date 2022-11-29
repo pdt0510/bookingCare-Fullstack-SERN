@@ -5,6 +5,7 @@ import * as apiSupplies from '../connectSupply/apiSupplies';
 import * as apiCtrl from '../controller/apiController';
 import * as doctorCtrls from '../controller/doctorController';
 import * as patientCtrls from './../controller/patientController';
+import * as specialityCtrls from '../controller/specialityController';
 
 const appRouters = express.Router();
 const initWebRoutes = (app) => {
@@ -33,7 +34,7 @@ const initWebRoutes = (app) => {
   appRouters.get(userFormUrl, getCRUD);
   appRouters.post(userPostedUrl, postCRUD);
   appRouters.get(userListedUrl, userList);
-  appRouters.get(`${userEditedUrl}/${idParam}`, editUser); //v98xx1
+  appRouters.get(`${userEditedUrl}/${idParam}`, editUser);
   appRouters.post(`${userUpdatedUrl}/${idParam}`, updateUser);
   appRouters.get(`${userDeletedUrl}/${idParam}`, delUser);
 
@@ -60,6 +61,9 @@ const initWebRoutes = (app) => {
     createUserBookingApi,
     verifyBookingByTokenApi,
     verifyEmailByTokenApi,
+    createSpecialityApi,
+    getAllSpecialitiesApi,
+    getDoctorBySpecialityIdApi,
   } = apiSupplies.apiUrls;
 
   const {
@@ -86,10 +90,13 @@ const initWebRoutes = (app) => {
     getDoctorIntroCtrl,
   } = doctorCtrls;
 
+  const { postUserBookingCtrl, verifyEmailByTokenCtrl } = patientCtrls;
+  
   const {
-    postUserBookingCtrl,
-    verifyEmailByTokenCtrl,
-  } = patientCtrls;
+    createSpecialityCtrl,
+    getAllSpecialitiesCtrl,
+    getDoctorBySpecialityIdCtrl,
+  } = specialityCtrls;
 
   appRouters.post(apiUrl + loginApi, loginFn);
   appRouters.get(apiUrl + userListedApi, userListFn);
@@ -110,7 +117,13 @@ const initWebRoutes = (app) => {
   appRouters.get(apiUrl + getDoctorContentHtmlApi, getDoctorContentHtmlCtrl);
   appRouters.get(apiUrl + getDoctorIntroApi, getDoctorIntroCtrl);
   appRouters.post(apiUrl + createUserBookingApi, postUserBookingCtrl);
-  appRouters.get(apiUrl + verifyEmailByTokenApi, verifyEmailByTokenCtrl); //10ms21ss
+  appRouters.get(apiUrl + verifyEmailByTokenApi, verifyEmailByTokenCtrl);
+  appRouters.post(apiUrl + createSpecialityApi, createSpecialityCtrl);
+  appRouters.get(apiUrl + getAllSpecialitiesApi, getAllSpecialitiesCtrl); //13ms45ss
+  appRouters.get(
+    apiUrl + getDoctorBySpecialityIdApi,
+    getDoctorBySpecialityIdCtrl,
+  ); //12ms44ss
 
   return app.use(homeUrl, appRouters);
 };

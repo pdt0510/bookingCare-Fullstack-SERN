@@ -1,4 +1,3 @@
-//src26
 import * as patientServ from '../services/patientServices';
 import * as apiSupplies from '../connectSupply/apiSupplies';
 
@@ -6,7 +5,6 @@ export const verifyEmailByTokenCtrl = async (req, res) => {
   let isEmpty = false;
   let data = null;
 
-  // v98xx2: values được passed như params từ fn, ko phải từ url string on bar 
   const newData = {
     ...req.query,
     doctorId: +req.query.doctorId,

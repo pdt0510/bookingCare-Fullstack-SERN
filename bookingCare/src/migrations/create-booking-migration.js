@@ -18,7 +18,7 @@ const tableInfo = {
     `date-${types.BIGINT}`,
     `birthday-${types.BIGINT}`,
     `timeType-${types.STRING}`,
-    `token-${types.STRING}`, //41ms15ss
+    `token-${types.STRING}`,
   ],
 };
 

@@ -1,12 +1,98 @@
 import axios from '../axios';
 import * as apiSupplies from '../connectSupplyFE/apiSupplies';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+//src27
+const toastMes = {
+  toastSuccess: () => toast.success('Successfully requested'),
+  toastError: (message) => toast.error(message, { autoClose: 5000 }),
+};
+
+//12ms44ss
+export const getDoctorBySpecialityIdServ = (id) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const { apiUrl, getDoctorBySpecialityIdApi } = apiSupplies.apiUrls;
+      const data = await axios.get(apiUrl + getDoctorBySpecialityIdApi, {
+        params: { id },
+      });
+      if (data.errCode === 0) {
+        //success
+      } else {
+        toastMes.toastError(data.message);
+      }
+      resolve(data);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+export const getDoctorSpecialitiesServ = () => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let specialityList = null;
+      let data = await getAllSpecialitiesServ();
+
+      if (data.errCode === 0) {
+        specialityList = data.users.map((item) => {
+          const { id, name } = item;
+          return { id, name };
+        });
+      } else {
+        toastMes.toastError(data.message);
+      }
+      resolve(specialityList);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+// 13ms45ss
+export const getAllSpecialitiesServ = () => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const { apiUrl, getAllSpecialitiesApi } = apiSupplies.apiUrls;
+      const data = await axios.get(apiUrl + getAllSpecialitiesApi);
+
+      if (data.errCode === 0) {
+        //success
+      } else {
+        toastMes.toastError(data.message);
+      }
+      resolve(data);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+// 6ms48
+export const createSpecialityServ = (newData) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const { apiUrl, createSpecialityApi } = apiSupplies.apiUrls;
+      const data = await axios.post(apiUrl + createSpecialityApi, newData);
+      if (data.errCode === 0) {
+        toastMes.toastSuccess();
+      } else {
+        toastMes.toastError(data.message);
+      }
+      resolve(data);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
 
 export const verifyEmailServ = (info) => {
   return new Promise(async (resolve, reject) => {
     try {
       const { apiUrl, verifyEmailByTokenApi } = apiSupplies.apiUrls;
       const data = await axios.get(apiUrl + verifyEmailByTokenApi, {
-        params: info, //v98xx2: passing to service file
+        params: info,
       });
       resolve(data);
     } catch (error) {

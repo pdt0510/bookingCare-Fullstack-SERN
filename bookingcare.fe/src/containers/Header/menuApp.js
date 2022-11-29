@@ -31,7 +31,7 @@ const {
 
 const { doctorScheduleL } = doctorLangs;
 
-export const adminMenu = [
+export const adminMenuL = [
   {
     name: userManagerL,
     menus: [
@@ -89,7 +89,7 @@ export const adminMenu = [
   },
 ];
 
-export const doctorMenu = [
+export const doctorMenuL = [
   {
     name: userManagerL,
     menus: [

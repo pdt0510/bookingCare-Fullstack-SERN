@@ -147,6 +147,11 @@ export const editDoctorInfoServ = (doctorId) => {
             as: 'paymentData',
             attributes: ['valueEN', 'valueVI'],
           },
+          {
+            model: db.specialities,
+            as: 'specialityData', //v101xx3
+            attributes: ['id', 'name'],
+          },
         ],
         raw: true,
         nest: true,

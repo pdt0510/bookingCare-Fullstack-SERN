@@ -7,7 +7,9 @@ import Header from '../containers/Header/Header';
 import DoctorManager from '../containers/System/admin/DoctorManager';
 import { routeLinks } from '../connectSupplyFE/otherSupplies';
 import ScheduleManager from './../containers/System/doctorFiles/ScheduleManager';
+import SpecialityManager from './../containers/System/speciality/SpecialityManager';
 
+//src27
 class System extends Component {
   render() {
     const { systemMenuPath, isLoggedIn } = this.props;
@@ -16,6 +18,7 @@ class System extends Component {
       userReduxLink,
       doctorManagerLink,
       doctorScheduleManagerLink,
+      specialityManagerLink,
     } = routeLinks;
 
     return (
@@ -30,6 +33,10 @@ class System extends Component {
               <Route
                 path={doctorScheduleManagerLink}
                 component={ScheduleManager}
+              />
+              <Route
+                path={specialityManagerLink} //4ms18ss
+                component={SpecialityManager}
               />
               <Route
                 component={() => {

@@ -33,6 +33,7 @@ class DoctorSchedule extends Component {
 
         if (sortedMinDate && sortedMinDate.length > 0) {
           const datesOptions = this.handleDateByLangs(sortedMinDate);
+
           this.setState({
             wholeList: timestampList,
             sortedList: sortedMinDate,
@@ -69,7 +70,6 @@ class DoctorSchedule extends Component {
     const tempList = dateList.map((date, idx) => {
       const timestampToDate = new Date(date);
       let formattedDate = CommonUtils.convertObjDateTo_dDM_str(timestampToDate);
-
       if (date === currentDate) {
         const getDate = formattedDate.split(',')[1];
         formattedDate =
@@ -84,7 +84,6 @@ class DoctorSchedule extends Component {
         idx,
       };
     });
-
     return tempList;
   };
 
