@@ -1,8 +1,6 @@
-//src27
 import db from '../models/index';
 import * as apiSupplies from '../connectSupply/apiSupplies';
 
-//12ms44ss
 export const getDoctorBySpecialityIdServ = (id, provinceId) => {
   return new Promise(async (resolve, reject) => {
     try {

@@ -59,12 +59,16 @@ class UserRedux extends Component {
   editUserHandle = (item) => {
     const { createdAt, updatedAt, avatar, ...userEdited } = item;
     let convertTobase64Str = '';
-    if (typeof avatar === 'string') {
-      this.props.savingImgUrl(avatar);
-    } else {
-      convertTobase64Str = new Buffer.from(avatar).toString('binary');
-      this.props.savingImgUrl(convertTobase64Str);
+
+    if (avatar) {
+      if (typeof avatar === 'string') {
+        this.props.savingImgUrl(avatar);
+      } else {
+        convertTobase64Str = CommonUtils.convertBinaryToString(avatar);
+        this.props.savingImgUrl(convertTobase64Str);
+      }
     }
+    console.log(convertTobase64Str);
 
     this.setState({
       ...userEdited,
@@ -96,11 +100,11 @@ class UserRedux extends Component {
   handleAvatarUploaded = async (e) => {
     const file = e.target.files[0];
     if (file) {
-      let fileToBase64 = await CommonUtils.convertBlobToBase64(file);
-      const fileToImgUrl = URL.createObjectURL(file);
-      console.log('fileToImgUrl ---', fileToImgUrl);
-      if (fileToImgUrl) {
-        this.props.savingImgUrl(fileToImgUrl);
+      let fileToBase64 = await CommonUtils.convertFileToString(file);
+      const fileToImgBlobUrl = URL.createObjectURL(file);
+
+      if (fileToImgBlobUrl) {
+        this.props.savingImgUrl(fileToImgBlobUrl);
         this.setState({
           avatar: fileToBase64,
         });

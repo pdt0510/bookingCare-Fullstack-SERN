@@ -1,0 +1,44 @@
+//src28
+.clinicManager-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  .clinicManager-image {
+    text-align: left;
+
+    .clinicManager-image-upload {
+      display: inline-block;
+      height: 38px;
+      line-height: 38px;
+      border-radius: 0.25rem;
+      background-color: #ced4da59;
+      padding: 0 12px;
+      opacity: 0.6;
+      cursor: pointer;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+
+  .clinicManager-input {
+    display: flex;
+    justify-content: space-between;
+
+    .clinicManager-info {
+      text-align: left;
+      width: 49%;
+    }
+  }
+
+  .doctorManager-btns {
+    text-align: left;
+    margin: -8px 0 8px;
+
+    .btn {
+      min-width: 100px;
+    }
+  }
+}

@@ -8,8 +8,8 @@ import DoctorManager from '../containers/System/admin/DoctorManager';
 import { routeLinks } from '../connectSupplyFE/otherSupplies';
 import ScheduleManager from './../containers/System/doctorFiles/ScheduleManager';
 import SpecialityManager from './../containers/System/speciality/SpecialityManager';
+import ClinicManager from '../containers/System/clinics/ClinicManager';
 
-//src27
 class System extends Component {
   render() {
     const { systemMenuPath, isLoggedIn } = this.props;
@@ -19,8 +19,10 @@ class System extends Component {
       doctorManagerLink,
       doctorScheduleManagerLink,
       specialityManagerLink,
+      clinicManagerLink,
     } = routeLinks;
 
+    //router quản lý cho admin
     return (
       <>
         {isLoggedIn && <Header />}
@@ -35,8 +37,12 @@ class System extends Component {
                 component={ScheduleManager}
               />
               <Route
-                path={specialityManagerLink} //4ms18ss
+                path={specialityManagerLink}
                 component={SpecialityManager}
+              />
+              <Route
+                path={clinicManagerLink}
+                component={ClinicManager} //v105xx2
               />
               <Route
                 component={() => {
@@ -53,7 +59,6 @@ class System extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    userInfo: state.user.userInfo,
     systemMenuPath: state.app.systemMenuPath,
     isLoggedIn: state.user.isLoggedIn,
   };

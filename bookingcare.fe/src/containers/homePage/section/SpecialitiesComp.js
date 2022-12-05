@@ -12,48 +12,45 @@ import { path } from './../../../utils/constant';
 import { withRouter } from 'react-router';
 import { compose } from 'redux';
 
-//src27, v101xx1
 class SpecialitiesComp extends Component {
   state = {
     users: [],
   };
 
   componentDidMount = async () => {
-    const data = await getAllSpecialitiesServ(); //13ms45ss
+    const data = await getAllSpecialitiesServ();
     if (data.errCode === 0) {
-      const userList = await this.convertImgToBinaryStr(data.users);
+      const userList = await this.filterAllDataToState(data.users);
       this.setState({
         users: userList,
       });
     }
   };
 
-  convertImgToBinaryStr = async (list) => {
+  filterAllDataToState = async (list) => {
     const tempList = await list.map((item) => {
       return {
         ...item,
-        image: CommonUtils.convertBase64ToBinary(item.image),
+        image: CommonUtils.convertBinaryToString(item.image),
       };
     });
 
     return tempList;
   };
 
-  // 51ms54ss
   navToSpecialityDetailPage = (id) => {
     const { history } = this.props;
     const redirectLink = path.DETAIL_SPECIALITY_PAGE + id;
     history.push(redirectLink);
   };
 
-  //13ms45ss
   renderSpecialities = () => {
     return this.state.users.map((item, idx) => {
       return (
         <div
           key={idx}
           className='section-blocks'
-          onClick={() => this.navToSpecialityDetailPage(item.id)} //51ms54ss
+          onClick={() => this.navToSpecialityDetailPage(item.id)}
         >
           <div
             className='section-content-pics'
@@ -82,9 +79,7 @@ class SpecialitiesComp extends Component {
           </div>
           <div className='section-body'>
             <Slider {...this.props.settings}>
-              {
-                users && users.length > 0 && this.renderSpecialities() //13ms45ss
-              }
+              {users && users.length > 0 && this.renderSpecialities()}
             </Slider>
           </div>
         </div>
@@ -105,5 +100,3 @@ export default compose(
   withRouter,
   connect(mapStateToProps, mapDispatchToProps),
 )(SpecialitiesComp);
-
-// export default connect(mapStateToProps, mapDispatchToProps)(SpecialitiesComp);

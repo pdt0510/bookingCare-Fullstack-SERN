@@ -22,7 +22,7 @@ class Doctors extends Component {
     const { history } = this.props;
     const { DOCTOR_DETAIL_PAGE } = path;
     const redirectLink = DOCTOR_DETAIL_PAGE + id;
-    history.push(redirectLink);
+    history.push(redirectLink); //v106xx1
   };
 
   renderTopDoctorHome = (dataArr) => {

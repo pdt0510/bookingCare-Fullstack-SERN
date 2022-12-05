@@ -60,7 +60,8 @@
             "handbook-manager": "Quản lý cẩm nang"
         },
         "doctor": {
-            "schedule": "Quản lý lịch khám bệnh"
+            "schedule": "Quản lý lịch khám bệnh",
+            "patientManager": "Quản lý bệnh nhân"
         }
     },
     "system": {
@@ -130,7 +131,7 @@
         "clinicAddress": "Nơi khám",
         "note": "Ghi chú",
         "specialityName": "Tên chuyên môn",
-        "specialityClinicAddress": "Địa chỉ phòng khám chuyên môn"
+        "hopitalName": "Tên bệnh viện"
     },
     "schedule-manager": {
         "mainTitle": "QUẢN LÝ LỊCH KHÁM BÁC SĨ",

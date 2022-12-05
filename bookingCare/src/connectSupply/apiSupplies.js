@@ -19,12 +19,16 @@ export const apiUrls = {
   getDoctorExtraInfoByIdApi: '/get-doctor-extra-info',
   getDoctorContentHtmlApi: '/get-doctor-contentHTML',
   getDoctorIntroApi: '/get-doctor-intro',
+  getDoctorPatientByIdApi: '/get-doctor-patient',
+  sendBillToPatientApi: '/send-bill-to-patient',
   createUserBookingApi: '/create-user-booking',
-  verifyBookingByTokenApi: '/verify-booking-token',
   verifyEmailByTokenApi: '/verify-email-by-token',
   createSpecialityApi: '/create-speciality',
   getAllSpecialitiesApi: '/get-all-specialities',
   getDoctorBySpecialityIdApi: '/get-speciality-doctor',
+  createClinicApi: '/create-clinic',
+  getAllClinicsApi: '/get-all-clinics',
+  getClinicByIdApi: '/get-clinics-id',
 };
 
 export const errStates = {

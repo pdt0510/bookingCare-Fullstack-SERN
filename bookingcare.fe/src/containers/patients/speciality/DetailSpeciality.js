@@ -13,13 +13,12 @@ import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import CommonUtils from './../../../utils/CommonUtils';
 
-//src27, 50ms18ss
 class DetailSpeciality extends Component {
   state = {
     img: null,
     htmlDesc: null,
     doctorOpt: [],
-    isOpen: false,
+    seeMoreSpeciality: false,
     seeDoctorDetail: true,
     provinceSelected: DETAIL_SPECIALITY_DEFAULTS.provinceKey.toanQuoc,
   };
@@ -27,7 +26,7 @@ class DetailSpeciality extends Component {
   componentDidMount = async () => {
     const idSpeciality = +this.props.match.params.id;
     if (idSpeciality && typeof idSpeciality === 'number') {
-      const data = await getDoctorBySpecialityIdServ(idSpeciality); //12ms44ss
+      const data = await getDoctorBySpecialityIdServ(idSpeciality);
 
       if (data.errCode === 0) {
         await this.props.fetchDoctorInfoAllcodeFn();
@@ -35,7 +34,7 @@ class DetailSpeciality extends Component {
         const doctorId = info.tempDoctorList[0].doctorId;
 
         this.setState({
-          img: CommonUtils.convertBase64ToBinary(info.tempImg),
+          img: CommonUtils.convertBinaryToString(info.tempImg),
           htmlDesc: info.tempHtmlDesc,
           doctorOpt: doctorId ? info.tempDoctorList : null,
         });
@@ -71,7 +70,7 @@ class DetailSpeciality extends Component {
 
   renderAllDoctorDetails = (list) => {
     const { toanQuoc } = DETAIL_SPECIALITY_DEFAULTS.provinceKey;
-    const { provinceSelected, seeDoctorDetail } = this.state; //23ms51ss
+    const { provinceSelected, seeDoctorDetail } = this.state;
     const length = list.length;
     let tempDoctorList = [];
 
@@ -84,7 +83,7 @@ class DetailSpeciality extends Component {
             <div className='DetailSpeciality-doctor-intro'>
               <DoctorIntro
                 doctorId={doctorId}
-                seeDoctorDetail={seeDoctorDetail} //33ms30ss
+                seeDoctorDetail={seeDoctorDetail}
               />
             </div>
             <div className='DetailSpeciality-doctor-extra'>
@@ -103,7 +102,6 @@ class DetailSpeciality extends Component {
     return <span dangerouslySetInnerHTML={{ __html: htmlStr }} />;
   };
 
-  // 23ms51ss
   renderProvinceSelect = () => {
     const { HCM, HN, toanQuoc } = DETAIL_SPECIALITY_DEFAULTS.provinceKey;
     const { provinceList, language } = this.props;
@@ -147,39 +145,30 @@ class DetailSpeciality extends Component {
     });
   };
 
-  // v103xx1
   showSeeMore = () => {
     this.setState({
-      isOpen: !this.state.isOpen,
+      seeMoreSpeciality: !this.state.seeMoreSpeciality,
     });
   };
 
   render() {
-    const { htmlDesc, doctorOpt, isOpen, img } = this.state;
+    const { htmlDesc, doctorOpt, seeMoreSpeciality } = this.state;
 
-    // v102xx1
     return (
       <div className='DetailSpeciality-content'>
         <HomeHeader />
         <div
-        // className='DetailSpeciality-bgrImg'
-        // style={{ backgroundImage: `url(${img && img})` }} //v103xx2
-        ></div>
-        <div
           className={`DetailSpeciality-speciality-info container
-           ${
-             isOpen && 'open' // v103xx1
-           }`}
+           ${seeMoreSpeciality && 'seeMoreSpeciality'}`}
         >
           {htmlDesc && this.renderHtmlString(htmlDesc)}
         </div>
-        <a
-          href='##'
+        <span
           className='DetailSpeciality-seeMore container'
           onClick={this.showSeeMore}
         >
-          {isOpen ? 'Hide less' : 'See more'}
-        </a>
+          {seeMoreSpeciality ? 'Hide less' : 'See more'}
+        </span>
         <div className='DetailSpeciality-section-bgr'>
           <div className='DetailSpeciality-doctor container'>
             <div className='DetailSpeciality-area'>

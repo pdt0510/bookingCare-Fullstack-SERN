@@ -6,6 +6,7 @@ const types = {
   TEXT: 'TEXT',
   TEXTLONG: 'TEXTLONG',
   BLOBmedium: `BLOBmedium`,
+  BLOBlong: `BLOBlong`,
 };
 
 const tableInfo = {
@@ -38,6 +39,8 @@ const handleColTypes = (colTypeList, sequelizeList = true) => {
         result[keys[0]] = { type: colTypeList.TEXT };
       } else if (element.includes(types.BLOBmedium)) {
         result[keys[0]] = { type: colTypeList.BLOB('medium') };
+      } else if (element.includes(types.BLOBlong)) {
+        result[keys[0]] = { type: colTypeList.BLOB('long') };
       }
     });
   } else {
@@ -55,6 +58,8 @@ const handleColTypes = (colTypeList, sequelizeList = true) => {
         result[keys[0]] = colTypeList.TEXT;
       } else if (element.includes(types.BLOBmedium)) {
         result[keys[0]] = colTypeList.BLOB('medium');
+      } else if (element.includes(types.BLOBlong)) {
+        result[keys[0]] = colTypeList.BLOB('long');
       }
     });
   }

@@ -28,8 +28,12 @@ module.exports = (sequelize, DataTypes) => {
         as: 'paymentData',
       });
       DoctorInfor.belongsTo(models.specialities, {
-        foreignKey: 'specialityId', //v101xx3
+        foreignKey: 'specialityId',
         as: 'specialityData',
+      });
+      DoctorInfor.belongsTo(models.clinics, {
+        foreignKey: 'clinicId', //v106xx1
+        as: 'clinicData',
       });
     }
   }

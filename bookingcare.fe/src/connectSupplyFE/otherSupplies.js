@@ -1,4 +1,5 @@
 export const routeLinks = {
+  idParam: ':id',
   homeLink: '/home',
   userManagerLink: '/system/user-manager',
   userReduxLink: '/system/user-redux',
@@ -8,10 +9,12 @@ export const routeLinks = {
   specialityManagerLink: '/system/speciality-manager',
   handbookManagerLink: '/system/handbook-manager',
   doctorScheduleManagerLink: '/doctor/schedule-manager',
+  doctorPatientManagerLink: '/doctor/patient-manager',
 };
 
 export const doctorLangs = {
   doctorScheduleL: 'menu.doctor.schedule',
+  patientManagerL: 'menu.doctor.patientManager',
 };
 
 export const adminMenuLangs = {
@@ -75,7 +78,7 @@ export const doctorManagerLangs = {
   clinicAddressL: 'doctor-manager.clinicAddress',
   noteL: 'doctor-manager.note',
   specialityNameL: 'doctor-manager.specialityName',
-  specialityClinicAddressL: 'doctor-manager.specialityClinicAddress',
+  hopitalNameL: 'doctor-manager.hopitalName',
 };
 
 export const scheduleManagerLangs = {

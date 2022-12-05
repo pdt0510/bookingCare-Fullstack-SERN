@@ -251,7 +251,7 @@ class ScheduleManager extends Component {
   handleSchedule = () => {
     const { doctorId, startDate } = this.state;
     const activedMarktimes = this.getActivedTimemark();
-    const formattedDate = CommonUtils.convertObjDateTo_DMY_str(startDate);
+    const formattedDate = CommonUtils.convertObjDateTo_DMYstr(startDate);
     const maxNumber = process.env.REACT_APP_MAX_NUMBER_SCHEDULE;
     const isValid = this.validationsSchedule({
       activedMarktimes,
@@ -356,6 +356,7 @@ class ScheduleManager extends Component {
 }
 const mapStateToProps = (state) => {
   return {
+    userInfo: state.user.userInfo, //v107xx1
     doctorSchedule: state.admin.doctorSchedule,
     allDoctors: state.admin.allDoctors,
     language: state.app.language,

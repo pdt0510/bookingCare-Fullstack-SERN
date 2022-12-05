@@ -1,0 +1,24 @@
+//src28, v107xx1
+.PatientManager-content {
+  text-align: center;
+  margin: 0 24px;
+
+  .date-selected {
+    text-align: left;
+    margin: 16px 0;
+    width: 240px;
+  }
+
+  .table-body {
+    td {
+      padding: 2px 4px;
+      text-align: left;
+      vertical-align: bottom;
+    }
+
+    .numeric,
+    .action-btn {
+      text-align: center;
+    }
+  }
+}

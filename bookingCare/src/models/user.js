@@ -26,7 +26,14 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'doctorId',
         as: 'doctorMarkdown',
       });
-      
+      User.hasMany(models.bookings, {
+        foreignKey: 'doctorId', //v107xx2
+        as: 'bookingData',
+      });
+      User.hasMany(models.bookings, {
+        foreignKey: 'patientId', //v108xx2
+        as: 'patientInfoData',
+      });
     }
   }
   const colsTypes = handleColTypes(DataTypes, false);

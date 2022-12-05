@@ -1,5 +1,58 @@
+//src28
 import * as doctorServ from '../services/doctorServices';
 import * as apiSupplies from '../connectSupply/apiSupplies';
+
+//36ms31ss
+export const sendBillToPatientCtrl = async (req, res) => {
+  let data = null;
+  const info = {
+    ...req.body,
+    id: +req.body.id,
+    doctorId: +req.body.doctorId,
+    patientId: +req.body.patientId,
+  };
+
+  const { fieldRequired, serverError } = apiSupplies.errStates;
+
+  if (
+    typeof info.patientId !== 'number' ||
+    typeof info.id !== 'number' ||
+    typeof info.doctorId !== 'number'
+  ) {
+    data = fieldRequired;
+  } else {
+    try {
+      data = await doctorServ.sendBillToPatientServ(info);
+    } catch (error) {
+      data = serverError;
+      console.log('sendBillToPatientCtrl error ---', error);
+    }
+  }
+  return res.status(data.status).json(data);
+};
+
+// v107xx2
+export const getDoctorPatientsByIdCtrl = async (req, res) => {
+  let data = null;
+  const id = +req.query.id;
+
+  if (!id || typeof id !== 'number') {
+    const { incorrectInfo } = apiSupplies.errStates;
+    data = {
+      errCode: 4,
+      status: 406,
+      message: incorrectInfo.idMes,
+    };
+  } else {
+    try {
+      data = await doctorServ.getDoctorPatientsByIdServ(id);
+    } catch (error) {
+      data = apiSupplies.errStates.serverError;
+      console.log('getDoctorPatientsByIdCtrl error ---', error);
+    }
+  }
+  return res.status(data.status).json(data);
+};
 
 export const getDoctorIntroCtrl = async (req, res) => {
   let data = null;

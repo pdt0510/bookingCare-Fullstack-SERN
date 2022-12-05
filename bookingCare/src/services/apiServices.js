@@ -236,7 +236,7 @@ export const handleUserLogin = (email, password) => {
       if (isExist) {
         const userDb = await db.users.findOne({
           where: { email },
-          attributes: ['email', 'password', 'roleId', 'firstName'],
+          attributes: ['id', 'email', 'password', 'roleId', 'firstName'],
         });
 
         if (userDb) {

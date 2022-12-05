@@ -1,6 +1,171 @@
+//src28
 import db from '../models/index';
 import * as apiSupplies from '../connectSupply/apiSupplies';
 import _ from 'lodash';
+import { sendEmailWithAttachment } from './emailService';
+
+export const sendBillToPatientEmailServ = (emailData) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const { noErrors } = apiSupplies.errStates;
+      let result = noErrors;
+      await sendEmailWithAttachment(emailData); //57ms44ss
+
+      resolve(result);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+// 36ms31ss
+export const sendBillToPatientServ = (info) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const { noErrors, notFound } = apiSupplies.errStates;
+      let result = { ...notFound };
+      const isDone = 'S3';
+      const confirmed = 'S2';
+      const { id, doctorId, patientId } = info;
+
+      const user = await db.bookings.findOne({
+        where: {
+          id,
+          doctorId,
+          patientId,
+          statusId: confirmed,
+        },
+      });
+
+      if (user) {
+        const update = await db.bookings.update(
+          { statusId: isDone },
+          {
+            where: {
+              id: info.id,
+              patientId: info.patientId,
+              statusId: confirmed,
+            },
+          },
+        );
+
+        const isUpdate = 1;
+        if (update[0] === isUpdate) {
+          const emailData = {
+            clientEmail: info.email,
+            clientSubject: `Bill to ${info.email}`,
+            htmlText: `Hello! ${info.email}`,
+            attachments: [
+              {
+                filename: `bill of ${info.email}.jpeg`,
+                path: info.img, //v109xx3
+              },
+            ],
+          };
+
+          sendBillToPatientEmailServ(emailData); //57ms44ss
+          result = noErrors;
+        }
+      }
+
+      resolve(result);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+// v107xx2
+export const getDoctorPatientsByIdServ = (doctorId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const { noErrors, notFound } = apiSupplies.errStates;
+      let result = { ...notFound };
+      const confirmed = 'S2';
+
+      const records = await db.users.findAll({
+        where: { id: doctorId }, //doctor info
+        attributes: ['id', 'email', 'firstName', 'lastName'], //36ms31ss
+
+        include: [
+          {
+            model: db.bookings,
+            as: 'bookingData', //doctor + patient info
+            attributes: [
+              'id', //36ms31ss
+              'patientId', //36ms31ss
+              'date',
+              'birthday',
+              //'timeType', //for 'timeTypeBookedData'
+              //'patientId', //for 'patientInfoData'
+            ],
+            where: { statusId: confirmed }, //v107xx3
+
+            include: [
+              {
+                model: db.users,
+                as: 'patientInfoData', // v108xx2
+                attributes: [
+                  'email',
+                  'firstName',
+                  'lastName',
+                  'address',
+                  'phoneNumber',
+                  // 'gender', //for genderData
+                ],
+
+                include: [
+                  {
+                    model: db.allcodes,
+                    as: 'genderData', // v108xx3
+                    attributes: ['valueEN', 'valueVI'],
+                  },
+                ],
+                raw: true,
+                nest: true,
+              },
+              {
+                model: db.allcodes,
+                as: 'timeTypeBookedData', // v108xx4
+                attributes: ['valueEN', 'valueVI'],
+              },
+            ],
+            raw: true,
+            nest: true,
+          },
+        ],
+        raw: true,
+        nest: true,
+      });
+
+      if (records && records.length > 0) {
+        const doctor = {
+          id: records[0].id, //36ms31ss
+          email: records[0].email,
+          firstName: records[0].firstName,
+          lastName: records[0].lastName,
+        };
+
+        const patientList = records.map((item) => {
+          return item.bookingData;
+        });
+
+        if (patientList && patientList.length > 0) {
+        }
+
+        result = {
+          ...noErrors,
+          doctor,
+          patientList,
+        };
+      }
+
+      resolve(result);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
 
 export const getDoctorIntroServ = (doctorId) => {
   return new Promise(async (resolve, reject) => {
@@ -149,7 +314,12 @@ export const editDoctorInfoServ = (doctorId) => {
           },
           {
             model: db.specialities,
-            as: 'specialityData', //v101xx3
+            as: 'specialityData',
+            attributes: ['id', 'name'],
+          },
+          {
+            model: db.clinics,
+            as: 'clinicData', //v106xx1
             attributes: ['id', 'name'],
           },
         ],

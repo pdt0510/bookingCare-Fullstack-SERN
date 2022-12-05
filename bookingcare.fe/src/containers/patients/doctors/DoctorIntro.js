@@ -111,7 +111,7 @@ class DoctorIntro extends Component {
             >
               {seeDoctorDetail && (
                 <Link
-                  to={path.DOCTOR_DETAIL_PAGE + doctorId} // 33ms30ss
+                  to={path.DOCTOR_DETAIL_PAGE + doctorId} //v105xx2
                   className='doctorIntro-seeMore'
                 >
                   See details

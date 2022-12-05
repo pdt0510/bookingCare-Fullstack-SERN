@@ -16,6 +16,7 @@ import {
 } from './../../../utils/constant';
 import { compose } from 'redux';
 import { getDoctorSpecialitiesServ } from '../../../services/userService';
+import { getDoctorClinicsServ } from './../../../services/userService';
 
 const mdParser = new MarkdownIt();
 class DoctorManager extends Component {
@@ -54,7 +55,14 @@ class DoctorManager extends Component {
       this.props;
     if (allDoctors.length === 0) {
       const specialityList = await getDoctorSpecialitiesServ();
-      this.setState({ specialityOptions: specialityList }); //v101xx2
+      const clinicList = await getDoctorClinicsServ(); // v106xx1
+
+      // v106xx2
+
+      this.setState({
+        specialityOptions: specialityList,
+        clinicOptions: clinicList, //v106xx2
+      });
 
       await fetchDoctorInfoAllcodeFn();
       await fetchAllDoctorsFn();
@@ -85,6 +93,8 @@ class DoctorManager extends Component {
         provinceSelected,
         specialityOptions,
         specialitySelected,
+        clinicOptions,
+        clinicSelected,
       } = this.state;
 
       const { priceList, paymentList, provinceList } = this.props;
@@ -103,10 +113,17 @@ class DoctorManager extends Component {
         provinceSelected,
       );
 
-      // v101xx2
-      const specialityData = this.specialityOptionsFn(
+      const specialityData = this.otherOptionsFn(
         specialityOptions,
         specialitySelected,
+        false,
+      );
+
+      const isClinic = true; //v106xx2
+      const clinicData = this.otherOptionsFn(
+        clinicOptions,
+        clinicSelected,
+        isClinic,
       );
 
       this.setState({
@@ -127,6 +144,9 @@ class DoctorManager extends Component {
 
         specialityOptions: specialityData.tempList,
         specialitySelected: specialityData.tempSelectedOne,
+
+        clinicOptions: clinicData.tempList, //v106xx2
+        clinicSelected: clinicData.tempSelectedOne,
       });
     }
   };
@@ -224,9 +244,10 @@ class DoctorManager extends Component {
     };
   };
 
-  specialityOptionsFn = (list, selectedOne) => {
+  otherOptionsFn = (list, selectedOne, clinic = true) => {
     const tempList = list.map((item) => {
       return {
+        key: clinic ? 'isClinic' : null,
         idx: item.id,
         value: item.id,
         label: item.name,
@@ -249,7 +270,7 @@ class DoctorManager extends Component {
       const { editDoctorDetailsFn, editDoctorInfoFn } = this.props;
       const id = selectedDoctor.doctorId;
       const details = await editDoctorDetailsFn(id);
-      const info = await editDoctorInfoFn(id); //v101xx3
+      const info = await editDoctorInfoFn(id);
 
       let doctorDetail = details.user;
       let doctorInfo = info.doctorInfo;
@@ -266,10 +287,8 @@ class DoctorManager extends Component {
         paymentId: doctorInfo.paymentId,
         priceId: doctorInfo.priceId,
         provinceId: doctorInfo.provinceId,
-        specialityId:
-          doctorInfo.specialityData === undefined
-            ? DOCTOR_DEFAULTS.doctorInfo.specialityId
-            : doctorInfo.specialityData.id, //v101xx3
+        specialityId: doctorInfo.specialityId,
+        clinicId: doctorInfo.clinicId,
       });
 
       this.setState({
@@ -283,7 +302,8 @@ class DoctorManager extends Component {
         priceSelected: selectedOnes.price,
         payMethodSelected: selectedOnes.payment,
         provinceSelected: selectedOnes.province,
-        specialitySelected: selectedOnes.speciality, //v101xx3
+        specialitySelected: selectedOnes.speciality,
+        clinicSelected: selectedOnes.clinic,
 
         clinicName: doctorInfo.clinicName,
         clinicAddress: doctorInfo.clinicAddress,
@@ -308,24 +328,29 @@ class DoctorManager extends Component {
   };
 
   getInfoSelectedForUi = (selectedOnes) => {
-    const { priceId, paymentId, provinceId, specialityId } = selectedOnes;
+    const { priceId, paymentId, provinceId, specialityId, clinicId } =
+      selectedOnes;
+
     const {
       priceOptions,
       payMethodOptions,
       provinceOptions,
       specialityOptions,
+      clinicOptions,
     } = this.state;
 
     const priceLength = priceOptions.length;
     const payMethodLength = payMethodOptions.length;
     const provinceLength = provinceOptions.length;
     const specialityLength = specialityOptions.length;
+    const clinicLength = clinicOptions.length;
 
     const tempSelectedOnes = {
       price: null,
       payment: null,
       province: null,
       speciality: null,
+      clinic: null,
     };
 
     let idx = 0;
@@ -355,7 +380,7 @@ class DoctorManager extends Component {
       idx++;
     }
 
-    idx = 0; //v101xx3
+    idx = 0;
     while (idx < specialityLength) {
       if (specialityId === specialityOptions[idx].value) {
         tempSelectedOnes.speciality = specialityOptions[idx];
@@ -363,7 +388,14 @@ class DoctorManager extends Component {
       }
       idx++;
     }
-
+    idx = 0; //v106xx2
+    while (idx < clinicLength) {
+      if (clinicId === clinicOptions[idx].value) {
+        tempSelectedOnes.clinic = clinicOptions[idx];
+        break;
+      }
+      idx++;
+    }
     return tempSelectedOnes;
   };
 
@@ -406,6 +438,7 @@ class DoctorManager extends Component {
       payMethodSelected,
       provinceSelected,
       specialitySelected,
+      clinicSelected,
       clinicName,
       clinicAddress,
       note,
@@ -424,6 +457,7 @@ class DoctorManager extends Component {
       paymentId: payMethodSelected.value,
       provinceId: provinceSelected.value,
       specialityId: specialitySelected.value,
+      clinicId: clinicSelected.value,
       clinicAddress,
       clinicName,
       note,
@@ -451,6 +485,7 @@ class DoctorManager extends Component {
       payMethodOptions,
       provinceOptions,
       specialityOptions,
+      clinicOptions,
     } = this.state;
 
     this.setState({
@@ -465,7 +500,8 @@ class DoctorManager extends Component {
       priceSelected: priceOptions[0],
       payMethodSelected: payMethodOptions[0],
       provinceSelected: provinceOptions[0],
-      specialitySelected: specialityOptions[0], //v101xx3
+      specialitySelected: specialityOptions[0],
+      clinicSelected: clinicOptions[0], //v106xx2
 
       clinicName: '',
       clinicAddress: '',
@@ -535,19 +571,25 @@ class DoctorManager extends Component {
     );
   };
 
-  DoctorSpecialitySelectedOnchange = (selectedOne) => {
-    this.setState({
-      specialitySelected: selectedOne,
-    });
+  otherSelectedOnchange = (selectedOne) => {
+    const isClinic = 'isClinic';
+    if (selectedOne.key === isClinic) {
+      this.setState({
+        clinicSelected: selectedOne,
+      });
+    } else {
+      this.setState({
+        specialitySelected: selectedOne,
+      });
+    }
   };
 
-  // v101xx3
-  renderDoctorSpecialitySelections = (options, selectedOne) => {
+  renderOtherSelections = (options, selectedOne) => {
     return (
       <Select
         value={selectedOne}
         options={options}
-        onChange={this.DoctorSpecialitySelectedOnchange}
+        onChange={this.otherSelectedOnchange}
       />
     );
   };
@@ -573,7 +615,7 @@ class DoctorManager extends Component {
       clinicAddressL,
       noteL,
       specialityNameL,
-      specialityClinicAddressL,
+      hopitalNameL,
     } = doctorManagerLangs;
 
     const {
@@ -587,6 +629,8 @@ class DoctorManager extends Component {
       provinceSelected,
       specialitySelected,
       specialityOptions,
+      clinicOptions,
+      clinicSelected,
       clinicName,
       clinicAddress,
       note,
@@ -691,29 +735,26 @@ class DoctorManager extends Component {
             </div>
             <div className='row doctorManager-speciality-clinic'>
               <div className='col'>
-                <h5 htmlFor='price'>
+                <h5 htmlFor='specialityFor'>
                   <FormattedMessage id={specialityNameL} />
                 </h5>
-                {
-                  // v101xx3
-                  priceOptions &&
-                    priceOptions.length > 0 &&
-                    this.renderDoctorSpecialitySelections(
-                      specialityOptions,
-                      specialitySelected,
-                    )
-                }
+                {specialityOptions &&
+                  specialityOptions.length > 0 &&
+                  this.renderOtherSelections(
+                    specialityOptions,
+                    specialitySelected,
+                  )}
               </div>
               <div className='col'>
                 <h5 htmlFor='price'>
-                  <FormattedMessage id={specialityClinicAddressL} />
+                  <FormattedMessage id={hopitalNameL} />
                 </h5>
-                {/* {specialityOptions &&
-                  specialityOptions.length > 0 &&
-                  this.renderDoctorInfoSelections(
-                    specialityOptions,
-                    specialitySelected,
-                  )} */}
+                {
+                  //v106xx2
+                  clinicOptions &&
+                    clinicOptions.length > 0 &&
+                    this.renderOtherSelections(clinicOptions, clinicSelected)
+                }
               </div>
             </div>
           </form>

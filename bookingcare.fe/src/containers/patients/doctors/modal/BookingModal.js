@@ -69,7 +69,7 @@ class BookingModal extends Component {
               doctorPrice.dollarCurrency,
             ),
             schedule: this.getSchedule(timeTypeData),
-            date: this.getDate(date),
+            date: this.getDateConverted(date),
           };
 
           const defaultForm = {
@@ -146,9 +146,8 @@ class BookingModal extends Component {
       : ` ${timeTypeData.valueVI}`;
   };
 
-  getDate = (date) => {
-    const timestampToDate = CommonUtils.convertTimestampToDateObj(date);
-    const formattedDate = CommonUtils.convertObjDateTo_DMY_str(timestampToDate);
+  getDateConverted = (timestamp) => {
+    const formattedDate = CommonUtils.convertTimestampTo_DMYstr(timestamp); //v108xx6
     return ` ${formattedDate}`;
   };
 
@@ -211,7 +210,7 @@ class BookingModal extends Component {
   };
 
   convertDateToTimestamp = (date) => {
-    const DMY_dateStr = CommonUtils.convertObjDateTo_DMY_str(date);
+    const DMY_dateStr = CommonUtils.convertObjDateTo_DMYstr(date);
     const strDateToTimestamp =
       CommonUtils.convertStrDateToTimestamp(DMY_dateStr);
 

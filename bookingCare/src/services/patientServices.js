@@ -1,12 +1,12 @@
 import db from '../models/index';
 import * as apiSupplies from '../connectSupply/apiSupplies';
-import sendSimpleEmail from './emailService';
+import { sendSimpleEmail } from './emailService';
 import 'dotenv/config';
 
 export const verifyEmailByTokenServ = (newData) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const isActived = 'S2';
+      const confirmed = 'S2';
       const { doctorId, token } = newData;
       const { noErrors, notFound, incorrectInfo } = apiSupplies.errStates;
       let result = {
@@ -21,19 +21,20 @@ export const verifyEmailByTokenServ = (newData) => {
       });
 
       if (user) {
-        if (user.statusId === isActived) {
+        if (user.statusId === confirmed) {
           result = {
             errCode: incorrectInfo.errCode,
             status: incorrectInfo.status,
-            message: incorrectInfo.isActived,
+            message: incorrectInfo.confirmed,
           };
         } else {
+          const newStatus = 'S1';
           const isUpdate = await db.bookings.update(
-            { statusId: isActived },
+            { statusId: confirmed },
             {
               where: {
                 doctorId: doctorId,
-                statusId: 'S1',
+                statusId: newStatus,
                 token: token,
               },
             },
@@ -64,6 +65,7 @@ export const postUserBookingServ = (newData) => {
         message: incorrectInfo.emailMes,
       };
 
+      const patientRole = 'R3';
       const newUser = {
         email: newData.email,
         firstName: newData.fullname,
@@ -71,7 +73,7 @@ export const postUserBookingServ = (newData) => {
         gender: newData.gender,
         address: newData.address,
         phoneNumber: newData.phoneNumber,
-        roleId: 'R3',
+        roleId: patientRole,
       };
 
       const isNewUser = await db.users.findOrCreate({
@@ -82,12 +84,13 @@ export const postUserBookingServ = (newData) => {
       });
 
       const isCreated = true;
+      const newStatus = 'S1';
       if (isNewUser[1] !== isCreated) {
         const newBooking = {
           doctorId: newData.doctorId,
           date: newData.date,
           timeType: newData.timeType,
-          statusId: 'S1',
+          statusId: newStatus,
           patientId: 26,
 
           birthday: newData.birthday,

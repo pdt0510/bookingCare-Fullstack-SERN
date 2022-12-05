@@ -1,8 +1,6 @@
-//src27
 import * as specialityServ from '../services/specialityServices';
 import * as apiSupplies from '../connectSupply/apiSupplies';
 
-//12ms44ss
 export const getDoctorBySpecialityIdCtrl = async (req, res) => {
   const { serverError, incorrectInfo } = apiSupplies.errStates;
   const id = +req.query.id;
@@ -26,7 +24,6 @@ export const getDoctorBySpecialityIdCtrl = async (req, res) => {
   return res.status(data.status).json(data);
 };
 
-// 13ms45ss
 export const getAllSpecialitiesCtrl = async (req, res) => {
   let data = null;
   try {

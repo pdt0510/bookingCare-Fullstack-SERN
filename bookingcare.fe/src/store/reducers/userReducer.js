@@ -11,7 +11,7 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoggedIn: true,
-        userInfo: action.userInfo,
+        userInfo: action.userInfo, //v107xx1
       };
 
     case actionTypes.USER_LOGIN_FAIL:

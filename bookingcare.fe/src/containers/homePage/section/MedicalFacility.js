@@ -6,10 +6,63 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { FormattedMessage } from 'react-intl';
 import { homepageLangs } from '../../../connectSupplyFE/otherSupplies';
+import { getAllClinicsServ } from './../../../services/userService';
+import CommonUtils from './../../../utils/CommonUtils';
+import { Link } from 'react-router-dom';
+import { path } from './../../../utils/constant';
 
 class MedicalFacility extends Component {
+  state = {
+    facilityList: null,
+  };
+
+  componentDidMount = async () => {
+    const data = await getAllClinicsServ(); //2ms15ss
+
+    if (data.errCode === 0) {
+      this.setState({
+        facilityList: await this.filterDataToState(data.records),
+      });
+    }
+  };
+
+  filterDataToState = async (list) => {
+    const tempList = await list.map((item) => {
+      return {
+        id: item.id,
+        name: item.name,
+        image: CommonUtils.convertBinaryToString(item.image),
+      };
+    });
+
+    return tempList;
+  };
+
+  // 2ms15ss
+  renderAllClinics = () => {
+    const redirectLink = path.DETAIL_CLINIC_PAGE;
+
+    return this.state.facilityList.map((item) => {
+      return (
+        <div className='section-blocks' key={item.id}>
+          <Link
+            to={redirectLink + item.id} //v105xx2, 20ms45ss
+            className='section-link'
+          >
+            <div
+              className='section-content-pics medical-pic-size'
+              style={{ backgroundImage: `url(${item.image})` }}
+            ></div>
+            <div className='section-content-text'>{item.name}</div>
+          </Link>
+        </div>
+      );
+    });
+  };
+
   render() {
     const { outStandingMedicalFacilities, search } = homepageLangs;
+    const { facilityList } = this.state;
 
     return (
       <>
@@ -26,61 +79,9 @@ class MedicalFacility extends Component {
               </div>
               <div className='section-body'>
                 <Slider {...this.props.settings}>
-                  <div href='##' className='section-blocks'>
-                    <div className='section-content-pics medical-pic-size medical-pic1'></div>
-                    <div className='section-content-text'>
-                      Bệnh viện Hữu nghị Việt Đức
-                    </div>
-                  </div>
-
-                  <div href='##' className='section-blocks'>
-                    <div className='section-content-pics medical-pic-size medical-pic2'></div>
-                    <div className='section-content-text'>
-                      Bệnh viện Chợ Rẫy
-                    </div>
-                  </div>
-
-                  <div href='##' className='section-blocks'>
-                    <div className='section-content-pics medical-pic-size medical-pic3'></div>
-                    <div className='section-content-text'>
-                      Phòng khám Bệnh viện Đại học Y Dược 1
-                    </div>
-                  </div>
-
-                  <div href='##' className='section-blocks'>
-                    <div className='section-content-pics medical-pic-size medical-pic4'></div>
-                    <div className='section-content-text'>
-                      Bệnh viện K - Cơ sở Phan Chu Trinh
-                    </div>
-                  </div>
-
-                  <div href='##' className='section-blocks'>
-                    <div className='section-content-pics medical-pic-size medical-pic5'></div>
-                    <div className='section-content-text'>
-                      Bệnh viện Ung bướu Hưng Việt
-                    </div>
-                  </div>
-
-                  <div href='##' className='section-blocks'>
-                    <div className='section-content-pics medical-pic-size medical-pic6'></div>
-                    <div className='section-content-text'>
-                      Hệ thống Y tế Thu Cúc TCI
-                    </div>
-                  </div>
-
-                  <div href='##' className='section-blocks'>
-                    <div className='section-content-pics medical-pic-size medical-pic7'></div>
-                    <div className='section-content-text'>
-                      Phòng khám Đa khoa Saigon Healthcare
-                    </div>
-                  </div>
-
-                  <div href='##' className='section-blocks'>
-                    <div className='section-content-pics medical-pic-size medical-pic8'></div>
-                    <div className='section-content-text'>
-                      Bệnh viện Nam học và Hiếm muộn Hà Nội
-                    </div>
-                  </div>
+                  {facilityList &&
+                    facilityList.length > 0 &&
+                    this.renderAllClinics()}
                 </Slider>
               </div>
             </div>

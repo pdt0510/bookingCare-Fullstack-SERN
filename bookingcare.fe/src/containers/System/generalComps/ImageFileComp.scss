@@ -1,0 +1,36 @@
+.imageFile-content {
+  .imageFile-flex {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    .imageFile-label-upload {
+      display: block;
+      height: 38px;
+      width: 130px;
+      line-height: 38px;
+      text-align: center;
+      border-radius: 0.25rem;
+      background-color: #ced4da59;
+      padding: 0 12px;
+      opacity: 0.6;
+      cursor: pointer;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+
+  .preview-image {
+    display: block;
+    height: 100px;
+    width: 100px;
+    margin: 8px 14px;
+    cursor: pointer;
+
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+  }
+}

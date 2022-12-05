@@ -9,6 +9,7 @@ export const path = {
   DOCTOR_DETAIL_PAGE: '/users/',
   VERIFY_EMAIL_BOOKING: '/verify-booking/token=:token/doctorId=:idDoctor',
   DETAIL_SPECIALITY_PAGE: '/detail-speciality/',
+  DETAIL_CLINIC_PAGE: '/detail-clinic/',
 };
 
 export const LANGUAGES = {
@@ -61,6 +62,7 @@ export const DOCTOR_DEFAULTS = {
     priceId: 'PRI1',
     provinceId: 'PRO1',
     specialityId: 1,
+    clinicId: 1,
   },
 };
 
@@ -80,6 +82,6 @@ export const DETAIL_SPECIALITY_DEFAULTS = {
   provinceKey: {
     HCM: 'PRO2',
     HN: 'PRO1',
-    toanQuoc: 'ALL'
+    toanQuoc: 'ALL',
   },
 };

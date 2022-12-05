@@ -20,6 +20,7 @@ import DoctorDetail from './patients/doctors/DoctorDetail';
 import DoctorRoutes from './../routes/DoctorRoutes';
 import VerifyEmail from './patients/VerifyEmail';
 import DetailSpeciality from './patients/speciality/DetailSpeciality';
+import ClinicDetail from './patients/clinics/ClinicDetail';
 
 class App extends Component {
   handlePersistorState = () => {
@@ -51,8 +52,10 @@ class App extends Component {
       DOCTOR,
       VERIFY_EMAIL_BOOKING,
       DETAIL_SPECIALITY_PAGE,
+      DETAIL_CLINIC_PAGE,
     } = path;
 
+    //router quản lý tất cả (admin, users (doctor, admin, patient...vv))
     return (
       <Fragment>
         <Router history={history}>
@@ -68,7 +71,7 @@ class App extends Component {
                   />
                   <Route
                     path={SYSTEM}
-                    component={userIsAuthenticated(System)} //4ms18ss
+                    component={userIsAuthenticated(System)}
                   />
                   <Route path={HOMEPAGE} component={HomePage} />
                   <Route
@@ -76,13 +79,18 @@ class App extends Component {
                     component={DoctorDetail}
                   />
                   <Route
-                    path={DOCTOR}
+                    path={DOCTOR} //v107xx1
                     component={userIsAuthenticated(DoctorRoutes)}
                   />
                   <Route path={VERIFY_EMAIL_BOOKING} component={VerifyEmail} />
                   <Route
-                    path={DETAIL_SPECIALITY_PAGE + idParam} //51ms54ss
+                    path={DETAIL_SPECIALITY_PAGE + idParam}
                     component={DetailSpeciality}
+                  />
+                  {/* 20ms45ss */}
+                  <Route
+                    path={DETAIL_CLINIC_PAGE + idParam}
+                    component={ClinicDetail}
                   />
                 </Switch>
               </CustomScrollbars>

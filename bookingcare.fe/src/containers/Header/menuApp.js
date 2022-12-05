@@ -13,6 +13,7 @@ const {
   specialityManagerLink,
   handbookManagerLink,
   doctorScheduleManagerLink,
+  doctorPatientManagerLink,
 } = routeLinks;
 
 const {
@@ -29,7 +30,7 @@ const {
   handbookManagerL,
 } = adminMenuLangs;
 
-const { doctorScheduleL } = doctorLangs;
+const { doctorScheduleL, patientManagerL } = doctorLangs;
 
 export const adminMenuL = [
   {
@@ -96,6 +97,10 @@ export const doctorMenuL = [
       {
         name: doctorScheduleL,
         link: doctorScheduleManagerLink,
+      },
+      {
+        name: patientManagerL, //v107xx1
+        link: doctorPatientManagerLink,
       },
     ],
   },

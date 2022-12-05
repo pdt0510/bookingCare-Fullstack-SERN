@@ -6,6 +6,7 @@ import * as apiCtrl from '../controller/apiController';
 import * as doctorCtrls from '../controller/doctorController';
 import * as patientCtrls from './../controller/patientController';
 import * as specialityCtrls from '../controller/specialityController';
+import * as clinicCtrls from '../controller/clinicController';
 
 const appRouters = express.Router();
 const initWebRoutes = (app) => {
@@ -58,12 +59,16 @@ const initWebRoutes = (app) => {
     getDoctorExtraInfoByIdApi,
     getDoctorContentHtmlApi,
     getDoctorIntroApi,
+    getDoctorPatientByIdApi,
+    sendBillToPatientApi,
     createUserBookingApi,
-    verifyBookingByTokenApi,
     verifyEmailByTokenApi,
     createSpecialityApi,
     getAllSpecialitiesApi,
     getDoctorBySpecialityIdApi,
+    createClinicApi,
+    getAllClinicsApi,
+    getClinicByIdApi,
   } = apiSupplies.apiUrls;
 
   const {
@@ -88,15 +93,20 @@ const initWebRoutes = (app) => {
     getDoctorExtraInfoCtrl,
     getDoctorContentHtmlCtrl,
     getDoctorIntroCtrl,
+    getDoctorPatientsByIdCtrl,
+    sendBillToPatientCtrl,
   } = doctorCtrls;
 
   const { postUserBookingCtrl, verifyEmailByTokenCtrl } = patientCtrls;
-  
+
   const {
     createSpecialityCtrl,
     getAllSpecialitiesCtrl,
     getDoctorBySpecialityIdCtrl,
   } = specialityCtrls;
+
+  const { createClinicCtrl, getAllClinicsCtrl, getClinicByIdCtrl } =
+    clinicCtrls;
 
   appRouters.post(apiUrl + loginApi, loginFn);
   appRouters.get(apiUrl + userListedApi, userListFn);
@@ -119,11 +129,17 @@ const initWebRoutes = (app) => {
   appRouters.post(apiUrl + createUserBookingApi, postUserBookingCtrl);
   appRouters.get(apiUrl + verifyEmailByTokenApi, verifyEmailByTokenCtrl);
   appRouters.post(apiUrl + createSpecialityApi, createSpecialityCtrl);
-  appRouters.get(apiUrl + getAllSpecialitiesApi, getAllSpecialitiesCtrl); //13ms45ss
+  appRouters.get(apiUrl + getAllSpecialitiesApi, getAllSpecialitiesCtrl);
   appRouters.get(
     apiUrl + getDoctorBySpecialityIdApi,
     getDoctorBySpecialityIdCtrl,
-  ); //12ms44ss
+  );
+  appRouters.get(apiUrl + getDoctorPatientByIdApi, getDoctorPatientsByIdCtrl); //v107xx2
+  appRouters.patch(apiUrl + sendBillToPatientApi, sendBillToPatientCtrl); //36ms31ss
+
+  appRouters.post(apiUrl + createClinicApi, createClinicCtrl); //17ms58ss
+  appRouters.get(apiUrl + getAllClinicsApi, getAllClinicsCtrl); //2ms15ss
+  appRouters.get(apiUrl + getClinicByIdApi, getClinicByIdCtrl); //2ms15ss
 
   return app.use(homeUrl, appRouters);
 };

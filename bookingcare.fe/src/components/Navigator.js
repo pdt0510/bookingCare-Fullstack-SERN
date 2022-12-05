@@ -50,7 +50,11 @@ class Menu extends Component {
             </div>
           </Fragment>
         ) : (
-          <Link to={link} className='menu-link' onClick={onLinkClick}>
+          <Link
+            to={link} //v105xx2
+            className='menu-link'
+            onClick={onLinkClick}
+          >
             <FormattedMessage id={name} />
           </Link>
         )}

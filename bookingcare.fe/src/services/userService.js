@@ -3,13 +3,134 @@ import * as apiSupplies from '../connectSupplyFE/apiSupplies';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-//src27
+//36ms31ss
+export const sendBillToPatientServ = (newData) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const { apiUrl, sendBillToPatientApi } = apiSupplies.apiUrls;
+      const data = await axios.patch(apiUrl + sendBillToPatientApi, {
+        ...newData,
+      });
+
+      if (data.errCode === 0) {
+        toastMes.toastSuccess();
+      } else {
+        toastMes.toastError(data.message);
+      }
+      resolve(data);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+//src28
 const toastMes = {
   toastSuccess: () => toast.success('Successfully requested'),
   toastError: (message) => toast.error(message, { autoClose: 5000 }),
 };
 
-//12ms44ss
+//v108xx1
+export const getDoctorPatientsByIdServ = (id) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const { apiUrl, getDoctorPatientByIdApi } = apiSupplies.apiUrls;
+      const data = await axios.get(apiUrl + getDoctorPatientByIdApi, {
+        params: { id },
+      });
+      if (data.errCode === 0) {
+        //success
+      } else {
+        toastMes.toastError(data.message);
+      }
+      resolve(data);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+// v106xx1
+export const getDoctorClinicsServ = () => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let tempList = null;
+      const data = await getAllClinicsServ();
+
+      if (data.errCode === 0) {
+        tempList = data.records.map((item) => {
+          return {
+            id: item.id,
+            name: item.name,
+          };
+        });
+      } else {
+        toastMes.toastError(data.message);
+      }
+
+      resolve(tempList);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+// 2ms15ss
+export const getClinicByIdServ = (id) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const { apiUrl, getClinicByIdApi } = apiSupplies.apiUrls;
+      const data = await axios.get(apiUrl + getClinicByIdApi, {
+        params: { id },
+      });
+      if (data.errCode === 0) {
+      } else {
+        toastMes.toastError(data.message);
+      }
+      resolve(data);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+// 2ms15ss
+export const getAllClinicsServ = () => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const { apiUrl, getAllClinicsApi } = apiSupplies.apiUrls;
+      const data = await axios.get(apiUrl + getAllClinicsApi);
+
+      if (data.errCode === 0) {
+      } else {
+        toastMes.toastError(data.message);
+      }
+
+      resolve(data);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+//23ms22s
+export const createClinicServ = (newData) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const { apiUrl, createClinicApi } = apiSupplies.apiUrls;
+      const data = await axios.post(apiUrl + createClinicApi, newData);
+      if (data.errCode === 0) {
+        toastMes.toastSuccess();
+      } else {
+        toastMes.toastError(data.message);
+      }
+      resolve(data);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
 export const getDoctorBySpecialityIdServ = (id) => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -18,7 +139,6 @@ export const getDoctorBySpecialityIdServ = (id) => {
         params: { id },
       });
       if (data.errCode === 0) {
-        //success
       } else {
         toastMes.toastError(data.message);
       }
@@ -50,7 +170,6 @@ export const getDoctorSpecialitiesServ = () => {
   });
 };
 
-// 13ms45ss
 export const getAllSpecialitiesServ = () => {
   return new Promise(async (resolve, reject) => {
     try {
@@ -58,7 +177,6 @@ export const getAllSpecialitiesServ = () => {
       const data = await axios.get(apiUrl + getAllSpecialitiesApi);
 
       if (data.errCode === 0) {
-        //success
       } else {
         toastMes.toastError(data.message);
       }
@@ -69,7 +187,6 @@ export const getAllSpecialitiesServ = () => {
   });
 };
 
-// 6ms48
 export const createSpecialityServ = (newData) => {
   return new Promise(async (resolve, reject) => {
     try {

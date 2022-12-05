@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Speciality.hasMany(models.doctor_infors, {
-        foreignKey: 'specialityId', //v101xx3
+        foreignKey: 'specialityId',
         as: 'specialityData',
       });
     }

@@ -18,6 +18,7 @@ class Header extends Component {
 
   componentDidMount = () => {
     const { isLoggedIn, userInfo } = this.props;
+    
     if (isLoggedIn && Object.keys(userInfo).length > 0) {
       const { roleId } = userInfo;
       const { ADMIN, PATIENT } = USER_ROLES;

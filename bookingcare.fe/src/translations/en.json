@@ -60,7 +60,8 @@
             "handbook-manager": "Handbook manager"
         },
         "doctor": {
-            "schedule": "Doctor schedule manager"
+            "schedule": "Doctor schedule manager",
+            "patientManager": "Patient manager"
         }
     },
     "system": {
@@ -129,7 +130,7 @@
         "clinicAddress": "Clinic address",
         "note": "Note",
         "specialityName": "Speciality name",
-        "specialityClinicAddress": "Speciality clinic address"
+        "hopitalName": "Hopital name"
     },
     "schedule-manager": {
         "mainTitle": "DOCTOR SCHEDULE MANAGER",

@@ -5,15 +5,18 @@ const types = {
   INTEGER: 'INTEGER',
   DATE: 'DATE',
   TEXT: 'TEXT',
+  BLOBmedium: `BLOBmedium`,
+  BLOBlong: `BLOBlong`,
 };
 
 const tableInfo = {
   tableName: 'clinics',
   keyValueCols: [
-    `name-${types.STRING}`, 
+    `name-${types.STRING}`,
     `address-${types.STRING}`,
-    `description-${types.TEXT}`,
-    `image-${types.STRING}`,
+    `textDesc-${types.TEXT}`,
+    `htmlDesc-${types.TEXT}`,
+    `image-${types.BLOBlong}`, //13ms39ss
   ],
 };
 
@@ -32,6 +35,10 @@ const handleColTypes = (colTypeList, sequelizeList = true) => {
         result[keys[0]] = { type: colTypeList.DATE };
       } else if (element.includes(types.TEXT)) {
         result[keys[0]] = { type: colTypeList.TEXT };
+      } else if (element.includes(types.BLOBmedium)) {
+        result[keys[0]] = { type: colTypeList.BLOB('medium') };
+      } else if (element.includes(types.BLOBlong)) {
+        result[keys[0]] = { type: colTypeList.BLOB('long') }; //13ms39ss
       }
     });
   } else {
@@ -47,6 +54,10 @@ const handleColTypes = (colTypeList, sequelizeList = true) => {
         result[keys[0]] = colTypeList.DATE;
       } else if (element.includes(types.TEXT)) {
         result[keys[0]] = colTypeList.TEXT;
+      } else if (element.includes(types.BLOBmedium)) {
+        result[keys[0]] = colTypeList.BLOB('medium');
+      } else if (element.includes(types.BLOBlong)) {
+        result[keys[0]] = colTypeList.BLOB('long'); //13ms39ss
       }
     });
   }

@@ -2,15 +2,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import 'react-markdown-editor-lite/lib/index.css';
 import './SpecialityManager.scss';
-import ImageFileComp from './ImageFileComp';
-import MdEditorComp from './MdEditorComp';
+import ImageFileComp from '../generalComps/ImageFileComp';
+import MdEditorComp from '../generalComps/MdEditorComp';
 import CommonUtils from '../../../utils/CommonUtils';
 import { createSpecialityServ } from '../../../services/userService';
 
 let contentHtml = null;
 let contentText = null;
 
-//src27, 4ms18ss
 class SpecialityManager extends Component {
   state = {
     imgFile: null,
@@ -21,10 +20,6 @@ class SpecialityManager extends Component {
 
   getImgFile = (imgFile) => {
     this.setState({ imgFile });
-  };
-
-  getSelectedValue = (value) => {
-    this.setState({ specialityName: value });
   };
 
   getMditorData = ({ text, html }) => {
@@ -78,7 +73,7 @@ class SpecialityManager extends Component {
     const { imgFile, specialityName } = this.state;
 
     if (imgFile !== null) {
-      convertToBase64 = await CommonUtils.convertBlobToBase64(imgFile);
+      convertToBase64 = await CommonUtils.convertFileToString(imgFile);
     }
 
     const dataUpdated = {
@@ -91,7 +86,7 @@ class SpecialityManager extends Component {
     const isChecked = this.checkingEditValues(dataUpdated);
 
     if (isChecked) {
-      const data = await createSpecialityServ(dataUpdated); //6ms48
+      const data = await createSpecialityServ(dataUpdated);
       if (data.errCode === 0) {
         console.log('data ---', data);
         this.clearForm();
